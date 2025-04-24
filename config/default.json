@@ -1,0 +1,51 @@
+{
+  "server": {
+    "port": 3000,
+    "host": "localhost"
+  },
+  "database": {
+    "path": "./data/db/pubsignage.db"
+  },
+  "homeAssistant": {
+    "url": "",
+    "token": ""
+  },
+  "media": {
+    "storagePath": "./data/media",
+    "allowedTypes": ["image/jpeg", "image/png", "image/gif", "video/mp4"]
+  },
+  "themes": {
+    "morning": {
+      "startTime": "06:00",
+      "endTime": "12:00",
+      "primary": "#f9d71c",
+      "secondary": "#e6c619",
+      "background": "#f8f9fa",
+      "text": "#343a40"
+    },
+    "afternoon": {
+      "startTime": "12:00",
+      "endTime": "18:00",
+      "primary": "#fd7e14",
+      "secondary": "#e67e22",
+      "background": "#f8f9fa",
+      "text": "#343a40"
+    },
+    "evening": {
+      "startTime": "18:00",
+      "endTime": "23:00",
+      "primary": "#6f42c1",
+      "secondary": "#6610f2",
+      "background": "#343a40",
+      "text": "#f8f9fa"
+    },
+    "night": {
+      "startTime": "23:00",
+      "endTime": "06:00",
+      "primary": "#20c997",
+      "secondary": "#17a2b8",
+      "background": "#212529",
+      "text": "#f8f9fa"
+    }
+  }
+}

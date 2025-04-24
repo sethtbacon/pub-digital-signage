@@ -1,0 +1,21 @@
+{
+    "name": "Pub Digital Signage Development",
+    "image": "mcr.microsoft.com/devcontainers/javascript-node:0-18",
+    "forwardPorts": [3000, 8080],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "dbaeumer.vscode-eslint",
+                "octref.vetur",
+                "Vue.volar",
+                "esbenp.prettier-vscode",
+                "ms-azuretools.vscode-docker",
+                "GitHub.copilot"
+            ],
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "bash"
+            }
+        }
+    },
+    "postCreateCommand": "npm install -g @vue/cli && npm install"
+}
