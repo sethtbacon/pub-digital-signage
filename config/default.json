@@ -15,37 +15,83 @@
     "allowedTypes": ["image/jpeg", "image/png", "image/gif", "video/mp4"]
   },
   "themes": {
+    "default": {
+      "name": "Pub Classic",
+      "active": true,
+      "primary": "#96d6dd",
+      "secondary": "#565059",
+      "accent": "#fc4242",
+      "background": "#ffffff",
+      "text": "#565059",
+      "logoPath": "/data/media/logo/pub-logo.png",
+      "backgroundMedia": {
+        "type": "image",
+        "path": "/data/media/background/"
+      }
+    },
     "morning": {
+      "name": "Morning Brew",
+      "active": true,
       "startTime": "06:00",
       "endTime": "12:00",
-      "primary": "#f9d71c",
-      "secondary": "#e6c619",
-      "background": "#f8f9fa",
-      "text": "#343a40"
+      "primary": "#8B4513",
+      "secondary": "#D2691E",
+      "accent": "#FFD700",
+      "background": "#F5F5DC",
+      "text": "#2C1B0F",
+      "logoPath": "",
+      "backgroundMedia": {
+        "type": "none",
+        "path": ""
+      }
     },
     "afternoon": {
+      "name": "Afternoon Delight",
+      "active": true,
       "startTime": "12:00",
       "endTime": "18:00",
-      "primary": "#fd7e14",
-      "secondary": "#e67e22",
-      "background": "#f8f9fa",
-      "text": "#343a40"
+      "primary": "#8B4513",
+      "secondary": "#D2691E",
+      "accent": "#B8860B",
+      "background": "#F5F5DC",
+      "text": "#2C1B0F",
+      "logoPath": "",
+      "backgroundMedia": {
+        "type": "none",
+        "path": ""
+      }
     },
     "evening": {
+      "name": "Evening Ambiance",
+      "active": true,
       "startTime": "18:00",
       "endTime": "23:00",
-      "primary": "#6f42c1",
-      "secondary": "#6610f2",
-      "background": "#343a40",
-      "text": "#f8f9fa"
+      "primary": "#8B4513",
+      "secondary": "#D2691E",
+      "accent": "#FFD700",
+      "background": "#2C1B0F",
+      "text": "#F5F5DC",
+      "logoPath": "",
+      "backgroundMedia": {
+        "type": "none",
+        "path": ""
+      }
     },
     "night": {
+      "name": "Night Cap",
+      "active": true,
       "startTime": "23:00",
       "endTime": "06:00",
-      "primary": "#20c997",
-      "secondary": "#17a2b8",
-      "background": "#212529",
-      "text": "#f8f9fa"
+      "primary": "#8B4513",
+      "secondary": "#D2691E",
+      "accent": "#B8860B",
+      "background": "#1A0F09",
+      "text": "#F5F5DC",
+      "logoPath": "",
+      "backgroundMedia": {
+        "type": "none",
+        "path": ""
+      }
     }
   }
 }

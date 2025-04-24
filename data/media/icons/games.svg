@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Game Controller Icon -->
+  <g fill="#d1f4fa">
+    <!-- Controller Body -->
+    <path d="M85,40 C90,40 95,45 95,50 C95,75 75,80 70,80 L30,80 C25,80 5,75 5,50 C5,45 10,40 15,40 L85,40 Z" />
+    
+    <!-- Left Buttons -->
+    <circle cx="30" cy="50" r="5" fill="#043b53" />
+    <circle cx="30" cy="65" r="5" fill="#043b53" />
+    <rect x="28" y="45" width="4" height="30" rx="2" fill="#043b53" />
+    <rect x="15" y="58" width="30" height="4" rx="2" fill="#043b53" />
+    
+    <!-- Right Buttons -->
+    <circle cx="70" cy="55" r="8" fill="#043b53" />
+    <circle cx="70" cy="55" r="6" fill="#d1f4fa" />
+    <circle cx="70" cy="40" r="5" fill="#043b53" />
+    <circle cx="80" cy="50" r="5" fill="#043b53" />
+    <circle cx="60" cy="50" r="5" fill="#043b53" />
+    <circle cx="70" cy="60" r="5" fill="#043b53" />
+  </g>
+</svg>

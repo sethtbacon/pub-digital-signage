@@ -4,12 +4,14 @@ A digital signage solution for home pub displays running on Raspberry Pi 4 conne
 
 ## Project Overview
 
-This project aims to create a digital signage system that will display information like:
+This project creates a digital signage system that displays:
 - Drink menu and specials
 - Event announcements
 - Sports scores/schedules
 - Custom messages and announcements
 - Media content (images, videos)
+- Board game leaderboards
+- Visitor tracking and milestones
 
 ## Hardware Requirements
 
@@ -19,85 +21,136 @@ This project aims to create a digital signage system that will display informati
 - HDMI cable
 - Power supply for Raspberry Pi
 
-## Software Architecture
+## Setup Instructions
 
-### Operating System
-- Raspberry Pi OS Lite (headless) or Raspberry Pi OS with desktop depending on chosen approach
+1. **Install Dependencies**
+   ```bash
+   # Clone the repository
+   git clone https://github.com/sethtbacon/pub-digital-signage
+   cd pub-digital-signage
 
-### Backend Options
-1. **Self-hosted on the Raspberry Pi**
-   - Web server (Node.js/Express or Python/Flask)
-   - Content management system
-   - Database for content storage
-   - Scheduling system
+   # Install backend dependencies
+   npm install
 
-2. **Remote Management**
-   - API endpoints for content updates
-   - Authentication system for secure updates
+   # Install frontend dependencies
+   cd src/frontend
+   npm install
+   ```
 
-### Frontend Options
-1. **Web-based Display**
-   - HTML/CSS/JavaScript
-   - Chromium in kiosk mode
-   - Content rotation using JavaScript
+2. **Configure the Application**
+   - Copy `config/default.example.json` to `config/default.json`
+   - Update configuration values as needed
+   - Ensure media directories exist:
+     - `data/media/logo` for pub logo
+     - `data/media/background` for background media
+     - `data/media/icons` for category icons in the home grid:
+       - `data/media/icons/drinks.svg` - Drinks icon
+       - `data/media/icons/games.svg` - Games icon
+       - `data/media/icons/visitors.svg` - Visitors icon
+       - `data/media/icons/photos.svg` - Photos icon
 
-2. **Native Application**
-   - Electron-based application
-   - Python with Tkinter/PyQt
-   - React Native application
+3. **Initialize the Database**
+   ```bash
+   npm run setup
+   ```
+
+4. **Start the Application**
+   ```bash
+   # Start backend server (runs on port 3000)
+   npm run start:backend
+
+   # Start frontend development server (runs on port 8080)
+   nnpm run start:backend
+   ```
+
+## Admin Interface
+
+Access the admin interface at `/admin` to manage:
+
+### Theme Management (/admin/themes)
+- Switch between predefined themes
+- Create custom themes
+- Configure theme colors:
+  - Primary: #96d6dd (default)
+  - Secondary: #565059 (default)
+  - Accent: #fc4242 (default)
+- Upload pub logo
+- Set background media (image or video)
+- Configure home page grid icons (in `data/media/icons/`)
 
 ### Content Management
-- Admin interface for updating content
-- Scheduling features for time-based displays
-- Content templates for consistent branding
+- Drinks menu (/admin/drinks)
+- Games and leaderboards (/admin/games)
+- Visitor tracking (/admin/visitors)
 
-## Implementation Approaches
+## Home Page Layout
 
-### Approach 1: Web-based Solution
-- Setup Raspberry Pi with Chromium in kiosk mode
-- Create web application using HTML/CSS/JavaScript
-- Host content locally on Pi or remotely
-- Configure auto-start on boot
+The home page features a 2x2 grid layout with tiles for the main sections:
+1. **Drinks** - Shows available beverages and specials
+2. **Games** - Displays available games and current leaderboards
+3. **Visitors** - Shows visitor statistics and milestones
+4. **Photos** - Media gallery of pub events and activities
 
-### Approach 2: Custom Application
-- Develop a dedicated display application
-- Better control over hardware resources
-- Potentially more stable for 24/7 operation
+Each tile can be customized with its own icon by placing SVG files in the `data/media/icons/` directory with the corresponding names (drinks.svg, games.svg, visitors.svg, photos.svg).
 
-### Connection to Display
-- Direct HDMI connection from Raspberry Pi to monitor
-- Consider display resolution and orientation (landscape vs portrait)
-- Monitor power management settings
+## Theme System
 
-## Getting Started
+The application supports multiple theme types:
 
-[To be added as project develops]
+1. **Custom Theme**
+   - Fully customizable colors
+   - Custom logo placement
+   - Background media support
 
-## Development Roadmap
+2. **Time-based Themes**
+   - Morning (6:00 - 12:00)
+   - Afternoon (12:00 - 18:00)
+   - Evening (18:00 - 23:00)
+   - Night (23:00 - 6:00)
 
-1. **Phase 1: Basic Setup**
-   - Configure Raspberry Pi OS
-   - Setup auto-start display mechanism
-   - Create basic display template
+### Theme Features
+- Automatic time-based switching
+- Manual override through admin interface
+- Support for both static and video backgrounds
+- Responsive design for different screen sizes
+- Consistent branding with logo placement
 
-2. **Phase 2: Content Management**
-   - Develop admin interface
-   - Implement content database
-   - Create content update mechanisms
+## Development
 
-3. **Phase 3: Advanced Features**
-   - Add scheduling capabilities
-   - Implement media streaming
-   - Add network monitoring and recovery
+```bash
+# Run in development mode
+npm run dev
 
-4. **Phase 4: Remote Management**
-   - Develop remote admin capabilities
-   - Implement content distribution
-   - Add monitoring and analytics
+# Run tests
+npm test
 
-## Maintenance Considerations
+# Build for production
+npm run build
+```
 
-- Automatic updates
-- Remote monitoring
-- Backup and recovery procedures
-- Power management (handling unexpected shutdowns)
+## Production Deployment
+
+For production deployment on a Raspberry Pi, follow these additional steps:
+
+1. Build the frontend:
+   ```bash
+   cd src/frontend
+   npm run build
+   ```
+
+2. Configure auto-start:
+   ```bash
+   # Setup instructions for systemd service will be provided
+   ```
+
+3. Configure Chromium kiosk mode for the display
+
+Detailed deployment instructions can be found in `docs/setup/installation.md`
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a new Pull Request

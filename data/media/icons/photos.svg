@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Photos/Camera Icon -->
+  <g fill="#d1f4fa">
+    <!-- Camera Body -->
+    <rect x="15" y="30" width="70" height="50" rx="5" />
+    
+    <!-- Camera Top -->
+    <path d="M25,30 L35,20 L65,20 L75,30 Z" />
+    
+    <!-- Lens -->
+    <circle cx="50" cy="55" r="20" />
+    <circle cx="50" cy="55" r="15" fill="#043b53" />
+    <circle cx="50" cy="55" r="10" fill="#d1f4fa" />
+    
+    <!-- Flash -->
+    <rect x="65" y="35" width="10" height="10" rx="2" />
+    
+    <!-- Viewfinder -->
+    <circle cx="73" cy="43" r="2" fill="#043b53" />
+    
+    <!-- Button -->
+    <circle cx="80" cy="50" r="4" fill="#043b53" />
+  </g>
+</svg>
