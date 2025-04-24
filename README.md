@@ -23,46 +23,6 @@ This project creates a digital signage system that displays:
 
 ## Setup Instructions
 
-1. **Install Dependencies**
-   ```bash
-   # Clone the repository
-   git clone https://github.com/sethtbacon/pub-digital-signage
-   cd pub-digital-signage
-
-   # Install backend dependencies
-   npm install
-
-   # Install frontend dependencies
-   cd src/frontend
-   npm install
-   ```
-
-2. **Configure the Application**
-   - Copy `config/default.example.json` to `config/default.json`
-   - Update configuration values as needed
-   - Ensure media directories exist:
-     - `data/media/logo` for pub logo
-     - `data/media/background` for background media
-     - `data/media/icons` for category icons in the home grid:
-       - `data/media/icons/drinks.svg` - Drinks icon
-       - `data/media/icons/games.svg` - Games icon
-       - `data/media/icons/visitors.svg` - Visitors icon
-       - `data/media/icons/photos.svg` - Photos icon
-
-3. **Initialize the Database**
-   ```bash
-   npm run setup
-   ```
-
-4. **Start the Application**
-   ```bash
-   # Start backend server (runs on port 3000)
-   npm run start:backend
-
-   # Start frontend development server (runs on port 8080)
-   nnpm run start:backend
-   ```
-
 ## Admin Interface
 
 Access the admin interface at `/admin` to manage:
@@ -85,7 +45,7 @@ Access the admin interface at `/admin` to manage:
 
 ## Home Page Layout
 
-The home page features a 2x2 grid layout with tiles for the main sections:
+The home page features sections:
 1. **Drinks** - Shows available beverages and specials
 2. **Games** - Displays available games and current leaderboards
 3. **Visitors** - Shows visitor statistics and milestones
@@ -117,35 +77,8 @@ The application supports multiple theme types:
 
 ## Development
 
-```bash
-# Run in development mode
-npm run dev
-
-# Run tests
-npm test
-
-# Build for production
-npm run build
-```
-
 ## Production Deployment
 
-For production deployment on a Raspberry Pi, follow these additional steps:
-
-1. Build the frontend:
-   ```bash
-   cd src/frontend
-   npm run build
-   ```
-
-2. Configure auto-start:
-   ```bash
-   # Setup instructions for systemd service will be provided
-   ```
-
-3. Configure Chromium kiosk mode for the display
-
-Detailed deployment instructions can be found in `docs/setup/installation.md`
 
 ## Contributing
 
