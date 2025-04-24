@@ -1,0 +1,32 @@
+{
+  "name": "pub-digital-signage",
+  "version": "1.0.0",
+  "description": "A digital signage solution for home pub displays running on Raspberry Pi 4 connected directly to a monitor via HDMI.",
+  "private": true,
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "install:all": "npm install && npm run install:frontend && npm run install:backend",
+    "install:frontend": "cd src/frontend && npm install",
+    "install:backend": "cd src/backend && npm install",
+    "start": "cd src/backend && npm start",
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "dev:frontend": "cd src/frontend && npm run dev",
+    "dev:backend": "cd src/backend && npm run dev",
+    "build": "cd src/frontend && npm run build",
+    "test": "npm run test:frontend && npm run test:backend",
+    "test:frontend": "cd src/frontend && npm test",
+    "test:backend": "cd src/backend && npm test",
+    "lint": "npm run lint:frontend && npm run lint:backend",
+    "lint:frontend": "cd src/frontend && npm run lint",
+    "lint:backend": "cd src/backend && npm run lint"
+  },
+  "keywords": ["digital signage", "raspberry pi", "vue", "express", "pub display"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}

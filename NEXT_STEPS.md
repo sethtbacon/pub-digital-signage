@@ -1,220 +1,186 @@
-# Next Steps for Pub Digital Signage Project
+# Next Steps for Pub Digital Signage
 
-## Project Status Overview
-The Pub Digital Signage project currently has the foundational structure defined with some initial file organization for both frontend (Vue.js) and backend (Node.js with Express). We have comprehensive documentation on architecture, implementation plans, database schema, and Home Assistant integration. The project directory structure has been established, with placeholder files for key components, but active development needs to begin following the phased approach outlined in IMPLEMENTATION_PLAN.md.
+This document outlines the immediate actions and development path for implementing the Pub Digital Signage project based on the completed planning documents.
 
-## Current Progress
-- ✅ Project documentation and planning complete
-- ❌ Basic directory structure established
-- ❌ Initial API controller and routes files created (but need implementation)
-- ❌ Initial Vue.js components created (but need implementation)
-- ❌ Database implementation not started
-- ❌ Core functionality not implemented
-- ❌ Integration with external services not started
+## Immediate Actions (Week 1)
 
-## Immediate Tasks (Next 2 Weeks)
+### 1. Confirm Technology Stack ✅
+- **Frontend Framework**: Vue.js (recommended for reactive components and ease of development)
+- **Backend**: Node.js with Express (for API and content management)
+- **Database**: SQLite (using the schema defined in DATABASE_SCHEMA.md)
+- **Development Environment**: Set up VSCode with appropriate plugins for the stack
 
-### 1. Technology Stack Finalization
-- **Backend**: Confirm Node.js/Express (currently set in docker-compose.yml)
-- **Frontend**: Confirm Vue.js (current directory structure suggests this)
-- **Database**: Set up SQLite as specified in DATABASE_SCHEMA.md
-- **File Storage**: Create directory structure for media assets under /data following PROJECT_STRUCTURE.md
+### 2. Repository & Project Structure Setup
+- Initialize Git repository ✅
+- Create folder structure as outlined in PROJECT_STRUCTURE.md ✅
+- Set up npm project with initial dependencies ✅
+- Create basic .gitignore file to exclude node_modules, env files, etc. ✅
 
-### 2. Development Environment Setup
-- Create the missing docs/setup/installation.md for detailed deployment instructions
-- Ensure docker-compose.yml is working correctly for development
-  - Test running `docker-compose up` and verify containers start properly
-  - Add any missing services (e.g., database)
-- Set up linting and formatting rules (ESLint + Prettier recommended)
-  - Add configuration files to both frontend and backend directories
-- Configure testing framework (Jest recommended)
-  - Set up unit testing for backend controllers
-  - Set up component testing for Vue frontend
-- Create git workflow (branching strategy, PR template)
-  - Add .github/ directory with PR template and workflow definitions
+### 3. Development Environment Setup
+- Create Docker development environment for consistent development
+- Set up ESLint and Prettier for code quality
+- Configure TypeScript for type safety
+- Create development scripts for running the application locally
 
-### 3. Database Implementation
-- Create SQLite database using schema in DATABASE_SCHEMA.md
-- Implement database connection in backend
-  - Add Sequelize ORM or similar to package.json
-  - Set up models for drinks, games, visitors tables
-- Create initial seed data for testing
-  - Add sample drinks, games, and visitor data
-- Complete the database initialization script (already stubbed at scripts/setup/init-db.js)
-  - Implement the table creation logic
-  - Add seed data insertion
+### 4. Core Application Setup
+- Create basic Express server
+- Set up Vue.js frontend project
+- Configure Webpack/Vite for bundling
+- Establish connection between frontend and backend
+- Create basic theme system foundation
 
-### 4. Core API Development
-- Complete the controllers in src/backend/api/controllers/
-  - Implement CRUD operations for drinks.js
-  - Implement CRUD operations for games.js
-  - Implement CRUD operations for visitors.js
-  - Implement configuration endpoints in config.js
-- Complete routes in src/backend/api/routes/
-  - Define proper route paths and connect to controllers
-- Add authentication middleware for admin endpoints
-  - Implement JWT or session-based authentication
-- Document API endpoints using Swagger or similar
-  - Add swagger.json or use swagger-jsdoc for annotation-based docs
+## Phase 1 Implementation Tasks (Weeks 1-2)
 
-### 5. Frontend Foundation
-- Set up Vue Router (already started in src/frontend/router/index.js)
-  - Define routes for all views
-  - Implement route guards for admin routes
-- Set up Vuex store (already started in src/frontend/store/index.js)
-  - Create modules for drinks, games, visitors, and config
-  - Implement actions, mutations, and getters
-- Create component hierarchy
-  - Define reusable UI components
-  - Implement layout components
-- Implement responsive layout framework
-  - Use CSS Grid/Flexbox for responsive design
-  - Ensure compatibility with Raspberry Pi display dimensions
-- Create theme system (day/night and seasonal variants)
-  - Define theme variables and CSS custom properties
-  - Implement theme switching mechanism
+### Frontend Development
+1. Create responsive layout framework
+   - Implement base layout components
+   - Design grid system for content placement
+   - Build navigation component
+   - Implement theme switching mechanism
 
-## Phase 1 Deliverables
+2. Build core display components
+   - Develop home screen grid with main navigation icons
+   - Create base content display templates for each content type
+   - Implement transitions between different content views
+   - Design admin interface wireframes
 
-### Basic Content Display
-- Implement content rotation engine
-  - Create timer-based content switching
-  - Allow for configuration of rotation intervals
-- Create responsive templates for different content types
-  - Drinks display template
-  - Games display template
-  - Visitors display template
-- Build navigation system between content sections
-  - Add navigation menu or gesture controls
-- Implement basic transition animations
-  - Add smooth transitions between content types
-  - Use Vue transition components
+3. Implement basic theme system
+   - Create CSS variables for theme colors
+   - Implement time-based theme switching
+   - Design default themes (morning, afternoon, evening, night)
 
-### Admin Interface
-- Create login mechanism for admin
-  - Implement login form and authentication
-  - Add session management
-- Build forms for content management
-  - Create, update, delete forms for all content types
-  - Add validation and error handling
-- Implement media upload functionality
-  - Add file upload component
-  - Implement server-side file handling
-- Add basic scheduling capabilities
-  - Create scheduling interface for content rotation
-  - Implement time-based content display
+### Backend Development
+1. Set up database
+   - Create SQLite database with initial schema
+   - Implement database connection and ORM layer
+   - Create seed data for testing
+   - Build basic CRUD operations for all content types
 
-## Technical Notes
+2. Develop API endpoints
+   - Implement RESTful API for content management
+   - Create authentication mechanism for admin interface
+   - Build endpoints for theme management
+   - Develop system status and control endpoints
 
-### Raspberry Pi Configuration
-- Prepare for kiosk mode setup on Raspberry Pi OS
-  - Create installation script for kiosk mode
-  - Test script on Raspberry Pi 4
-- Test browser performance with content rotation
-  - Optimize animations for Raspberry Pi performance
-  - Monitor memory usage during extended operation
-- Configure auto-start and error recovery
-  - Create systemd service for application
-  - Implement watchdog for automatic recovery
+3. Create file management system
+   - Set up media file storage structure
+   - Implement file upload handlers
+   - Create media processing utilities (resize, optimize)
+   - Build file browsing and selection API
 
-### API Integrations
-- Set up structure for external API clients
-  - Create service classes for each external API
-  - Implement retry and error handling
-- Create credential storage system (secure)
-  - Use environment variables for secrets
-  - Implement encryption for stored credentials
-- Implement caching for API responses
-  - Set up Redis or in-memory cache
-  - Configure TTL for different data types
+### System Configuration
+1. Create configuration system
+   - Develop environment-based configuration
+   - Define default settings
+   - Create configuration UI in admin interface
+   - Implement secure storage for API keys and tokens
 
-### Home Assistant
-- Follow HOME_ASSISTANT_INTEGRATION.md for implementation details
-  - Set up REST API client for Home Assistant
-  - Implement webhook handler
-- Test webhook communication
-  - Create test environment for Home Assistant integration
-  - Verify bidirectional communication
-- Create Home Assistant entities for control
-  - Define entity schema
-  - Implement entity registration process
+2. Raspberry Pi setup
+   - Create Raspberry Pi OS installation script
+   - Configure auto-start for Chromium in kiosk mode
+   - Set up local network access and remote management
+   - Implement power management and monitoring
 
-## Testing & QA Guidelines
+## First Demo Milestone (End of Week 2)
+- Working application with basic navigation
+- Sample content display for drinks and games
+- Admin interface for content management
+- Theme switching based on time of day
+- Running successfully on Raspberry Pi in kiosk mode
 
-- Create end-to-end tests for critical flows
-  - Test content rotation
-  - Test admin content management
-- Test performance on target Raspberry Pi hardware
-  - Monitor CPU/memory usage
-  - Test with prolonged usage (24+ hours)
-- Validate responsive design on different screen sizes
-  - Test on target display resolution
-  - Verify readability at viewing distance
-- Test offline functionality
-  - Simulate network outages
-  - Verify cached content display
+## Phase 2 Focus Areas (Weeks 3-4)
 
-## Deployment Process
+1. **Content Type Implementation**
+   - Drinks list display and management
+   - Game leaderboards and score entry
+   - Visitor tracking system
+   - Media gallery implementation
 
-1. Set up CI/CD pipeline as described in CI_CD_GUIDE.md
-   - Configure GitHub Actions workflow
-   - Add deployment script to repository
-2. Create production build process
-   - Add build scripts to package.json
-   - Configure environment-specific builds
-3. Develop Raspberry Pi deployment script
-   - Create one-click installation script
-   - Include database setup and configuration
-4. Document backup and recovery procedures
-   - Create backup scripts for database and media
-   - Document recovery process step by step
+2. **Admin Interface Enhancement**
+   - Complete admin dashboard
+   - Content scheduling system
+   - Media upload and management
+   - User management (if multiple admins)
 
-## Resources & References
+3. **Database Refinement**
+   - Implement full database schema
+   - Create database backup system
+   - Build data export/import features
+   - Optimize queries for performance
 
-- Project documentation is in Markdown files in the root directory
-- Architecture details: ARCHITECTURE.md
-- Implementation plan: IMPLEMENTATION_PLAN.md
-- Database schema: DATABASE_SCHEMA.md
-- Home Assistant integration: HOME_ASSISTANT_INTEGRATION.md
+## Technology-Specific Tasks
 
-## Communication Channels
+### Vue.js Setup
+- Initialize Vue project with Vue CLI or Vite
+- Set up Vue Router for navigation
+- Configure Vuex/Pinia for state management
+- Create base component library
 
-- GitHub Issues for bug tracking and feature requests
-- Weekly status updates via email
-- Monthly progress reviews
+### Express Backend
+- Configure middleware (CORS, body-parser, etc.)
+- Set up route structure
+- Implement authentication (JWT or session-based)
+- Create error handling and logging system
 
-## Timeline Expectations
+### SQLite Implementation
+- Set up Knex.js or similar ORM
+- Create migration scripts
+- Implement the views defined in DATABASE_SCHEMA.md
+- Set up automated backup process
 
-Following the implementation plan:
-- Phase 1 (Foundation)
-- Phase 2 (Core Content)
-- Phase 3 (External Integrations)
-- Phase 4 (Game & Visitor Systems)
-- Phase 5 (Home Assistant Integration)
-- Phase 6 (Enhancement and Polish)
-- Phase 7 (Deployment and Documentation)
+## Development Workflow
 
-## Known Issues & Challenges
+1. **Local Development**
+   - Develop and test features on development machine
+   - Use mock data for external integrations during development
+   - Run automated tests for each component
 
-- Performance considerations for Raspberry Pi 4
-  - Animation performance may need optimization
-  - Consider reducing image sizes and using lazy loading
-- Testing Home Assistant integration requires a test environment
-  - Consider using Home Assistant in Docker for testing
-- Consider caching strategies for external API data
-  - Implement progressive loading for performance
-  - Use service workers for offline capability
-- Plan for offline operation in case of network issues
-  - Cache all essential content locally
-  - Implement status indicators for connectivity issues
+2. **Raspberry Pi Testing**
+   - Deploy to test Raspberry Pi environment
+   - Verify performance and display on target hardware
+   - Test interaction with actual TV/display
 
-## Getting Started (For New Developers)
+3. **Version Control**
+   - Use feature branches for development
+   - Create pull requests for code review
+   - Tag stable versions for deployment
 
-1. Clone the repository and navigate to the project directory
-2. Run `docker-compose up` to start the development environment
-3. Install frontend dependencies with `cd src/frontend && npm install`
-4. Install backend dependencies with `cd src/backend && npm install`
-5. Initialize the database with `node scripts/setup/init-db.js`
-6. Start the backend server with `cd src/backend && npm start`
-7. Start the frontend development server with `cd src/frontend && npm run serve`
-8. Access the application at http://localhost:8080
+4. **CI/CD Implementation**
+   - Set up GitHub Actions for automated testing
+   - Create deployment script for Raspberry Pi
+   - Implement automated backup before deployment
+
+## External Integration Priorities
+
+1. **Home Assistant** (High Priority)
+   - Research API connection options
+   - Implement authentication
+   - Create basic entity for display control
+   - Test basic automation trigger
+
+2. **Google Calendar** (Medium Priority)
+   - Set up OAuth authentication
+   - Implement calendar polling
+   - Create event display component
+   - Test automatic updates
+
+3. **Sports Data** (Lower Priority)
+   - Research available API options
+   - Implement basic score retrieval
+   - Create sports display component
+   - Set up regular data refresh
+
+## Next Planning Meeting Agenda
+1. Review technology stack decisions
+2. Assign initial development tasks
+3. Set up development environment
+4. Create first sprint goals
+5. Plan testing approach and criteria
+
+## Getting Started Today
+
+1. Clone the repository
+2. Run `npm install` in both frontend and backend directories
+3. Copy `.env.example` to `.env` and configure local settings
+4. Run `npm run dev` to start the development server
+5. Access the application at http://localhost:3000

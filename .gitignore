@@ -1,0 +1,89 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Build output
+dist/
+build/
+*.zip
+*.tar.gz
+*.tgz
+
+# Vue build output
+src/frontend/dist/
+
+# SQLite database files
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+# But keep the database directory structure
+!data/db/.gitkeep
+
+# Log files
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor directories and files
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Media files (when they get too large or are user-generated)
+data/media/photos/*
+data/media/videos/*
+data/media/uploads/*
+# But keep their directory structure
+!data/media/photos/.gitkeep
+!data/media/videos/.gitkeep
+!data/media/uploads/.gitkeep
+
+# Keep the core media files
+!data/media/background/
+!data/media/icons/
+!data/media/logo/
+
+# Backup files
+data/backups/
+*.bak
+*.backup
+
+# Testing
+coverage/
+
+# Raspberry Pi specific
+.config/
+.bash_history
+.bash_logout
+.profile
+
+# Temporary files
+.tmp/
+tmp/
+temp/
