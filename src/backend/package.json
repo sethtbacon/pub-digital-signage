@@ -7,10 +7,14 @@
     "dev": "nodemon server.js",
     "build": "tsc",
     "dev:ts": "nodemon --exec ts-node server.ts",
+    "dev:debug": "nodemon --inspect server.js",
+    "dev:ts:debug": "nodemon --exec node --inspect -r ts-node/register server.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write \"**/*.{js,ts,json,md}\"",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "keywords": [
     "digital signage",

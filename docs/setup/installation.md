@@ -80,35 +80,51 @@ git clone https://github.com/yourusername/pub-digital-signage.git
 cd pub-digital-signage
 ```
 
-### 2. Install Dependencies
+### 2. Quick Setup (Recommended)
+
+```bash
+# For development environment
+npm run setup:dev
+
+# For production environment (includes building the application)
+npm run setup
+```
+
+This will:
+- Install all dependencies (root, frontend, and backend)
+- Initialize the database with tables
+- Create default configuration if needed
+
+### 3. Manual Setup Steps
+
+If you prefer to perform the setup manually:
 
 ```bash
 # Install all dependencies (root, frontend, and backend)
 npm run install:all
-```
 
-### 3. Create Configuration
-
-```bash
+# Create configuration
 cp config/default.json config/local.json
 # Edit local.json with your preferred settings
+
+# Initialize the database
+npm run db:init
+
+# Optional: Seed with sample data for development
+npm run db:seed
 ```
 
-### 4. Initialize Database
+### 4. Start Development Servers
 
 ```bash
-# Create the database with tables and initial data
-node scripts/setup/init-db.js
-```
-
-### 5. Start Development Servers
-
-```bash
-# Start both frontend and backend servers
+# Start both frontend and backend servers (JavaScript)
 npm run dev
+
+# Or, if using TypeScript development:
+npm run dev:ts
 ```
 
-### 6. Access the Application
+### 5. Access the Application
 
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:8080

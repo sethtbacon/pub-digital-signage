@@ -10,35 +10,105 @@ Thank you for considering contributing to our Pub Digital Signage project! This 
 - Git
 - Docker and Docker Compose (recommended for consistent development)
 
-### Setting Up Local Development
+## Development Workflow
 
-1. **Clone the repository**
+### Getting Started
+
+For the best development experience, we recommend:
+
+1. **Clone and setup the project**
    ```bash
    git clone https://github.com/yourusername/pub-digital-signage.git
    cd pub-digital-signage
+   npm run setup:dev
    ```
 
-2. **Install dependencies**
+2. **Start development servers**
    ```bash
-   npm run install:all
+   # For JavaScript development
+   npm run dev
+   
+   # For TypeScript development
+   npm run dev:ts
    ```
 
-3. **Start the development environment**
+### Development Scripts
 
-   Using Docker (recommended):
+We provide several scripts to streamline development:
+
+#### Setup Scripts
+
+- `npm run setup:dev` - Quick setup for development (install dependencies and initialize database)
+- `npm run setup` - Full setup including build process (for production)
+
+#### Database Scripts
+
+- `npm run db:init` - Initialize database with schema
+- `npm run db:seed` - Populate database with sample data for testing
+
+#### TypeScript Development
+
+- `npm run dev:ts` - Run both frontend and backend with TypeScript support
+- `npm run dev:backend:ts` - Run only backend with TypeScript support
+- `npm run type-check` - Run TypeScript type checking
+- `npm run type-check:watch` - Run TypeScript type checking in watch mode
+
+#### Debugging
+
+- `npm run dev:debug` - Run JavaScript with debugging enabled
+- `npm run dev:ts:debug` - Run TypeScript with debugging enabled
+
+#### Testing
+
+- `npm run test` - Run all tests
+- `npm run test:frontend` - Run only frontend tests
+- `npm run test:backend` - Run only backend tests
+- `npm run test:watch` - Run tests in watch mode
+- `npm run test:coverage` - Generate test coverage report
+
+#### Building
+
+- `npm run build` - Build both frontend and backend
+- `npm run build:frontend` - Build only frontend
+- `npm run build:backend` - Build only backend
+
+### Docker Development
+
+If you prefer to use Docker for development:
+
+1. Start the development environment:
    ```bash
    docker-compose up
    ```
 
-   Without Docker:
+2. For running tests in Docker:
    ```bash
-   npm run dev
+   docker-compose --profile testing up test-runner
    ```
 
-4. **Access the application**
-   - Frontend: http://localhost:3000
-   - Backend API: http://localhost:8080
-   - Database Admin: http://localhost:8081 (Docker only)
+3. To rebuild containers after dependency changes:
+   ```bash
+   docker-compose up --build
+   ```
+
+### Workflow Best Practices
+
+1. **Branch Management**
+   - Create feature branches from `main`
+   - Use descriptive branch names (`feature/leaderboard-sorting`, `bugfix/theme-switching`)
+   - Keep branches focused on a single feature or fix
+
+2. **Development Cycle**
+   - Write tests first when possible
+   - Implement feature or fix
+   - Ensure code passes linting and type checking
+   - Verify all tests pass
+   - Submit pull request
+
+3. **Continuous Integration**
+   - All pull requests will be automatically tested
+   - Code quality checks must pass before merging
+   - Build verification ensures the application can be built successfully
 
 ## TypeScript
 

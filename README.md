@@ -29,33 +29,58 @@ This project creates a digital signage system that displays:
    cd pub-digital-signage
    ```
 
-2. **Install dependencies**
+2. **Quick Setup (Recommended)**
+   ```bash
+   # For development environment
+   npm run setup:dev
+   
+   # For production environment (includes build)
+   npm run setup
+   ```
+
+   This will:
+   - Install all dependencies
+   - Initialize the database
+   - Create default configurations
+
+3. **Alternatively, follow these steps manually**
+
+   a. Install dependencies
    ```bash
    npm run install:all
    ```
 
-3. **Configure the application**
+   b. Configure the application
    ```bash
    cp config/default.json config/local.json
    # Edit local.json with your specific settings
    ```
 
-4. **Set up the database**
+   c. Set up the database
    ```bash
-   node scripts/setup/init-db.js
+   npm run db:init
    ```
 
-5. **Start the development server**
+   d. Add sample data (optional)
    ```bash
+   npm run db:seed
+   ```
+
+4. **Start the development server**
+   ```bash
+   # For JavaScript development
    npm run dev
+   
+   # For TypeScript development
+   npm run dev:ts
    ```
 
-6. **Build for production**
+5. **Build for production**
    ```bash
    npm run build
    ```
 
-7. **Deploy to Raspberry Pi**
+6. **Deploy to Raspberry Pi**
    See detailed instructions in [Raspberry Pi Setup Guide](docs/setup/raspberry-pi.md)
 
 ## Docker Development Environment
@@ -77,14 +102,23 @@ We provide a Docker setup for consistent development across machines:
    docker-compose --profile testing up test-runner
    ```
 
-## Code Quality Tools
+## Development Tools
 
 This project uses TypeScript, ESLint and Prettier to maintain consistent code style and quality:
+
+### TypeScript Support
 
 ```bash
 # Run type checking
 npm run type-check
 
+# Watch for TypeScript errors during development
+npm run type-check:watch
+```
+
+### Code Quality
+
+```bash
 # Check for linting issues
 npm run lint
 
@@ -95,7 +129,30 @@ npm run lint:fix
 npm run format
 ```
 
-For more details on our code style and linting configuration, see the [Contributing Guide](docs/development/contributing.md).
+### Testing
+
+```bash
+# Run all tests
+npm run test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Get test coverage
+npm run test:coverage
+```
+
+### Database Management
+
+```bash
+# Initialize the database with schema
+npm run db:init
+
+# Seed the database with sample data
+npm run db:seed
+```
+
+For more details on our code style and development workflow, see the [Contributing Guide](docs/development/contributing.md).
 
 ## Admin Interface
 
