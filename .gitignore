@@ -92,6 +92,8 @@ coverage/
 .nyc_output
 cypress/videos/
 cypress/screenshots/
+test-results/
+test-report.xml
 
 # Raspberry Pi specific
 .config/
@@ -103,3 +105,11 @@ cypress/screenshots/
 .tmp/
 tmp/
 temp/
+
+# Express server specific
+data/theme-override.json
+.pm2/
+ecosystem.config.js
+access.log
+error.log
+combined.log

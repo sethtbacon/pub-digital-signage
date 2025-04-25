@@ -24,12 +24,17 @@ yarn-debug.log*
 yarn-error.log*
 logs
 *.log
+access.log
+error.log
+combined.log
 
 # Runtime data
 pids
 *.pid
 *.seed
 *.pid.lock
+.pm2/
+ecosystem.config.js
 
 # Editor files
 .vscode
@@ -39,6 +44,11 @@ pids
 *.njsproj
 *.sln
 *.sw?
+.project
+.classpath
+.settings/
+*.sublime-workspace
+.history/
 
 # OS files
 .DS_Store
@@ -57,7 +67,12 @@ ehthumbs.db
 data/db/*.db
 
 # Test coverage
-coverage
+coverage/
+.nyc_output
+cypress/videos/
+cypress/screenshots/
+test-results/
+test-report.xml
 
 # Media files (large files)
 data/media/photos/*
@@ -83,3 +98,6 @@ data/backups/
 .tmp/
 tmp/
 temp/
+
+# Express server specific
+data/theme-override.json
