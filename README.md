@@ -79,9 +79,12 @@ We provide a Docker setup for consistent development across machines:
 
 ## Code Quality Tools
 
-This project uses ESLint and Prettier to maintain consistent code style and quality:
+This project uses TypeScript, ESLint and Prettier to maintain consistent code style and quality:
 
 ```bash
+# Run type checking
+npm run type-check
+
 # Check for linting issues
 npm run lint
 

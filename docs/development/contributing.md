@@ -40,6 +40,41 @@ Thank you for considering contributing to our Pub Digital Signage project! This 
    - Backend API: http://localhost:8080
    - Database Admin: http://localhost:8081 (Docker only)
 
+## TypeScript
+
+The project uses TypeScript for type safety across both frontend and backend. This helps catch errors at compile time and improves code quality.
+
+### TypeScript Structure
+
+- Root `/tsconfig.json`: Base configuration with shared settings
+- `/src/frontend/tsconfig.json`: Vue-specific TypeScript configuration 
+- `/src/backend/tsconfig.json`: Node/Express-specific configuration
+- `/src/shared/types/`: Shared type definitions used by both frontend and backend
+
+### Working with Types
+
+1. **Common Types**
+   - Define shared interfaces and types in `/src/shared/types/`
+   - Use imports from the shared types in both frontend and backend
+
+2. **Type Checking**
+   ```bash
+   # Run type checking across the entire project
+   npm run type-check
+   
+   # Run type checking for frontend only
+   npm run type-check:frontend
+   
+   # Run type checking for backend only
+   npm run type-check:backend
+   ```
+
+3. **Type Guidelines**
+   - Always define return types for functions
+   - Use interfaces for object structures
+   - Use type annotation for variables when not obvious
+   - Create meaningful and descriptive type names
+
 ## Code Style and Linting
 
 ### ESLint and Prettier
