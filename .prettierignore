@@ -1,0 +1,30 @@
+# Build artifacts
+dist/
+build/
+coverage/
+
+# Node modules
+node_modules/
+
+# Log files
+*.log
+
+# Environment variables
+.env
+.env.*
+
+# Database files
+*.db
+*.sqlite
+
+# Package lock files
+package-lock.json
+yarn.lock
+
+# Editor files
+.idea/
+.vscode/
+
+# Generated files
+*.min.js
+*.min.css
