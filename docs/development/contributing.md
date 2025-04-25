@@ -40,6 +40,64 @@ Thank you for considering contributing to our Pub Digital Signage project! This 
    - Backend API: http://localhost:8080
    - Database Admin: http://localhost:8081 (Docker only)
 
+## Code Style and Linting
+
+### ESLint and Prettier
+
+The project uses ESLint and Prettier to enforce consistent code style. The configuration is already set up in the repository.
+
+#### Using the Linting Tools
+
+From the project root, you can run:
+
+```bash
+# Check for linting issues across both frontend and backend
+npm run lint
+
+# Automatically fix linting issues where possible
+npm run lint:fix
+
+# Format all code files with Prettier
+npm run format
+```
+
+You can also run these commands specifically for frontend or backend:
+
+```bash
+# Frontend only
+npm run lint:frontend
+npm run lint:fix:frontend
+npm run format:frontend
+
+# Backend only
+npm run lint:backend
+npm run lint:fix:backend
+npm run format:backend
+```
+
+#### Key Style Rules
+
+- **Indentation**: 2 spaces
+- **Quotes**: Single quotes
+- **Semicolons**: Required
+- **Line Length**: 100 characters maximum
+- **Trailing Commas**: ES5 style trailing commas
+- **Arrow Functions**: Avoid parentheses around single parameters
+- **End of Line**: LF (Unix-style line endings)
+
+#### Editor Integration
+
+For the best development experience, configure your editor to use ESLint and Prettier:
+
+**VS Code**:
+1. Install the "ESLint" and "Prettier - Code formatter" extensions
+2. Enable "Format on Save" in your settings
+3. Set Prettier as the default formatter
+
+**WebStorm/IntelliJ IDEA**:
+1. Enable ESLint in Preferences → Languages & Frameworks → JavaScript → Code Quality Tools → ESLint
+2. Enable Prettier in Preferences → Languages & Frameworks → JavaScript → Prettier
+
 ## Code Structure
 
 ### Frontend Architecture (Vue.js)
@@ -77,7 +135,8 @@ The backend follows a layered architecture:
 ### JavaScript/TypeScript
 
 - Use ES6+ features
-- Follow airbnb style guide
+- Follow airbnb style guide for the backend
+- Use Vue style guide for the frontend
 - Use const for variables that don't change
 - Use let for variables that do change
 - Use async/await for asynchronous operations
@@ -89,6 +148,9 @@ The backend follows a layered architecture:
 - Use props for component communication
 - Use events for child-to-parent communication
 - Use the store for shared state
+- Follow Vue.js naming conventions:
+  - Components should use multi-word names (e.g., `GameLeaderboard.vue`)
+  - Props should use camelCase in JavaScript and kebab-case in templates
 
 ### CSS/SCSS
 
@@ -109,6 +171,11 @@ The backend follows a layered architecture:
    - Write clean, readable code
    - Add tests for your changes
    - Ensure all tests pass
+   - Run linting and formatting before committing:
+     ```bash
+     npm run lint:fix
+     npm run format
+     ```
 
 3. **Commit your changes**
    ```bash
@@ -155,11 +222,12 @@ npm test
 ## Pull Request Process
 
 1. Ensure your code follows our coding standards
-2. Update documentation as needed
-3. Add/update tests as needed
-4. Get at least one approval from a team member
-5. Respond to feedback and make necessary changes
-6. Squash commits before merging if requested
+2. Make sure ESLint and Prettier checks pass
+3. Update documentation as needed
+4. Add/update tests as needed
+5. Get at least one approval from a team member
+6. Respond to feedback and make necessary changes
+7. Squash commits before merging if requested
 
 ## Questions?
 

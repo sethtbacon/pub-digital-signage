@@ -77,6 +77,23 @@ We provide a Docker setup for consistent development across machines:
    docker-compose --profile testing up test-runner
    ```
 
+## Code Quality Tools
+
+This project uses ESLint and Prettier to maintain consistent code style and quality:
+
+```bash
+# Check for linting issues
+npm run lint
+
+# Fix linting issues automatically
+npm run lint:fix
+
+# Format code with Prettier
+npm run format
+```
+
+For more details on our code style and linting configuration, see the [Contributing Guide](docs/development/contributing.md).
+
 ## Admin Interface
 
 Access the admin interface at `/admin` to manage:
