@@ -1,0 +1,196 @@
+<template>
+  <div class="base-layout" :class="{ 'admin-mode': isAdminMode }">
+    <header class="header">
+      <div class="header-left">
+        <slot name="header-left">
+          <img src="../../assets/images/logo.svg" alt="Pub Logo" class="logo" />
+        </slot>
+      </div>
+      <div class="header-center">
+        <slot name="header-center">
+          <h1>{{ title }}</h1>
+        </slot>
+      </div>
+      <div class="header-right">
+        <slot name="header-right">
+          <div class="time-display">{{ currentTime }}</div>
+        </slot>
+      </div>
+    </header>
+    
+    <main class="content">
+      <slot />
+    </main>
+    
+    <footer class="footer">
+      <div class="footer-left">
+        <slot name="footer-left"></slot>
+      </div>
+      <div class="footer-center">
+        <slot name="footer-center"></slot>
+      </div>
+      <div class="footer-right">
+        <slot name="footer-right">
+          <nav v-if="!isAdminMode" class="display-nav">
+            <router-link to="/" class="nav-item">Home</router-link>
+            <router-link to="/display/drinks" class="nav-item">Drinks</router-link>
+            <router-link to="/display/games" class="nav-item">Games</router-link>
+            <router-link to="/display/visitors" class="nav-item">Visitors</router-link>
+            <router-link to="/display/events" class="nav-item">Events</router-link>
+            <router-link to="/display/media" class="nav-item">Media</router-link>
+          </nav>
+        </slot>
+      </div>
+    </footer>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { useRoute } from 'vue-router';
+import { useThemeStore } from '../../store/modules/themeStore';
+
+const props = defineProps({
+  title: {
+    type: String,
+    default: 'Pub Digital Signage'
+  }
+});
+
+const route = useRoute();
+const themeStore = useThemeStore();
+
+// Determine if we're in admin mode based on route
+const isAdminMode = computed(() => {
+  return route.path.includes('/admin');
+});
+
+// Current time display
+const currentTime = ref('');
+let timeInterval = null;
+
+const updateTime = () => {
+  const now = new Date();
+  currentTime.value = new Intl.DateTimeFormat('en-GB', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  }).format(now);
+};
+
+onMounted(() => {
+  // Initialize theme
+  themeStore.initialize();
+  
+  // Set up clock
+  updateTime();
+  timeInterval = setInterval(updateTime, 60000); // Update every minute
+});
+
+onUnmounted(() => {
+  if (timeInterval) clearInterval(timeInterval);
+});
+</script>
+
+<style lang="scss" scoped>
+.base-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-medium);
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  height: 80px;
+  
+  &-left, &-right {
+    width: 20%;
+  }
+  
+  &-center {
+    width: 60%;
+    text-align: center;
+    
+    h1 {
+      margin: 0;
+      font-size: var(--font-size-large);
+    }
+  }
+}
+
+.logo {
+  height: 60px;
+  width: auto;
+}
+
+.time-display {
+  font-size: var(--font-size-medium);
+  font-weight: bold;
+  text-align: right;
+}
+
+.content {
+  flex: 1;
+  padding: var(--spacing-large);
+  overflow-y: auto;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-medium);
+  background-color: var(--secondary-color);
+  height: 60px;
+  
+  &-left, &-right {
+    width: 30%;
+  }
+  
+  &-center {
+    width: 40%;
+    text-align: center;
+  }
+}
+
+.display-nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-medium);
+  
+  .nav-item {
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: var(--font-size-small);
+    
+    &.router-link-active {
+      font-weight: bold;
+      color: var(--accent-color);
+    }
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+/* Admin mode styling */
+.admin-mode {
+  .header {
+    background-color: #2c3e50;
+    height: 60px;
+  }
+  
+  .footer {
+    height: 50px;
+  }
+}
+</style>

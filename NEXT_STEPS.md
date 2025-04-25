@@ -24,12 +24,14 @@ This document outlines the immediate actions and development path for implementi
 
 ## Current Focus - Core Application Setup (Week 2)
 
-### 4. Core Application Setup ✅
+### 4. Core Application Setup ⏳
 - Create basic Express server ✅
-- Set up Vue.js frontend project ⏳
-- Configure Webpack/Vite for bundling ⏳
-- Establish connection between frontend and backend ⏳
-- Create basic theme system foundation ⏳
+- Set up Vue.js frontend project ✅
+- Set up a more detailed content management interface in the admin section ⏳
+- Create additional display views for games, visitors, media, and events similar to the DrinkDisplay view ⏳
+- Configure Webpack/Vite for bundling ✅
+- Establish connection between frontend and backend ✅
+- Create basic theme system foundation ✅
 
 ## Phase 1 Implementation Tasks (Weeks 1-2)
 
@@ -172,12 +174,37 @@ This document outlines the immediate actions and development path for implementi
    - Create sports display component
    - Set up regular data refresh
 
-## Next Planning Meeting Agenda
-1. Review technology stack decisions
-2. Assign initial development tasks
-3. Set up development environment
-4. Create first sprint goals
-5. Plan testing approach and criteria
+## Test Infrastructure Improvements
+
+Based on recent test runs, the following improvements are needed for the frontend test infrastructure:
+
+### 1. Pinia Store Testing Setup
+- Configure `createTestingPinia()` properly in store tests
+- Fix store initialization in test setup files
+- Address the "getActivePinia()" errors in mediaStore, themeStore, and visitorStore tests
+
+### 2. Vue Router Mocking
+- Properly mock Vue Router in component tests to avoid "Cannot read properties of undefined" errors
+- Fix router.beforeEach mock setup in router tests
+- Create reusable router mocking utilities for component tests
+
+### 3. API Testing Alignment
+- Align API endpoint expectations in tests with actual implementation
+- Fix path discrepancies in gamesApi tests (e.g., "/api/games/leaderboard" vs "/api/games/leaderboard/overall")
+- Create consistent API mocking approach across all tests
+
+### 4. Test Coverage Expansion
+- Fix and complete existing tests before adding new ones
+- Prioritize fixing tests in this order:
+  1. Infrastructure issues (Pinia, Vue Router)
+  2. Component tests
+  3. Integration tests
+- Add new tests for recently developed features
+
+### 5. Integration Test Environment
+- Set up proper environment for integration tests
+- Fix missing module errors in integration tests
+- Create consistent test data fixtures
 
 ## Getting Started Today
 

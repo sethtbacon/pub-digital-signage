@@ -1,5 +1,5 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.web.json",
+  "extends": "./node_modules/@vue/tsconfig/tsconfig.dom.json",
   "compilerOptions": {
     "target": "ESNext",
     "useDefineForClassFields": true,

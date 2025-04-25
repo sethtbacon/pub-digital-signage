@@ -318,21 +318,105 @@ npm test
 - Write integration tests for API endpoints
 - Test edge cases and error handling
 
-## Documentation
+### Testing Approach
 
-- Document any new features or changes
-- Update README.md if necessary
-- Use JSDoc for API documentation
+Our Vue.js frontend uses the following testing stack:
+- Vitest as the test runner and assertion library
+- Vue Test Utils for mounting and interacting with Vue components
+- Pinia Test Utils for testing stores
 
-## Pull Request Process
+#### Component Testing Pattern
 
-1. Ensure your code follows our coding standards
-2. Make sure ESLint and Prettier checks pass
-3. Update documentation as needed
-4. Add/update tests as needed
-5. Get at least one approval from a team member
-6. Respond to feedback and make necessary changes
-7. Squash commits before merging if requested
+When testing Vue components, follow this general pattern:
+
+1. **Setup** - Mount the component with any required props, plugins, and mocks
+2. **Assertion** - Verify the component renders correctly and functions as expected
+3. **Interaction** - Simulate user actions like clicks, input changes
+4. **Verification** - Validate that the component state and output match expectations
+
+Example:
+
+```javascript
+// Example component test
+it('updates counter when button is clicked', async () => {
+  // Setup
+  const wrapper = mount(Counter);
+  
+  // Initial assertion
+  expect(wrapper.text()).toContain('Count: 0');
+  
+  // Interaction
+  await wrapper.find('button').trigger('click');
+  
+  // Verification
+  expect(wrapper.text()).toContain('Count: 1');
+});
+```
+
+#### Store Testing Pattern
+
+For Pinia stores, follow this approach:
+
+1. **Setup** - Create a fresh Pinia instance for each test
+2. **Action Testing** - Test actions by calling them and verifying state changes
+3. **Getter Testing** - Verify getters return expected values for given state
+4. **Mocking** - Mock external dependencies like API calls
+
+Example:
+
+```javascript
+// Example store test
+it('fetches data and updates state', async () => {
+  // Setup mock API response
+  vi.spyOn(api, 'getData').mockResolvedValue([{ id: 1, name: 'Item 1' }]);
+  
+  // Call action
+  await store.fetchData();
+  
+  // Verify state was updated correctly
+  expect(store.items.length).toBe(1);
+  expect(store.items[0].name).toBe('Item 1');
+});
+```
+
+#### Router Testing
+
+When testing components that use Vue Router:
+
+1. Mock the router with `vi.mock('vue-router')`
+2. Provide the necessary router functions like `useRoute` and `useRouter`
+3. Test navigation guard behavior separately
+
+#### File Structure
+
+Organize tests to mirror the source code structure:
+
+```
+/tests
+  /unit
+    /components
+      /common
+      /layout
+      /widgets
+    /store
+      /modules
+    /services
+    /views
+  /integration
+```
+
+Remember to run the test suite before submitting a pull request:
+
+```bash
+# Run all tests
+npm run test
+
+# Run only frontend tests
+npm run test:frontend
+
+# Run with coverage report
+npm run test:coverage
+```
 
 ## Questions?
 
