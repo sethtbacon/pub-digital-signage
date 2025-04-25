@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  app:
+    # Use this to enable development-specific overrides
+    environment:
+      - VITE_DEV_SERVER_HOST=0.0.0.0
+      - VITE_DEV_SERVER_PORT=3000
+      - API_PORT=8080
+      - DEBUG=pubsignage:*
+    # Enable container debugging if needed
+    # command: ["npm", "run", "debug"]
+    # For development, we want to use nodemon for hot reloading
+    command: >
+      sh -c "cd /app && 
+             concurrently \"cd src/backend && npm run dev\" \"cd src/frontend && npm run dev -- --host 0.0.0.0\""
+    # Additional development volumes if needed
+    volumes:
+      - ./config:/app/config
+
+  # Add development-only services below if needed
+  # For example, a service for running tests:
+  test-runner:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pubsignage-test-runner
+    command: ["npm", "test"]
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=test
+    networks:
+      - pubsignage-network
+    profiles:
+      - testing  # This service will only run when explicitly included with docker-compose --profile testing

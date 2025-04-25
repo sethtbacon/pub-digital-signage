@@ -1,0 +1,85 @@
+# Node modules
+node_modules
+**/node_modules
+
+# Build output
+**/dist
+**/build
+*.zip
+*.tar.gz
+*.tgz
+
+# Environment files
+.env
+.env.local
+.env.*
+
+# Version control
+.git
+.gitignore
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Editor files
+.vscode
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+
+# SQLite database files
+**/*.db
+**/*.db-journal
+**/*.sqlite
+**/*.sqlite3
+data/db/*.db
+
+# Test coverage
+coverage
+
+# Media files (large files)
+data/media/photos/*
+data/media/videos/*
+data/media/uploads/*
+# Keep essential core files
+!data/media/background/
+!data/media/icons/
+!data/media/logo/
+
+# Backup files
+data/backups/
+*.bak
+*.backup
+
+# Raspberry Pi specific
+.config/
+.bash_history
+.bash_logout
+.profile
+
+# Temporary files
+.tmp/
+tmp/
+temp/

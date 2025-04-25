@@ -23,6 +23,60 @@ This project creates a digital signage system that displays:
 
 ## Setup Instructions
 
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/pub-digital-signage.git
+   cd pub-digital-signage
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm run install:all
+   ```
+
+3. **Configure the application**
+   ```bash
+   cp config/default.json config/local.json
+   # Edit local.json with your specific settings
+   ```
+
+4. **Set up the database**
+   ```bash
+   node scripts/setup/init-db.js
+   ```
+
+5. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+
+6. **Build for production**
+   ```bash
+   npm run build
+   ```
+
+7. **Deploy to Raspberry Pi**
+   See detailed instructions in [Raspberry Pi Setup Guide](docs/setup/raspberry-pi.md)
+
+## Docker Development Environment
+
+We provide a Docker setup for consistent development across machines:
+
+1. **Start the Docker environment**
+   ```bash
+   docker-compose up
+   ```
+
+2. **Access the application**
+   - Frontend: http://localhost:3000
+   - Backend API: http://localhost:8080
+   - Database Admin: http://localhost:8081
+
+3. **Run tests in Docker**
+   ```bash
+   docker-compose --profile testing up test-runner
+   ```
+
 ## Admin Interface
 
 Access the admin interface at `/admin` to manage:
@@ -77,13 +131,47 @@ The application supports multiple theme types:
 
 ## Development
 
+This project uses:
+- Vue.js 3 for the frontend
+- Node.js/Express for the backend
+- SQLite for the database
+- Docker for development environment
+
+### Code Structure
+
+- `/src/frontend` - Vue.js frontend application
+- `/src/backend` - Express backend API
+- `/src/shared` - Shared code between frontend and backend
+- `/data` - Database and media storage
+- `/config` - Application configuration
+- `/scripts` - Utility scripts
+
+### Available Scripts
+
+- `npm run dev` - Start development servers (frontend + backend)
+- `npm run build` - Build frontend for production
+- `npm run test` - Run tests for frontend and backend
+- `npm run lint` - Run linting for frontend and backend
+
+For more details, see [Contributing Guide](docs/development/contributing.md)
+
 ## Production Deployment
 
+For detailed deployment instructions, see:
+- [Installation Guide](docs/setup/installation.md)
+- [Raspberry Pi Setup](docs/setup/raspberry-pi.md)
+- [CI/CD Pipeline Guide](docs/user/CI_CD_GUIDE.md)
 
 ## Contributing
 
 1. Fork the repository
-2. Create your feature branch
+2. Create your feature branch 
 3. Commit your changes
 4. Push to the branch
 5. Create a new Pull Request
+
+For detailed contribution guidelines, see [Contributing Guide](docs/development/contributing.md)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
