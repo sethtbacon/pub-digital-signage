@@ -170,10 +170,12 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue';
+import { ref, computed, onMounted, watch, inject } from 'vue';
 import { useThemeStore } from '../../store/modules/themeStore';
+import '../../assets/styles/admin';
 
 const themeStore = useThemeStore();
+const theme = inject('theme'); // Get the theme service from the plugin
 
 // Track the selected theme for the dropdown
 const selectedTheme = ref(themeStore.currentTheme);
@@ -186,6 +188,9 @@ const customColors = ref({
   backgroundColor: themeStore.currentThemeColors.backgroundColor,
   textColor: themeStore.currentThemeColors.textColor
 });
+
+// Success message for theme saving
+const saveMessage = ref('');
 
 // Preview styling based on custom colors
 const themePreviewStyle = computed(() => {
@@ -207,29 +212,32 @@ const changeTheme = () => {
 
 // Update the custom colors when theme changes
 const updateColorsFromTheme = () => {
-  const theme = themeStore.currentThemeColors;
+  const currentTheme = themeStore.currentThemeColors;
   customColors.value = {
-    primaryColor: theme.primaryColor,
-    secondaryColor: theme.secondaryColor,
-    accentColor: theme.accentColor,
-    backgroundColor: theme.backgroundColor,
-    textColor: theme.textColor
+    primaryColor: currentTheme.primaryColor,
+    secondaryColor: currentTheme.secondaryColor,
+    accentColor: currentTheme.accentColor,
+    backgroundColor: currentTheme.backgroundColor,
+    textColor: currentTheme.textColor
   };
 };
 
 // Apply custom theme colors to preview
 const updateCustomColors = () => {
-  // This just updates the preview - doesn't save the theme yet
+  // Update the preview using our theme plugin
+  theme.applyPreviewTheme(customColors.value);
 };
 
 // Save custom theme
 const saveCustomTheme = () => {
-  // In a real app, this would probably update a database
-  // For now, we'll just modify the current theme in the store
-  const currentTheme = themeStore.currentTheme;
+  // Use our centralized theme plugin to save the theme
+  theme.saveCustomTheme(selectedTheme.value, { ...customColors.value });
   
-  themeStore.themes[currentTheme] = { ...customColors.value };
-  themeStore.applyTheme();
+  // Show success message
+  saveMessage.value = 'Theme saved successfully!';
+  setTimeout(() => {
+    saveMessage.value = '';
+  }, 3000);
 };
 
 // Reset theme to default values
@@ -257,9 +265,10 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .theme-management {
-  width: 100%;
+  @extend .admin-page;
 }
 
+// Theme-specific styles not covered by global styles
 .page-header {
   margin-bottom: 2rem;
   
@@ -304,38 +313,6 @@ onMounted(() => {
   }
 }
 
-.form-group {
-  margin-bottom: 1.5rem;
-  
-  label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    color: #333;
-  }
-  
-  select {
-    width: 100%;
-    padding: 0.5rem;
-    border-radius: 4px;
-    border: 1px solid #ddd;
-    background-color: white;
-    color: #333;
-    font-size: 1rem;
-    
-    &:disabled {
-      background-color: #f5f5f5;
-      cursor: not-allowed;
-    }
-  }
-  
-  .setting-description {
-    margin-top: 0.5rem;
-    color: #666;
-    font-size: 0.9rem;
-  }
-}
-
 .switch-label {
   display: flex;
   justify-content: space-between;
@@ -353,7 +330,7 @@ onMounted(() => {
       height: 0;
       
       &:checked + .slider {
-        background-color: #ff6b01;
+        background-color: var(--primary-color);
       }
       
       &:checked + .slider:before {
@@ -503,11 +480,8 @@ onMounted(() => {
   gap: 1rem;
   
   .btn {
+    @extend .primary-button;
     padding: 0.5rem 1rem;
-    border-radius: 4px;
-    border: none;
-    cursor: pointer;
-    font-weight: 500;
     
     &:disabled {
       opacity: 0.7;
@@ -516,21 +490,31 @@ onMounted(() => {
   }
   
   .btn-primary {
-    background-color: #ff6b01;
+    background-color: var(--primary-color);
     color: white;
     
     &:hover:not(:disabled) {
-      background-color: darken(#ff6b01, 10%);
+      background-color: darken(var(--primary-color), 10%);
     }
   }
   
   .btn-secondary {
+    @extend .secondary-button;
     background-color: #eee;
-    color: #333;
     
     &:hover:not(:disabled) {
       background-color: darken(#eee, 10%);
     }
+  }
+}
+
+@media (max-width: 768px) {
+  .theme-settings {
+    grid-template-columns: 1fr;
+  }
+  
+  .time-periods {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 </style>

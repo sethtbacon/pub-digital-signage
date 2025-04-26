@@ -49,6 +49,7 @@
 
 <script setup>
 import { useRouter } from 'vue-router';
+import '../../assets/styles/admin';
 
 const router = useRouter();
 
@@ -77,8 +78,8 @@ const handleLogout = () => {
   align-items: center;
   padding: 0 1.5rem;
   height: 64px;
-  background-color: #2c3e50;
-  color: white;
+  background-color: var(--secondary-color);
+  color: var(--text-color);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   
   .logo {
@@ -99,8 +100,8 @@ const handleLogout = () => {
   .logout-button {
     padding: 0.5rem 1rem;
     background-color: transparent;
-    border: 1px solid white;
-    color: white;
+    border: 1px solid var(--text-color);
+    color: var(--text-color);
     border-radius: 4px;
     cursor: pointer;
     
@@ -118,8 +119,8 @@ const handleLogout = () => {
 
 .sidebar {
   width: 240px;
-  background-color: #34495e;
-  color: white;
+  background-color: #34495e; /* Slightly lighter than the secondary color */
+  color: var(--text-color);
   overflow-y: auto;
 }
 
@@ -132,7 +133,7 @@ const handleLogout = () => {
     display: flex;
     align-items: center;
     padding: 0.75rem 1.5rem;
-    color: #ecf0f1;
+    color: var(--text-color);
     text-decoration: none;
     font-size: 1rem;
     
@@ -151,7 +152,7 @@ const handleLogout = () => {
     
     &.router-link-active {
       background-color: rgba(255, 255, 255, 0.1);
-      color: #ff6b01; // Primary color
+      color: var(--primary-color);
       font-weight: 500;
       
       .icon {

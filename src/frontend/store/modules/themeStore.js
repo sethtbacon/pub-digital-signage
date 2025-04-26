@@ -68,6 +68,27 @@ export const useThemeStore = defineStore('theme', {
       }
     },
     
+    // Save a theme with new values
+    saveTheme(themeName, themeColors) {
+      // Update theme if it exists, otherwise add new theme
+      if (themeName && themeColors) {
+        this.themes[themeName] = { ...themeColors };
+        
+        // Apply if it's the current theme
+        if (this.currentTheme === themeName) {
+          this.applyTheme();
+        }
+        
+        // Save themes to localStorage for persistence
+        this.persistThemes();
+      }
+    },
+    
+    // Save themes to localStorage
+    persistThemes() {
+      localStorage.setItem('pubSignage_themes', JSON.stringify(this.themes));
+    },
+    
     // Toggle auto theme based on time of day
     toggleAutoTheme() {
       this.isAutoThemeEnabled = !this.isAutoThemeEnabled;

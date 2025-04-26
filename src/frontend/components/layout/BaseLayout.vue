@@ -185,7 +185,7 @@ onUnmounted(() => {
 /* Admin mode styling */
 .admin-mode {
   .header {
-    background-color: #2c3e50;
+    background-color: var(--secondary-color);
     height: 60px;
   }
   
