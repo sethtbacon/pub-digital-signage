@@ -11,50 +11,59 @@ This document outlines the immediate actions and development path for implementi
 - **Development Environment**: Set up VSCode with appropriate plugins for the stack
 
 ### 2. Repository & Project Structure Setup ✅
-- Initialize Git repository 
-- Create folder structure as outlined in PROJECT_STRUCTURE.md 
-- Set up npm project with initial dependencies 
-- Create basic .gitignore file to exclude node_modules, env files, etc. 
+- Initialize Git repository ✅
+- Create folder structure as outlined in PROJECT_STRUCTURE.md ✅
+- Set up npm project with initial dependencies ✅ 
+- Create basic .gitignore file to exclude node_modules, env files, etc. ✅
 
 ### 3. Development Environment Setup ✅
-- Create Docker development environment for consistent development 
-- Set up ESLint and Prettier for code quality 
-- Configure TypeScript for type safety 
-- Create development scripts for running the application locally 
+- Create Docker development environment for consistent development ✅
+- Set up ESLint and Prettier for code quality ✅
+- Configure TypeScript for type safety ✅
+- Create development scripts for running the application locally ✅
 
 ## Current Focus - Core Application Setup (Week 2)
 
 ### 4. Core Application Setup ✅
-- Create basic Express server 
-- Set up Vue.js frontend project 
-- Set up a more detailed content management interface in the admin section 
-- Create additional display views for games, visitors, media, and events similar to the DrinkDisplay view 
-- Configure Webpack/Vite for bundling 
-- Establish connection between frontend and backend 
-- Create basic theme system foundation 
+- Create basic Express server ✅
+- Set up Vue.js frontend project ✅
+- Set up a more detailed content management interface in the admin section ✅
+- Create additional display views for games, visitors, media, and events similar to the DrinkDisplay view ✅
+- Configure Webpack/Vite for bundling ✅
+- Establish connection between frontend and backend ✅
+- Create basic theme system foundation ✅
 
 ## Phase 1 Implementation Tasks (Weeks 1-2)
 
 ### Frontend Development
-1. Create responsive layout framework ⏳
-   - Create a home page using the concept of widgets in grid system for content placement
-   - Implement base layout components
-   - Build navigation component
-   - Create a page for drinks
-   - Create a page for board games
-   - Create a page for visitor milestones
-   - Implement theme switching mechanism
+1. Create responsive layout framework ✅
+   - Create a home page using the concept of widgets in grid system for content placement ✅
+   - Implement base layout components ✅
+   - Build navigation component ✅
+   - Create a page for drinks ✅
+   - Create a page for board games ✅
+   - Create a page for visitor milestones ✅
+   - Implement theme switching mechanism ✅
 
-2. Build core display components
-   - Develop home screen grid with main navigation icons
-   - Create base content display templates for each content type
+2. Build core display components ⏳
+   - Develop home screen grid with main navigation icons ✅
+   - Create base content display templates for each content type ✅
    - Implement transitions between different content views
-   - Design admin interface wireframes
+   - Design admin interface wireframes ✅
 
-3. Implement basic theme system
-   - Create CSS variables for theme colors
-   - Implement time-based theme switching
-   - Design default themes (morning, afternoon, evening, night)
+3. Implement basic theme system ✅
+   - Create CSS variables for theme colors ✅
+   - Implement time-based theme switching ✅
+   - Design default themes (morning, afternoon, evening, night) ✅
+   
+4. Theme System Improvements
+   - **Theme Storage Location**: Store custom themes in database to sync across devices and persist beyond browser cache clears
+   - **Stylesheet Optimization**: Implement a more structured approach to shared styles instead of using @extend for repeated styles like .primary-button
+   - **SCSS Variables Integration**: Create SCSS variables mirroring CSS variables for better compile-time checking and SCSS function usage (darken, lighten, etc.)
+   - **Theme Transition Effects**: Add smooth transitions when changing themes with transition properties on elements that change with theme
+   - **Additional Theme Properties**: Extend themes beyond colors to include typography, border-radius, shadow styles, etc.
+   - **Responsive Theme Adjustments**: Allow different theme settings based on screen sizes
+   - **Theme Presets**: Add functionality to save and load theme presets for quick switching
 
 ### Backend Development
 1. Set up database ✅
@@ -69,14 +78,14 @@ This document outlines the immediate actions and development path for implementi
    - Build endpoints for theme management ✅
    - Develop system status and control endpoints ✅
 
-3. Create file management system
+3. Create file management system ⏳
    - Set up media file storage structure
    - Implement file upload handlers
    - Create media processing utilities (resize, optimize)
    - Build file browsing and selection API
 
 ### System Configuration
-1. Create configuration system
+1. Create configuration system ⏳
    - Develop environment-based configuration
    - Define default settings
    - Create configuration UI in admin interface
@@ -88,69 +97,75 @@ This document outlines the immediate actions and development path for implementi
    - Set up local network access and remote management
    - Implement power management and monitoring
 
-## First Demo Milestone (End of Week 2)
-- Working application with basic navigation
-- Sample content display for drinks and games
-- Admin interface for content management
-- Theme switching based on time of day
-- Running successfully on Raspberry Pi in kiosk mode
+## First Demo Milestone (End of Week 2) - APPROACHING COMPLETION
+- Working application with basic navigation ✅
+- Sample content display for drinks and games ✅
+- Admin interface for content management ✅
+- Theme switching based on time of day ✅
+- Running successfully on Raspberry Pi in kiosk mode ⏳
 
-## Phase 2 Focus Areas (Weeks 3-4)
+## Phase 2 Focus Areas (Weeks 3-4) - UPCOMING
 
 1. **Content Type Implementation**
-   - Drinks list display and management
-   - Game leaderboards and score entry
-   - Visitor tracking system
-   - Media gallery implementation
+   - Drinks list display and management ✅
+   - Game leaderboards and score entry ⏳
+   - Visitor tracking system ⏳
+   - Media gallery implementation ⏳
 
 2. **Admin Interface Enhancement**
-   - Complete admin dashboard
+   - Complete admin dashboard ✅
    - Content scheduling system
    - Media upload and management
    - User management (if multiple admins)
 
 3. **Database Refinement**
-   - Implement full database schema
+   - Implement full database schema ✅
    - Create database backup system
    - Build data export/import features
    - Optimize queries for performance
 
+4. **External Data Integration**
+   - Market data display (as seen in Bloomberg-style dashboard)
+   - TV schedule integration
+   - Weather information
+   - News headlines ticker
+
 ## Technology-Specific Tasks
 
-### Vue.js Setup
-- Initialize Vue project with Vue CLI or Vite
-- Set up Vue Router for navigation
-- Configure Vuex/Pinia for state management
-- Create base component library
+### Vue.js Setup ✅
+- Initialize Vue project with Vue CLI or Vite ✅
+- Set up Vue Router for navigation ✅
+- Configure Vuex/Pinia for state management ✅
+- Create base component library ✅
 
-### Express Backend
-- Configure middleware (CORS, body-parser, etc.)
-- Set up route structure
-- Implement authentication (JWT or session-based)
-- Create error handling and logging system
+### Express Backend ✅
+- Configure middleware (CORS, body-parser, etc.) ✅
+- Set up route structure ✅
+- Implement authentication (JWT or session-based) ⏳
+- Create error handling and logging system ✅
 
-### SQLite Implementation
-- Set up Knex.js or similar ORM
-- Create migration scripts
-- Implement the views defined in DATABASE_SCHEMA.md
+### SQLite Implementation ✅
+- Set up Knex.js or similar ORM ✅
+- Create migration scripts ✅
+- Implement the views defined in DATABASE_SCHEMA.md ✅
 - Set up automated backup process
 
 ## Development Workflow
 
 1. **Local Development**
-   - Develop and test features on development machine
-   - Use mock data for external integrations during development
-   - Run automated tests for each component
+   - Develop and test features on development machine ✅
+   - Use mock data for external integrations during development ✅
+   - Run automated tests for each component ⏳
 
 2. **Raspberry Pi Testing**
    - Deploy to test Raspberry Pi environment
    - Verify performance and display on target hardware
    - Test interaction with actual TV/display
 
-3. **Version Control**
-   - Use feature branches for development
-   - Create pull requests for code review
-   - Tag stable versions for deployment
+3. **Version Control** ✅
+   - Use feature branches for development ✅
+   - Create pull requests for code review ✅
+   - Tag stable versions for deployment ⏳
 
 4. **CI/CD Implementation**
    - Set up GitHub Actions for automated testing
@@ -176,6 +191,12 @@ This document outlines the immediate actions and development path for implementi
    - Implement basic score retrieval
    - Create sports display component
    - Set up regular data refresh
+
+4. **Market Data** (Medium Priority)
+   - Select financial data API provider
+   - Implement basic market data display
+   - Create stock/crypto ticker components
+   - Configure regular updates
 
 ## Test Infrastructure Improvements
 
@@ -209,6 +230,70 @@ Based on recent test runs, the following improvements are needed for the fronten
 - Set up proper environment for integration tests
 - Fix missing module errors in integration tests
 - Create consistent test data fixtures
+
+## Project Structure Improvements
+
+To enhance maintainability, scalability, and developer experience, the following structural improvements are recommended:
+
+### 1. Environment Configuration Files
+- Add `.env` files at project root and backend directory (currently only in frontend)
+- Create `.env.example` files in each location to help new developers get set up quickly
+- Document environment variables in README.md
+
+### 2. Type Consistency
+- Fully adopt TypeScript across both frontend and backend
+- Convert remaining JavaScript files to TypeScript
+- Standardize and enhance type definitions in shared/types
+- Enable stricter TypeScript configuration for better type safety
+
+### 3. Testing Structure Enhancement
+- Mirror the `src` directory structure in the `tests` directory for easier navigation
+- Organize test files to match their implementation counterparts
+- Create consistent naming conventions for test files
+
+### 4. Documentation Improvements
+- Add CHANGELOG.md to track version changes
+- Create API.md for API documentation in OpenAPI format
+- Enhance existing documentation with more examples and diagrams
+
+### 5. Docker Organization
+- Move Docker-related files (Dockerfile, docker-compose files) to a dedicated `docker` directory
+- Separate development and production Docker configurations
+- Create Docker documentation with usage instructions
+
+### 6. Separation of Config
+- Separate environment-specific configurations into distinct files:
+  - development.json
+  - production.json
+  - testing.json
+- Use config merging to maintain a core default.json with overrides
+
+### 7. Build Output Directory
+- Add dedicated `dist` or `build` directories for compiled output
+- Update .gitignore to exclude build artifacts
+- Create consistent build output structure for frontend and backend
+
+### 8. Dependency Management
+- Implement a monorepo tool like Lerna or Yarn Workspaces
+- Centralize common dependencies to reduce duplication
+- Create consistent versioning strategy across packages
+
+### 9. Shared Assets
+- Create a shared assets directory for resources used by both frontend and backend
+- Implement a consistent approach for accessing shared assets
+- Document asset management workflow
+
+### 10. Standard Components Library
+- Create a dedicated components library directory in shared code
+- Implement storybook for component documentation and testing
+- Standardize component API patterns
+
+## Next Tasks (Priority Order)
+1. Complete authentication mechanism for admin interface
+2. Implement file management system for media
+3. Finish transitions between different content views
+4. Set up Raspberry Pi in kiosk mode
+5. Begin integration of external data sources (market data, TV schedule)
 
 ## Getting Started Today
 
