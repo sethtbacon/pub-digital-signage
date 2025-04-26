@@ -56,8 +56,16 @@ The pub digital signage system is built on a Raspberry Pi 4 running a web-based 
 - **Layout Manager**: Controls screen real estate allocation
 - **Navigation System**: Handles user interaction and section switching
 - **Transition System**: Handles transitions between content sections
+  - Supports multiple animation types (fade, slide, zoom, flip)
+  - Configurable transition speeds and timing
+  - CSS-based transitions for optimal performance
+  - Hardware-accelerated animations using transform properties
 - **Media Player**: For images, videos, and animations
 - **Theme Manager**: Handles time-based and seasonal theme switching
+  - Dynamic CSS variable application for instant theme changes
+  - Responsive design adaptation for different screen sizes
+  - Supports custom typography, spacing, shadows, and border-radius
+  - Smooth transitions between theme states
 
 ### Content Management
 

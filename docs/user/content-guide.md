@@ -181,6 +181,30 @@ Use the scheduling feature to display content at relevant times:
    - Use "interrupt" feature sparingly for very important messages
    - Return to normal rotation after priority content
 
+### Transition Settings
+
+1. **Visual Transitions**
+   - Choose from various transition effects:
+     - Fade: Gentle opacity transition (recommended for most content)
+     - Slide: Content slides in from edges
+     - Zoom: Content zooms in or out
+     - Flip: 3D rotation effect (use sparingly)
+   - Match transitions to content type:
+     - Subtle transitions for informational content
+     - More dynamic transitions for promotional content
+
+2. **Transition Speed**
+   - Default: 0.5 seconds
+   - Quick (0.3s): For time-sensitive information
+   - Standard (0.5s): For most content types
+   - Relaxed (0.8s): For casual browsing scenarios
+   - Cinematic (1.2s+): For special visual effects (use sparingly)
+
+3. **Timing Between Transitions**
+   - Allow sufficient viewing time before transitions
+   - Consider content complexity when setting duration
+   - Test transitions on actual display hardware
+
 ## Media Management
 
 ### File Organization

@@ -150,16 +150,26 @@ The admin dashboard is divided into several sections:
    - Click "Create New Theme"
    - Define theme properties:
      - Name
-     - Color scheme
+     - Color scheme (primary, secondary, accent, background, text)
+     - Typography (font family, heading font, font sizes)
+     - Spacing values
+     - Border radius
+     - Shadow styles
+     - Transition effects and speeds
      - Background media
-     - Font settings
-     - Layout options
    - Save theme
 
 2. **Applying Custom Themes**:
    - Enable the theme
    - Set schedule (if time-based)
    - Set as default (optional)
+   - Preview on different screen sizes
+
+3. **Advanced Theme Settings**:
+   - Configure responsive breakpoints
+   - Set animation preferences
+   - Adjust transition timing
+   - Define hover and focus states
 
 ### Background Media
 

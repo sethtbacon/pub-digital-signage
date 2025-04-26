@@ -90,9 +90,10 @@
         </div>
       </div>
       
+      <!-- Theme Colors Card -->
       <div class="settings-card">
         <div class="card-header">
-          <h2>Custom Theme Colors</h2>
+          <h2>Theme Colors</h2>
         </div>
         <div class="card-body">
           <div class="color-settings">
@@ -146,6 +147,121 @@
               <span class="color-value">{{ customColors.textColor }}</span>
             </div>
           </div>
+        </div>
+      </div>
+      
+      <!-- Typography Settings Card -->
+      <div class="settings-card">
+        <div class="card-header">
+          <h2>Typography</h2>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label for="font-family">Base Font Family</label>
+            <select 
+              id="font-family" 
+              v-model="customTypography.fontFamily"
+              @change="updateCustomTypography"
+              :disabled="themeStore.isAutoThemeEnabled"
+            >
+              <option value="'Roboto', 'Helvetica Neue', Arial, sans-serif">Roboto</option>
+              <option value="'Open Sans', 'Helvetica Neue', Arial, sans-serif">Open Sans</option>
+              <option value="'Lato', 'Helvetica Neue', Arial, sans-serif">Lato</option>
+              <option value="'Montserrat', 'Helvetica Neue', Arial, sans-serif">Montserrat</option>
+              <option value="'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif">Source Sans Pro</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="heading-font-family">Heading Font Family</label>
+            <select 
+              id="heading-font-family" 
+              v-model="customTypography.headingFontFamily"
+              @change="updateCustomTypography"
+              :disabled="themeStore.isAutoThemeEnabled"
+            >
+              <option value="'Roboto Condensed', 'Helvetica Neue', Arial, sans-serif">Roboto Condensed</option>
+              <option value="'Open Sans Condensed', 'Helvetica Neue', Arial, sans-serif">Open Sans Condensed</option>
+              <option value="'Montserrat', 'Helvetica Neue', Arial, sans-serif">Montserrat</option>
+              <option value="'Oswald', 'Helvetica Neue', Arial, sans-serif">Oswald</option>
+              <option value="'Playfair Display', serif">Playfair Display</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="base-font-size">Base Font Size</label>
+            <select 
+              id="base-font-size" 
+              v-model="customTypography.baseFontSize"
+              @change="updateCustomTypography"
+              :disabled="themeStore.isAutoThemeEnabled"
+            >
+              <option value="14px">Small (14px)</option>
+              <option value="16px">Medium (16px)</option>
+              <option value="18px">Large (18px)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Styling Options Card -->
+      <div class="settings-card">
+        <div class="card-header">
+          <h2>Styling Options</h2>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label for="border-radius">Border Radius</label>
+            <input 
+              type="range" 
+              id="border-radius" 
+              v-model="customStyling.borderRadius" 
+              min="0" 
+              max="24" 
+              @input="updateCustomStyling"
+              :disabled="themeStore.isAutoThemeEnabled"
+            >
+            <span class="range-value">{{ customStyling.borderRadius }}px</span>
+          </div>
+          
+          <div class="form-group">
+            <label for="shadow-intensity">Shadow Intensity</label>
+            <input 
+              type="range" 
+              id="shadow-intensity" 
+              v-model="customStyling.shadowIntensity" 
+              min="0" 
+              max="40" 
+              @input="updateCustomStyling"
+              :disabled="themeStore.isAutoThemeEnabled"
+            >
+            <span class="range-value">{{ customStyling.shadowIntensity }}%</span>
+          </div>
+          
+          <div class="form-group">
+            <label for="transition-speed">Transition Speed</label>
+            <input 
+              type="range" 
+              id="transition-speed" 
+              v-model="customStyling.transitionSpeed" 
+              min="1" 
+              max="10" 
+              @input="updateCustomStyling"
+              :disabled="themeStore.isAutoThemeEnabled"
+            >
+            <span class="range-value">{{ customStyling.transitionSpeed / 10 }}s</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="settings-card actions-card">
+        <div class="card-header">
+          <h2>Theme Actions</h2>
+        </div>
+        <div class="card-body">
+          <p class="setting-description">
+            Save your customizations to the current theme or reset to default values.
+          </p>
           
           <div class="action-buttons">
             <button 
@@ -163,6 +279,17 @@
               Reset to Default
             </button>
           </div>
+          
+          <div v-if="saveMessage" class="save-message">
+            {{ saveMessage }}
+          </div>
+          
+          <!-- Theme Presets Component -->
+          <theme-presets 
+            @preset-applied="handlePresetApplied"
+            @preset-saved="handlePresetSaved"
+            @preset-deleted="handlePresetDeleted"
+          />
         </div>
       </div>
     </div>
@@ -172,6 +299,7 @@
 <script setup>
 import { ref, computed, onMounted, watch, inject } from 'vue';
 import { useThemeStore } from '../../store/modules/themeStore';
+import ThemePresets from '../../components/admin/ThemePresets.vue';
 import '../../assets/styles/admin';
 
 const themeStore = useThemeStore();
@@ -189,6 +317,20 @@ const customColors = ref({
   textColor: themeStore.currentThemeColors.textColor
 });
 
+// Custom typography settings
+const customTypography = ref({
+  fontFamily: themeStore.currentThemeColors.fontFamily,
+  headingFontFamily: themeStore.currentThemeColors.headingFontFamily,
+  baseFontSize: themeStore.currentThemeColors.baseFontSize
+});
+
+// Custom styling options
+const customStyling = ref({
+  borderRadius: parseInt(themeStore.currentThemeColors.borderRadius || '4'),
+  shadowIntensity: 20, // Default value
+  transitionSpeed: parseInt(parseFloat(themeStore.currentThemeColors.transitionSpeed || '0.5') * 10)
+});
+
 // Success message for theme saving
 const saveMessage = ref('');
 
@@ -199,20 +341,26 @@ const themePreviewStyle = computed(() => {
     '--preview-secondary-color': customColors.value.secondaryColor,
     '--preview-accent-color': customColors.value.accentColor,
     '--preview-background-color': customColors.value.backgroundColor,
-    '--preview-text-color': customColors.value.textColor
+    '--preview-text-color': customColors.value.textColor,
+    'font-family': customTypography.value.fontFamily,
+    'border-radius': `${customStyling.value.borderRadius}px`,
+    'box-shadow': `0 4px ${customStyling.value.shadowIntensity / 5}px rgba(0, 0, 0, ${customStyling.value.shadowIntensity / 100})`,
+    'transition-duration': `${customStyling.value.transitionSpeed / 10}s`
   };
 });
 
 // Change theme based on dropdown selection
 const changeTheme = () => {
   themeStore.setTheme(selectedTheme.value);
-  // Update custom colors to reflect selected theme
-  updateColorsFromTheme();
+  // Update custom settings to reflect selected theme
+  updateSettingsFromTheme();
 };
 
-// Update the custom colors when theme changes
-const updateColorsFromTheme = () => {
+// Update all custom settings from the current theme
+const updateSettingsFromTheme = () => {
   const currentTheme = themeStore.currentThemeColors;
+  
+  // Update colors
   customColors.value = {
     primaryColor: currentTheme.primaryColor,
     secondaryColor: currentTheme.secondaryColor,
@@ -220,18 +368,70 @@ const updateColorsFromTheme = () => {
     backgroundColor: currentTheme.backgroundColor,
     textColor: currentTheme.textColor
   };
+  
+  // Update typography
+  customTypography.value = {
+    fontFamily: currentTheme.fontFamily || "'Roboto', 'Helvetica Neue', Arial, sans-serif",
+    headingFontFamily: currentTheme.headingFontFamily || "'Roboto Condensed', 'Helvetica Neue', Arial, sans-serif",
+    baseFontSize: currentTheme.baseFontSize || '16px'
+  };
+  
+  // Update styling options
+  customStyling.value = {
+    borderRadius: parseInt(currentTheme.borderRadius || '4'),
+    shadowIntensity: 20, // Default value
+    transitionSpeed: parseInt(parseFloat(currentTheme.transitionSpeed || '0.5') * 10)
+  };
 };
 
 // Apply custom theme colors to preview
 const updateCustomColors = () => {
   // Update the preview using our theme plugin
-  theme.applyPreviewTheme(customColors.value);
+  updateThemePreview();
+};
+
+// Apply custom typography settings
+const updateCustomTypography = () => {
+  updateThemePreview();
+};
+
+// Apply custom styling options
+const updateCustomStyling = () => {
+  updateThemePreview();
+};
+
+// Update the theme preview with all custom settings
+const updateThemePreview = () => {
+  const previewTheme = {
+    ...customColors.value,
+    ...customTypography.value,
+    borderRadius: `${customStyling.value.borderRadius}px`,
+    shadowSmall: `0 2px ${customStyling.value.shadowIntensity / 5}px rgba(0, 0, 0, ${customStyling.value.shadowIntensity / 100})`,
+    shadowMedium: `0 4px ${customStyling.value.shadowIntensity / 5}px rgba(0, 0, 0, ${customStyling.value.shadowIntensity / 100})`,
+    shadowLarge: `0 8px ${customStyling.value.shadowIntensity / 5}px rgba(0, 0, 0, ${customStyling.value.shadowIntensity / 100})`,
+    transitionSpeed: `${customStyling.value.transitionSpeed / 10}s`
+  };
+  
+  // Apply the preview theme
+  theme.applyPreviewTheme(previewTheme);
 };
 
 // Save custom theme
 const saveCustomTheme = () => {
+  // Combine all custom settings
+  const themeData = {
+    ...customColors.value,
+    ...customTypography.value,
+    borderRadius: `${customStyling.value.borderRadius}px`,
+    shadowColor: `rgba(0, 0, 0, ${customStyling.value.shadowIntensity / 100})`,
+    shadowSmall: `0 2px ${customStyling.value.shadowIntensity / 5}px rgba(0, 0, 0, ${customStyling.value.shadowIntensity / 100})`,
+    shadowMedium: `0 4px ${customStyling.value.shadowIntensity / 5}px rgba(0, 0, 0, ${customStyling.value.shadowIntensity / 100})`,
+    shadowLarge: `0 8px ${customStyling.value.shadowIntensity / 5}px rgba(0, 0, 0, ${customStyling.value.shadowIntensity / 100})`,
+    transitionSpeed: `${customStyling.value.transitionSpeed / 10}s`
+  };
+  
   // Use our centralized theme plugin to save the theme
-  theme.saveCustomTheme(selectedTheme.value, { ...customColors.value });
+  theme.saveCustomTheme(selectedTheme.value, themeData);
   
   // Show success message
   saveMessage.value = 'Theme saved successfully!';
@@ -244,7 +444,36 @@ const saveCustomTheme = () => {
 const resetTheme = () => {
   selectedTheme.value = 'default';
   themeStore.setTheme('default');
-  updateColorsFromTheme();
+  updateSettingsFromTheme();
+};
+
+// Handle preset applied
+const handlePresetApplied = (preset) => {
+  // Update theme selection to match current theme
+  selectedTheme.value = themeStore.currentTheme;
+  // Update all settings from the theme
+  updateSettingsFromTheme();
+  // Show success message
+  saveMessage.value = `Applied "${preset.name}" theme preset`;
+  setTimeout(() => {
+    saveMessage.value = '';
+  }, 3000);
+};
+
+// Handle preset saved
+const handlePresetSaved = (preset) => {
+  saveMessage.value = `Saved "${preset.name}" theme preset`;
+  setTimeout(() => {
+    saveMessage.value = '';
+  }, 3000);
+};
+
+// Handle preset deleted
+const handlePresetDeleted = (presetId) => {
+  saveMessage.value = 'Theme preset deleted';
+  setTimeout(() => {
+    saveMessage.value = '';
+  }, 3000);
 };
 
 // Watch for changes in the theme store
@@ -252,18 +481,20 @@ watch(
   () => themeStore.currentTheme,
   () => {
     selectedTheme.value = themeStore.currentTheme;
-    updateColorsFromTheme();
+    updateSettingsFromTheme();
   }
 );
 
 onMounted(() => {
   // Ensure we have the latest theme selected
   selectedTheme.value = themeStore.currentTheme;
-  updateColorsFromTheme();
+  updateSettingsFromTheme();
 });
 </script>
 
 <style lang="scss" scoped>
+@import '../../assets/styles/variables';
+
 .theme-management {
   @extend .admin-page;
 }
@@ -292,9 +523,14 @@ onMounted(() => {
 
 .settings-card {
   background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--shadow-small);
   overflow: hidden;
+  transition: box-shadow $transition-speed-fast;
+  
+  &:hover {
+    box-shadow: var(--shadow-medium);
+  }
   
   .card-header {
     padding: 1.25rem;
@@ -311,6 +547,48 @@ onMounted(() => {
   .card-body {
     padding: 1.5rem;
   }
+  
+  &.actions-card {
+    grid-column: 1 / -1; // Span all columns
+  }
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  select, input[type="text"] {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius-small);
+    font-size: 0.9rem;
+  }
+  
+  input[type="range"] {
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+  
+  .range-value {
+    display: block;
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 0.25rem;
+    text-align: right;
+  }
+}
+
+.setting-description {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0 0 1rem;
 }
 
 .switch-label {
@@ -374,7 +652,7 @@ onMounted(() => {
 .time-period {
   text-align: center;
   padding: 0.75rem;
-  border-radius: 6px;
+  border-radius: var(--border-radius-small);
   background-color: #f9f9f9;
   
   h3 {
@@ -391,17 +669,18 @@ onMounted(() => {
   
   .color-preview {
     height: 20px;
-    border-radius: 4px;
+    border-radius: var(--border-radius-small);
   }
 }
 
 .theme-preview {
-  border-radius: 8px;
+  border-radius: var(--border-radius-medium);
   overflow: hidden;
   margin-top: 1.5rem;
   border: 1px solid #ddd;
   background-color: var(--preview-background-color);
   color: var(--preview-text-color);
+  transition: all var(--transition-speed);
   
   .preview-header {
     display: flex;
@@ -418,8 +697,9 @@ onMounted(() => {
   
   .preview-card {
     background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 6px;
+    border-radius: var(--border-radius-small);
     padding: 1rem;
+    box-shadow: var(--shadow-small);
     
     h3 {
       margin: 0 0 0.5rem 0;
@@ -435,8 +715,14 @@ onMounted(() => {
       padding: 0.35rem 0.75rem;
       background-color: var(--preview-accent-color);
       color: var(--preview-text-color);
-      border-radius: 4px;
+      border-radius: var(--border-radius-small);
       font-size: 0.9rem;
+      transition: all var(--transition-speed);
+      
+      &:hover {
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-medium);
+      }
     }
   }
 }
@@ -459,7 +745,7 @@ onMounted(() => {
     width: 100%;
     height: 40px;
     border: 1px solid #ddd;
-    border-radius: 4px;
+    border-radius: var(--border-radius-small);
     background-color: white;
     cursor: pointer;
   }
@@ -480,8 +766,11 @@ onMounted(() => {
   gap: 1rem;
   
   .btn {
-    @extend .primary-button;
     padding: 0.5rem 1rem;
+    border-radius: var(--border-radius-small);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-speed);
     
     &:disabled {
       opacity: 0.7;
@@ -494,18 +783,28 @@ onMounted(() => {
     color: white;
     
     &:hover:not(:disabled) {
-      background-color: darken(var(--primary-color), 10%);
+      background-color: darken($primary-color, 10%);
     }
   }
   
   .btn-secondary {
-    @extend .secondary-button;
-    background-color: #eee;
+    background-color: #f1f1f1;
+    color: #333;
     
     &:hover:not(:disabled) {
-      background-color: darken(#eee, 10%);
+      background-color: darken(#f1f1f1, 10%);
     }
   }
+}
+
+.save-message {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background-color: #d4edda;
+  color: #155724;
+  border-radius: var(--border-radius-small);
+  text-align: center;
+  transition: opacity var(--transition-speed);
 }
 
 @media (max-width: 768px) {
@@ -515,6 +814,24 @@ onMounted(() => {
   
   .time-periods {
     grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .color-settings {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .time-periods {
+    grid-template-columns: 1fr;
+  }
+  
+  .color-settings {
+    grid-template-columns: 1fr;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
   }
 }
 </style>

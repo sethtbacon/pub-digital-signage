@@ -5,39 +5,144 @@ export const useThemeStore = defineStore('theme', {
     currentTheme: 'default', // default, morning, afternoon, evening, night
     themes: {
       default: {
+        // Colors
         primaryColor: '#ff6b01', // Orange
         secondaryColor: '#2c3e50', // Dark blue-grey
         accentColor: '#e74c3c', // Red
         backgroundColor: '#111', // Dark background
-        textColor: '#ecf0f1' // Light text
+        textColor: '#ecf0f1', // Light text
+        
+        // Typography
+        fontFamily: "'Roboto', 'Helvetica Neue', Arial, sans-serif",
+        headingFontFamily: "'Roboto Condensed', 'Helvetica Neue', Arial, sans-serif",
+        baseFontSize: '16px',
+        
+        // Spacing
+        spacingUnit: '1rem',
+        
+        // Borders
+        borderRadius: '4px',
+        
+        // Shadows
+        shadowColor: 'rgba(0, 0, 0, 0.2)',
+        shadowSmall: '0 2px 5px rgba(0, 0, 0, 0.1)',
+        shadowMedium: '0 4px 10px rgba(0, 0, 0, 0.15)',
+        shadowLarge: '0 8px 20px rgba(0, 0, 0, 0.2)',
+        
+        // Transitions
+        transitionSpeed: '0.5s'
       },
       morning: {
+        // Colors
         primaryColor: '#f39c12', // Yellow-orange
         secondaryColor: '#3498db', // Blue
         accentColor: '#e74c3c', // Red
         backgroundColor: '#1a1a1a',
-        textColor: '#ecf0f1'
+        textColor: '#ecf0f1',
+        
+        // Typography
+        fontFamily: "'Roboto', 'Helvetica Neue', Arial, sans-serif",
+        headingFontFamily: "'Roboto Condensed', 'Helvetica Neue', Arial, sans-serif",
+        baseFontSize: '16px',
+        
+        // Spacing
+        spacingUnit: '1rem',
+        
+        // Borders
+        borderRadius: '4px',
+        
+        // Shadows
+        shadowColor: 'rgba(0, 0, 0, 0.2)',
+        shadowSmall: '0 2px 5px rgba(0, 0, 0, 0.1)',
+        shadowMedium: '0 4px 10px rgba(0, 0, 0, 0.15)',
+        shadowLarge: '0 8px 20px rgba(0, 0, 0, 0.2)',
+        
+        // Transitions
+        transitionSpeed: '0.5s'
       },
       afternoon: {
+        // Colors
         primaryColor: '#ff6b01', // Orange
         secondaryColor: '#2980b9', // Dark blue
         accentColor: '#e67e22', // Orange
         backgroundColor: '#111',
-        textColor: '#ecf0f1'
+        textColor: '#ecf0f1',
+        
+        // Typography
+        fontFamily: "'Roboto', 'Helvetica Neue', Arial, sans-serif",
+        headingFontFamily: "'Roboto Condensed', 'Helvetica Neue', Arial, sans-serif",
+        baseFontSize: '16px',
+        
+        // Spacing
+        spacingUnit: '1rem',
+        
+        // Borders
+        borderRadius: '4px',
+        
+        // Shadows
+        shadowColor: 'rgba(0, 0, 0, 0.2)',
+        shadowSmall: '0 2px 5px rgba(0, 0, 0, 0.1)',
+        shadowMedium: '0 4px 10px rgba(0, 0, 0, 0.15)',
+        shadowLarge: '0 8px 20px rgba(0, 0, 0, 0.2)',
+        
+        // Transitions
+        transitionSpeed: '0.5s'
       },
       evening: {
+        // Colors
         primaryColor: '#d35400', // Dark orange
         secondaryColor: '#2c3e50', // Dark blue-grey
         accentColor: '#c0392b', // Dark red
         backgroundColor: '#0a0a0a',
-        textColor: '#ecf0f1'
+        textColor: '#ecf0f1',
+        
+        // Typography
+        fontFamily: "'Roboto', 'Helvetica Neue', Arial, sans-serif",
+        headingFontFamily: "'Roboto Condensed', 'Helvetica Neue', Arial, sans-serif",
+        baseFontSize: '16px',
+        
+        // Spacing
+        spacingUnit: '1rem',
+        
+        // Borders
+        borderRadius: '4px',
+        
+        // Shadows
+        shadowColor: 'rgba(0, 0, 0, 0.2)',
+        shadowSmall: '0 2px 5px rgba(0, 0, 0, 0.1)',
+        shadowMedium: '0 4px 10px rgba(0, 0, 0, 0.15)',
+        shadowLarge: '0 8px 20px rgba(0, 0, 0, 0.2)',
+        
+        // Transitions
+        transitionSpeed: '0.5s'
       },
       night: {
+        // Colors
         primaryColor: '#8e44ad', // Purple
         secondaryColor: '#2c3e50', // Dark blue-grey
         accentColor: '#3498db', // Blue
         backgroundColor: '#050505',
-        textColor: '#ecf0f1'
+        textColor: '#ecf0f1',
+        
+        // Typography
+        fontFamily: "'Roboto', 'Helvetica Neue', Arial, sans-serif",
+        headingFontFamily: "'Roboto Condensed', 'Helvetica Neue', Arial, sans-serif",
+        baseFontSize: '16px',
+        
+        // Spacing
+        spacingUnit: '1rem',
+        
+        // Borders
+        borderRadius: '4px',
+        
+        // Shadows
+        shadowColor: 'rgba(0, 0, 0, 0.2)',
+        shadowSmall: '0 2px 5px rgba(0, 0, 0, 0.1)',
+        shadowMedium: '0 4px 10px rgba(0, 0, 0, 0.15)',
+        shadowLarge: '0 8px 20px rgba(0, 0, 0, 0.2)',
+        
+        // Transitions
+        transitionSpeed: '0.5s'
       }
     },
     isAutoThemeEnabled: true
@@ -50,11 +155,32 @@ export const useThemeStore = defineStore('theme', {
     cssVars: (state) => {
       const theme = state.themes[state.currentTheme];
       return {
+        // Colors
         '--primary-color': theme.primaryColor,
         '--secondary-color': theme.secondaryColor,
         '--accent-color': theme.accentColor,
         '--background-color': theme.backgroundColor,
-        '--text-color': theme.textColor
+        '--text-color': theme.textColor,
+        
+        // Typography
+        '--font-family-base': theme.fontFamily,
+        '--font-family-headings': theme.headingFontFamily,
+        '--font-size-base': theme.baseFontSize,
+        
+        // Spacing
+        '--spacing-unit': theme.spacingUnit,
+        
+        // Borders
+        '--border-radius': theme.borderRadius,
+        
+        // Shadows
+        '--shadow-color': theme.shadowColor,
+        '--shadow-small': theme.shadowSmall,
+        '--shadow-medium': theme.shadowMedium,
+        '--shadow-large': theme.shadowLarge,
+        
+        // Transitions
+        '--transition-speed': theme.transitionSpeed
       };
     }
   },
@@ -72,7 +198,10 @@ export const useThemeStore = defineStore('theme', {
     saveTheme(themeName, themeColors) {
       // Update theme if it exists, otherwise add new theme
       if (themeName && themeColors) {
-        this.themes[themeName] = { ...themeColors };
+        this.themes[themeName] = { 
+          ...this.themes[themeName], // Keep existing properties
+          ...themeColors // Apply new values
+        };
         
         // Apply if it's the current theme
         if (this.currentTheme === themeName) {
@@ -81,12 +210,64 @@ export const useThemeStore = defineStore('theme', {
         
         // Save themes to localStorage for persistence
         this.persistThemes();
+        
+        // If sync with backend is enabled, save to database
+        this.syncThemeWithBackend(themeName);
       }
     },
     
     // Save themes to localStorage
     persistThemes() {
       localStorage.setItem('pubSignage_themes', JSON.stringify(this.themes));
+    },
+    
+    // Sync theme with backend database
+    async syncThemeWithBackend(themeName) {
+      try {
+        const theme = this.themes[themeName];
+        if (!theme) return;
+        
+        // Use API to save theme to database
+        const response = await fetch(`/api/themes/${themeName}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(theme)
+        });
+        
+        if (!response.ok) {
+          console.error('Failed to save theme to database:', await response.text());
+        }
+      } catch (error) {
+        console.error('Error syncing theme with backend:', error);
+      }
+    },
+    
+    // Load themes from backend
+    async loadThemesFromBackend() {
+      try {
+        const response = await fetch('/api/themes');
+        if (response.ok) {
+          const themes = await response.json();
+          
+          // Merge with existing themes, keeping local customizations
+          themes.forEach(theme => {
+            if (theme.id && theme.name) {
+              // Only update if not already customized locally
+              if (!this.themes[theme.id] || theme.lastUpdated > (this.themes[theme.id].lastUpdated || 0)) {
+                this.themes[theme.id] = { ...theme };
+              }
+            }
+          });
+          
+          // Save merged themes
+          this.persistThemes();
+          this.applyTheme();
+        }
+      } catch (error) {
+        console.error('Error loading themes from backend:', error);
+      }
     },
     
     // Toggle auto theme based on time of day
@@ -100,11 +281,33 @@ export const useThemeStore = defineStore('theme', {
     // Apply the current theme CSS variables to the document
     applyTheme() {
       const theme = this.themes[this.currentTheme];
+      
+      // Apply colors
       document.documentElement.style.setProperty('--primary-color', theme.primaryColor);
       document.documentElement.style.setProperty('--secondary-color', theme.secondaryColor);
       document.documentElement.style.setProperty('--accent-color', theme.accentColor);
       document.documentElement.style.setProperty('--background-color', theme.backgroundColor);
       document.documentElement.style.setProperty('--text-color', theme.textColor);
+      
+      // Apply typography
+      document.documentElement.style.setProperty('--font-family-base', theme.fontFamily);
+      document.documentElement.style.setProperty('--font-family-headings', theme.headingFontFamily);
+      document.documentElement.style.setProperty('--font-size-base', theme.baseFontSize);
+      
+      // Apply spacing
+      document.documentElement.style.setProperty('--spacing-unit', theme.spacingUnit);
+      
+      // Apply borders
+      document.documentElement.style.setProperty('--border-radius', theme.borderRadius);
+      
+      // Apply shadows
+      document.documentElement.style.setProperty('--shadow-color', theme.shadowColor);
+      document.documentElement.style.setProperty('--shadow-small', theme.shadowSmall);
+      document.documentElement.style.setProperty('--shadow-medium', theme.shadowMedium);
+      document.documentElement.style.setProperty('--shadow-large', theme.shadowLarge);
+      
+      // Apply transitions
+      document.documentElement.style.setProperty('--transition-speed', theme.transitionSpeed);
     },
     
     // Update theme based on time of day
@@ -126,6 +329,30 @@ export const useThemeStore = defineStore('theme', {
     
     // Initialize theme system
     initialize() {
+      // Try to load themes from localStorage first
+      const savedThemes = localStorage.getItem('pubSignage_themes');
+      if (savedThemes) {
+        try {
+          const parsedThemes = JSON.parse(savedThemes);
+          // Only update individual theme properties to preserve defaults
+          Object.keys(parsedThemes).forEach(key => {
+            if (this.themes[key]) {
+              this.themes[key] = {
+                ...this.themes[key], // Keep default properties
+                ...parsedThemes[key] // Override with saved values
+              };
+            } else {
+              this.themes[key] = parsedThemes[key]; // Add new custom themes
+            }
+          });
+        } catch (e) {
+          console.error('Error parsing saved themes', e);
+        }
+      }
+      
+      // Then try to load from backend, which will merge
+      this.loadThemesFromBackend();
+      
       // Set up auto theme updates
       if (this.isAutoThemeEnabled) {
         this.updateThemeByTime();

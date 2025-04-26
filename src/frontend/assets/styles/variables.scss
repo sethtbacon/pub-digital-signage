@@ -1,0 +1,55 @@
+// Base theme colors as SCSS variables
+$primary-color: #ff6b01;
+$secondary-color: #2c3e50;
+$accent-color: #e74c3c;
+$background-color: #111;
+$text-color: #ecf0f1;
+
+// Spacing variables
+$spacing-xs: 0.25rem;
+$spacing-small: 0.5rem;
+$spacing-medium: 1rem;
+$spacing-large: 1.5rem;
+$spacing-xl: 2rem;
+$spacing-xxl: 3rem;
+
+// Typography
+$font-family-base: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+$font-family-headings: 'Roboto Condensed', 'Helvetica Neue', Arial, sans-serif;
+$font-size-base: 16px;
+$font-size-small: 0.875rem;
+$font-size-medium: 1rem;
+$font-size-large: 1.25rem;
+$font-size-xl: 1.5rem;
+$font-size-xxl: 2rem;
+
+// Border radius
+$border-radius-small: 4px;
+$border-radius-medium: 8px;
+$border-radius-large: 16px;
+$border-radius-round: 50%;
+
+// Shadows
+$shadow-small: 0 2px 5px rgba(0, 0, 0, 0.1);
+$shadow-medium: 0 4px 10px rgba(0, 0, 0, 0.15);
+$shadow-large: 0 8px 20px rgba(0, 0, 0, 0.2);
+
+// Breakpoints
+$breakpoint-small: 576px;
+$breakpoint-medium: 768px;
+$breakpoint-large: 992px;
+$breakpoint-xlarge: 1200px;
+
+// Z-index levels
+$z-index-dropdown: 1000;
+$z-index-sticky: 1020;
+$z-index-fixed: 1030;
+$z-index-modal-backdrop: 1040;
+$z-index-modal: 1050;
+$z-index-popover: 1060;
+$z-index-tooltip: 1070;
+
+// Animation durations
+$transition-speed-fast: 0.2s;
+$transition-speed-medium: 0.5s;
+$transition-speed-slow: 0.8s;

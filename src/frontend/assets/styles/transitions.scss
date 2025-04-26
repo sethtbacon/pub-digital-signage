@@ -1,0 +1,21 @@
+// Theme transition styles
+:root {
+  // Apply transitions to all theme color variables
+  transition-property: background-color, color, border-color, box-shadow;
+  transition-duration: 0.5s;
+  transition-timing-function: ease;
+}
+
+// Apply transitions to specific elements that should change with theme
+body, 
+.header, 
+.footer, 
+.card, 
+.sidebar, 
+.nav-item,
+.btn,
+button {
+  transition-property: background-color, color, border-color, box-shadow;
+  transition-duration: 0.5s;
+  transition-timing-function: ease;
+}
