@@ -37,9 +37,12 @@ This document outlines the immediate actions and development path for implementi
 
 ### Frontend Development
 1. Create responsive layout framework ⏳
+   - Create a home page using the concept of widgets in grid system for content placement
    - Implement base layout components
-   - Design grid system for content placement
    - Build navigation component
+   - Create a page for drinks
+   - Create a page for board games
+   - Create a page for visitor milestones
    - Implement theme switching mechanism
 
 2. Build core display components
@@ -179,6 +182,7 @@ This document outlines the immediate actions and development path for implementi
 Based on recent test runs, the following improvements are needed for the frontend test infrastructure:
 
 ### 1. Pinia Store Testing Setup
+- Resolve the Pinia library issue as it requires running it with legacy
 - Configure `createTestingPinia()` properly in store tests
 - Fix store initialization in test setup files
 - Address the "getActivePinia()" errors in mediaStore, themeStore, and visitorStore tests
