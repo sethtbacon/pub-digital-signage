@@ -141,7 +141,7 @@ describe('gamesApi', () => {
     const result = await gamesApi.getOverallLeaderboard();
     
     // Verify the API was called with the correct endpoint
-    expect(baseApi.get).toHaveBeenCalledWith('/api/games/leaderboard');
+    expect(baseApi.get).toHaveBeenCalledWith('/api/games/leaderboard/overall');
     // Verify the result is what we expect
     expect(result).toEqual(mockOverallLeaderboard);
   });
@@ -162,7 +162,7 @@ describe('gamesApi', () => {
     const result = await gamesApi.recordGameResult(gameResult);
     
     // Verify the API was called with the correct endpoint and data
-    expect(baseApi.post).toHaveBeenCalledWith('/api/games/result', gameResult);
+    expect(baseApi.post).toHaveBeenCalledWith('/api/games/results', gameResult);
     // Verify the result is what we expect
     expect(result).toEqual({ ...gameResult, id: 5 });
   });

@@ -50,9 +50,11 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import { useAuthStore } from '../../store/modules/authStore';
 
 const router = useRouter();
 const route = useRoute();
+const authStore = useAuthStore();
 
 const username = ref('');
 const password = ref('');
@@ -64,19 +66,12 @@ const handleLogin = async () => {
   error.value = '';
   
   try {
-    // In a real app, this would make an API request
-    // For demo purposes, we'll just check if the username is 'admin' and password is 'password'
-    if (username.value === 'admin' && password.value === 'password') {
-      // Set auth token in localStorage
-      localStorage.setItem('authenticated', 'true');
-      localStorage.setItem('authToken', 'demo-token-123');
-      
-      // Redirect to the admin dashboard or to the redirected path if available
-      const redirectPath = route.query.redirect || '/admin';
-      router.push(redirectPath);
-    } else {
-      error.value = 'Invalid username or password';
-    }
+    // Use the auth store to handle login
+    await authStore.login(username.value, password.value);
+    
+    // Redirect to the admin dashboard or to the redirected path if available
+    const redirectPath = route.query.redirect || '/admin';
+    router.push(redirectPath);
   } catch (err) {
     error.value = err.message || 'Failed to login';
     console.error('Login error:', err);

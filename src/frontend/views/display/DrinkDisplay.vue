@@ -23,7 +23,7 @@
         </template>
         
         <template v-else-if="filteredDrinks.length === 0">
-          <div class="empty-state">No drinks available in this category</div>
+          <div class="empty-state" data-test="empty-state">No drinks available in this category</div>
         </template>
         
         <template v-else>
