@@ -2,7 +2,7 @@
   <div class="admin-dashboard">
     <header class="admin-header">
       <div class="logo">
-        <img src="../../assets/images/logo.svg" alt="Pub Logo" class="logo-image" />
+        <img src="../../../assets/images/Orange Pig.svg" alt="Pub Logo" class="logo-image" />
         <h1>Pub Admin</h1>
       </div>
       <div class="user-menu">
