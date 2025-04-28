@@ -31,7 +31,21 @@
           <div class="time-periods">
             <div class="time-period">
               <h3>Morning</h3>
-              <span class="time-range">5:00 - 11:00</span>
+              <div class="time-range-inputs">
+                <input 
+                  type="time" 
+                  v-model="themeTimeRanges.morning.start" 
+                  :disabled="!themeStore.isAutoThemeEnabled"
+                  @change="updateTimeRanges('morning')" 
+                />
+                <span>to</span>
+                <input 
+                  type="time" 
+                  v-model="themeTimeRanges.morning.end" 
+                  :disabled="!themeStore.isAutoThemeEnabled"
+                  @change="updateTimeRanges('morning')" 
+                />
+              </div>
               <div
                 class="color-preview"
                 :style="{ backgroundColor: themeStore.themes.morning.primaryColor }"
@@ -39,7 +53,21 @@
             </div>
             <div class="time-period">
               <h3>Afternoon</h3>
-              <span class="time-range">11:00 - 17:00</span>
+              <div class="time-range-inputs">
+                <input 
+                  type="time" 
+                  v-model="themeTimeRanges.afternoon.start" 
+                  :disabled="!themeStore.isAutoThemeEnabled"
+                  @change="updateTimeRanges('afternoon')" 
+                />
+                <span>to</span>
+                <input 
+                  type="time" 
+                  v-model="themeTimeRanges.afternoon.end" 
+                  :disabled="!themeStore.isAutoThemeEnabled"
+                  @change="updateTimeRanges('afternoon')" 
+                />
+              </div>
               <div
                 class="color-preview"
                 :style="{ backgroundColor: themeStore.themes.afternoon.primaryColor }"
@@ -47,7 +75,21 @@
             </div>
             <div class="time-period">
               <h3>Evening</h3>
-              <span class="time-range">17:00 - 22:00</span>
+              <div class="time-range-inputs">
+                <input 
+                  type="time" 
+                  v-model="themeTimeRanges.evening.start" 
+                  :disabled="!themeStore.isAutoThemeEnabled"
+                  @change="updateTimeRanges('evening')" 
+                />
+                <span>to</span>
+                <input 
+                  type="time" 
+                  v-model="themeTimeRanges.evening.end" 
+                  :disabled="!themeStore.isAutoThemeEnabled"
+                  @change="updateTimeRanges('evening')" 
+                />
+              </div>
               <div
                 class="color-preview"
                 :style="{ backgroundColor: themeStore.themes.evening.primaryColor }"
@@ -55,7 +97,21 @@
             </div>
             <div class="time-period">
               <h3>Night</h3>
-              <span class="time-range">22:00 - 5:00</span>
+              <div class="time-range-inputs">
+                <input 
+                  type="time" 
+                  v-model="themeTimeRanges.night.start" 
+                  :disabled="!themeStore.isAutoThemeEnabled"
+                  @change="updateTimeRanges('night')" 
+                />
+                <span>to</span>
+                <input 
+                  type="time" 
+                  v-model="themeTimeRanges.night.end" 
+                  :disabled="!themeStore.isAutoThemeEnabled"
+                  @change="updateTimeRanges('night')" 
+                />
+              </div>
               <div
                 class="color-preview"
                 :style="{ backgroundColor: themeStore.themes.night.primaryColor }"
@@ -314,6 +370,26 @@ const theme = inject('theme'); // Get the theme service from the plugin
 // Track the selected theme for the dropdown
 const selectedTheme = ref(themeStore.currentTheme);
 
+// Theme time ranges
+const themeTimeRanges = ref({
+  morning: {
+    start: '05:00',
+    end: '11:00'
+  },
+  afternoon: {
+    start: '11:00',
+    end: '17:00'
+  },
+  evening: {
+    start: '17:00',
+    end: '22:00'
+  },
+  night: {
+    start: '22:00',
+    end: '05:00'
+  }
+});
+
 // Custom colors for theme editing
 const customColors = ref({
   primaryColor: themeStore.currentThemeColors.primaryColor,
@@ -362,6 +438,33 @@ const changeTheme = () => {
   themeStore.setTheme(selectedTheme.value);
   // Update custom settings to reflect selected theme
   updateSettingsFromTheme();
+};
+
+// Update theme time ranges and save changes
+const updateTimeRanges = (themeName) => {
+  if (themeName && themeTimeRanges.value[themeName]) {
+    themeStore.setThemeTimeRange(themeName, 
+      themeTimeRanges.value[themeName].start, 
+      themeTimeRanges.value[themeName].end
+    );
+    
+    saveMessage.value = `${themeName.charAt(0).toUpperCase() + themeName.slice(1)} time range updated`;
+    setTimeout(() => {
+      saveMessage.value = '';
+    }, 3000);
+  }
+};
+
+// Load all time ranges from the store
+const loadTimeRanges = () => {
+  if (themeStore.themeTimeRanges) {
+    Object.keys(themeStore.themeTimeRanges).forEach(themeName => {
+      if (themeTimeRanges.value[themeName]) {
+        themeTimeRanges.value[themeName].start = themeStore.themeTimeRanges[themeName].start;
+        themeTimeRanges.value[themeName].end = themeStore.themeTimeRanges[themeName].end;
+      }
+    });
+  }
 };
 
 // Update all custom settings from the current theme
@@ -498,6 +601,9 @@ onMounted(() => {
   // Ensure we have the latest theme selected
   selectedTheme.value = themeStore.currentTheme;
   updateSettingsFromTheme();
+  
+  // Load the time ranges from the store
+  loadTimeRanges();
 });
 </script>
 
@@ -617,10 +723,31 @@ onMounted(() => {
   }
 
   .time-range {
-    display: block;
-    font-size: 0.8rem;
-    color: #666; /* Medium gray for better visibility */
+    display: none; /* Hide the static time range display */
+  }
+  
+  .time-range-inputs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-bottom: 0.5rem;
+    
+    input[type="time"] {
+      width: 5.5rem;
+      padding: 0.25rem;
+      border: 1px solid #ddd;
+      border-radius: var(--border-radius-small);
+      font-size: 0.8rem;
+      text-align: center;
+      color: #333; /* Explicitly set text color for time inputs */
+      background-color: #fff; /* White background */
+    }
+    
+    span {
+      margin: 0 0.5rem;
+      font-size: 0.8rem;
+      color: #666;
+    }
   }
 
   .color-preview {
@@ -694,7 +821,7 @@ onMounted(() => {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 500;
-    color: var(--text-color);
+    color: #333; /* Fixed dark color instead of theme variable */
   }
 
   input[type='color'] {
@@ -709,7 +836,7 @@ onMounted(() => {
   .color-value {
     display: block;
     font-size: 0.9rem;
-    color: var(--text-color);
+    color: #333; /* Fixed dark color instead of theme variable */
     margin-top: 0.25rem;
     text-align: center;
   }
@@ -735,20 +862,20 @@ onMounted(() => {
   }
 
   .btn-primary {
-    background-color: var(--primary-color);
+    background-color: #007bff; /* Fixed blue color instead of theme variable */
     color: white;
 
     &:hover:not(:disabled) {
-      background-color: color.adjust($primary-color, $lightness: -10%);
+      background-color: #0069d9; /* Darker blue on hover */
     }
   }
 
   .btn-secondary {
     background-color: #f1f1f1;
-    color: var(--text-color);
+    color: #333; /* Fixed dark color instead of theme variable */
 
     &:hover:not(:disabled) {
-      background-color: color.adjust(#f1f1f1, $lightness: -10%);
+      background-color: #e2e2e2; /* Darker gray on hover */
     }
   }
 }
@@ -757,7 +884,7 @@ onMounted(() => {
   margin-top: 1rem;
   padding: 0.75rem;
   background-color: #d4edda;
-  color: var(--text-color);
+  color: #155724; /* Fixed dark green color for success messages instead of theme variable */
   border-radius: var(--border-radius-small);
   text-align: center;
   transition: opacity var(--transition-speed);

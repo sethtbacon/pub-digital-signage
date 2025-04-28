@@ -146,6 +146,25 @@ export const useThemeStore = defineStore('theme', {
       },
     },
     isAutoThemeEnabled: true,
+    // Add configurable time ranges for themes
+    themeTimeRanges: {
+      morning: {
+        start: '05:00',
+        end: '11:00'
+      },
+      afternoon: {
+        start: '11:00',
+        end: '17:00'
+      },
+      evening: {
+        start: '17:00',
+        end: '22:00'
+      },
+      night: {
+        start: '22:00',
+        end: '05:00'
+      }
+    }
   }),
 
   getters: {
@@ -213,6 +232,106 @@ export const useThemeStore = defineStore('theme', {
 
         // If sync with backend is enabled, save to database
         this.syncThemeWithBackend(themeName);
+      }
+    },
+
+    // Save theme time range for a specific theme
+    setThemeTimeRange(themeName, startTime, endTime) {
+      if (this.themeTimeRanges[themeName]) {
+        this.themeTimeRanges[themeName] = {
+          start: startTime,
+          end: endTime
+        };
+        
+        // Persist the updated time ranges
+        this.persistThemeTimeRanges();
+        
+        // Apply the new time ranges (update current theme if auto mode is on)
+        if (this.isAutoThemeEnabled) {
+          this.updateThemeByTime();
+        }
+        
+        // Sync with backend if available
+        this.syncThemeTimeRangesWithBackend();
+      }
+    },
+    
+    // Persist theme time ranges to localStorage
+    persistThemeTimeRanges() {
+      localStorage.setItem('pubSignage_themeTimeRanges', JSON.stringify(this.themeTimeRanges));
+    },
+    
+    // Load theme time ranges from localStorage
+    loadThemeTimeRanges() {
+      const savedTimeRanges = localStorage.getItem('pubSignage_themeTimeRanges');
+      if (savedTimeRanges) {
+        try {
+          const parsedTimeRanges = JSON.parse(savedTimeRanges);
+          // Update each theme time range
+          Object.keys(parsedTimeRanges).forEach(key => {
+            if (this.themeTimeRanges[key]) {
+              this.themeTimeRanges[key] = parsedTimeRanges[key];
+            }
+          });
+        } catch (e) {
+          console.error('Error parsing saved theme time ranges', e);
+        }
+      }
+    },
+    
+    // Sync theme time ranges with backend database
+    async syncThemeTimeRangesWithBackend() {
+      try {
+        // Use API to save theme time ranges to database
+        const response = await fetch('/api/themes/time-ranges', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(this.themeTimeRanges),
+        });
+
+        if (!response.ok) {
+          console.error('Failed to save theme time ranges to database:', await response.text());
+        }
+      } catch (error) {
+        console.error('Error syncing theme time ranges with backend:', error);
+      }
+    },
+    
+    // Load theme time ranges from backend
+    async loadThemeTimeRangesFromBackend() {
+      try {
+        const response = await fetch('/api/themes/time-ranges');
+        
+        // Check if the response is JSON
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+          console.warn('Theme time ranges API did not return JSON. Using default time ranges.');
+          return;
+        }
+
+        if (response.ok) {
+          const timeRanges = await response.json();
+
+          // Handle empty response
+          if (!timeRanges) {
+            console.warn('Theme time ranges API returned invalid data. Using default time ranges.');
+            return;
+          }
+
+          // Update local time ranges with backend values
+          Object.keys(timeRanges).forEach(key => {
+            if (this.themeTimeRanges[key]) {
+              this.themeTimeRanges[key] = timeRanges[key];
+            }
+          });
+
+          // Save merged time ranges
+          this.persistThemeTimeRanges();
+        }
+      } catch (error) {
+        console.warn('Error loading theme time ranges from backend, using default time ranges:', error);
       }
     },
 
@@ -329,25 +448,63 @@ export const useThemeStore = defineStore('theme', {
       document.documentElement.style.setProperty('--transition-speed', theme.transitionSpeed);
     },
 
-    // Update theme based on time of day
+    // Helper function to check if the current time is within a range
+    isTimeInRange(timeStr, startTimeStr, endTimeStr) {
+      const time = this.parseTime(timeStr);
+      const startTime = this.parseTime(startTimeStr);
+      const endTime = this.parseTime(endTimeStr);
+      
+      // Handle cases where the end time is earlier than start time (crosses midnight)
+      if (endTime < startTime) {
+        return time >= startTime || time < endTime;
+      }
+      
+      return time >= startTime && time < endTime;
+    },
+    
+    // Helper to parse a time string (HH:MM) to minutes since midnight
+    parseTime(timeStr) {
+      const [hours, minutes] = timeStr.split(':').map(Number);
+      return hours * 60 + minutes;
+    },
+    
+    // Helper to get current time string in 24-hour format (HH:MM)
+    getCurrentTimeString() {
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      return `${hours}:${minutes}`;
+    },
+
+    // Update theme based on time of day using configurable time ranges
     updateThemeByTime() {
       if (!this.isAutoThemeEnabled) return;
 
-      const hour = new Date().getHours();
-
-      if (hour >= 5 && hour < 11) {
+      const currentTime = this.getCurrentTimeString();
+      
+      // Check each theme's time range
+      if (this.isTimeInRange(currentTime, this.themeTimeRanges.morning.start, this.themeTimeRanges.morning.end)) {
         this.setTheme('morning');
-      } else if (hour >= 11 && hour < 17) {
+      } else if (this.isTimeInRange(currentTime, this.themeTimeRanges.afternoon.start, this.themeTimeRanges.afternoon.end)) {
         this.setTheme('afternoon');
-      } else if (hour >= 17 && hour < 22) {
+      } else if (this.isTimeInRange(currentTime, this.themeTimeRanges.evening.start, this.themeTimeRanges.evening.end)) {
         this.setTheme('evening');
-      } else {
+      } else if (this.isTimeInRange(currentTime, this.themeTimeRanges.night.start, this.themeTimeRanges.night.end)) {
         this.setTheme('night');
+      } else {
+        // Fallback to default theme if somehow no time range matches
+        this.setTheme('default');
       }
     },
 
     // Initialize theme system
     initialize() {
+      // Try to load theme time ranges from localStorage first
+      this.loadThemeTimeRanges();
+      
+      // Then try to load from backend, which will merge
+      this.loadThemeTimeRangesFromBackend();
+      
       // Try to load themes from localStorage first
       const savedThemes = localStorage.getItem('pubSignage_themes');
       if (savedThemes) {
@@ -376,12 +533,12 @@ export const useThemeStore = defineStore('theme', {
       if (this.isAutoThemeEnabled) {
         this.updateThemeByTime();
 
-        // Update theme every hour
+        // Update theme every minute to ensure accurate time-based changes
         setInterval(
           () => {
             this.updateThemeByTime();
           },
-          60 * 60 * 1000
+          60 * 1000 // Check every minute instead of every hour
         );
       } else {
         this.applyTheme();
