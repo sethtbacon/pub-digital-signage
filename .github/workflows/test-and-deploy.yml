@@ -19,8 +19,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18.x'
-          cache: ${{ !env.ACT && 'npm' || '' }}
-          cache-dependency-path: ${{ !env.ACT && 'package-lock.json' || '' }}
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
         run: npm run install:all
@@ -63,8 +63,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18.x'
-          cache: ${{ !env.ACT && 'npm' || '' }}
-          cache-dependency-path: ${{ !env.ACT && 'package-lock.json' || '' }}
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
         run: npm run install:all
