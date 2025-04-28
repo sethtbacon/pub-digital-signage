@@ -96,7 +96,8 @@ h1, h2, h3, h4, h5, h6 {
   cursor: pointer;
   
   &:hover {
-    background-color: darken($primary-color, 10%);
+    background-color: var(--primary-color);
+    filter: brightness(0.9);
   }
   
   &:disabled {
@@ -114,7 +115,8 @@ h1, h2, h3, h4, h5, h6 {
   cursor: pointer;
   
   &:hover {
-    background-color: darken($secondary-color, 10%);
+    background-color: var(--secondary-color);
+    filter: brightness(0.9);
   }
   
   &:disabled {

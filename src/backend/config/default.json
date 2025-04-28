@@ -1,0 +1,97 @@
+{
+  "server": {
+    "port": 8080,
+    "host": "localhost"
+  },
+  "database": {
+    "path": "../../data/db/pubsignage.db"
+  },
+  "homeAssistant": {
+    "url": "",
+    "token": ""
+  },
+  "media": {
+    "storagePath": "../../data/media",
+    "allowedTypes": ["image/jpeg", "image/png", "image/gif", "video/mp4"]
+  },
+  "themes": {
+    "default": {
+      "name": "Pub Classic",
+      "active": true,
+      "primary": "#96d6dd",
+      "secondary": "#565059",
+      "accent": "#fc4242",
+      "background": "#ffffff",
+      "text": "#565059",
+      "logoPath": "/data/media/logo/pub-logo.png",
+      "backgroundMedia": {
+        "type": "image",
+        "path": "/data/media/background/"
+      }
+    },
+    "morning": {
+      "name": "Morning Brew",
+      "active": true,
+      "startTime": "06:00",
+      "endTime": "12:00",
+      "primary": "#8B4513",
+      "secondary": "#D2691E",
+      "accent": "#FFD700",
+      "background": "#F5F5DC",
+      "text": "#2C1B0F",
+      "logoPath": "",
+      "backgroundMedia": {
+        "type": "none",
+        "path": ""
+      }
+    },
+    "afternoon": {
+      "name": "Afternoon Delight",
+      "active": true,
+      "startTime": "12:00",
+      "endTime": "18:00",
+      "primary": "#8B4513",
+      "secondary": "#D2691E",
+      "accent": "#B8860B",
+      "background": "#F5F5DC",
+      "text": "#2C1B0F",
+      "logoPath": "",
+      "backgroundMedia": {
+        "type": "none",
+        "path": ""
+      }
+    },
+    "evening": {
+      "name": "Evening Ambiance",
+      "active": true,
+      "startTime": "18:00",
+      "endTime": "23:00",
+      "primary": "#8B4513",
+      "secondary": "#D2691E",
+      "accent": "#FFD700",
+      "background": "#2C1B0F",
+      "text": "#F5F5DC",
+      "logoPath": "",
+      "backgroundMedia": {
+        "type": "none",
+        "path": ""
+      }
+    },
+    "night": {
+      "name": "Night Cap",
+      "active": true,
+      "startTime": "23:00",
+      "endTime": "06:00",
+      "primary": "#8B4513",
+      "secondary": "#D2691E",
+      "accent": "#B8860B",
+      "background": "#1A0F09",
+      "text": "#F5F5DC",
+      "logoPath": "",
+      "backgroundMedia": {
+        "type": "none",
+        "path": ""
+      }
+    }
+  }
+}

@@ -1,11 +1,45 @@
 <template>
   <div id="app">
-    <router-view />
+    <PageTransition :name="transitionName">
+      <router-view v-slot="{ Component }">
+        <component :is="Component" />
+      </router-view>
+    </PageTransition>
   </div>
 </template>
 
 <script setup lang="ts">
-// Root component setup
+import { ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
+import PageTransition from './components/layout/PageTransition.vue';
+
+const router = useRouter();
+const transitionName = ref('fade');
+
+// Watch for route changes to set appropriate transition
+watch(() => router.currentRoute.value, (to, from) => {
+  // Default transition
+  transitionName.value = 'fade';
+  
+  // Check if to/from exist and have path properties
+  const toPath = to?.path || '';
+  const fromPath = from?.path || '';
+  
+  // Special transitions for display routes
+  if (toPath.includes('/display/') && fromPath.includes('/display/')) {
+    transitionName.value = 'slide';
+  }
+  
+  // Use zoom transition when going to or from admin
+  if (toPath.includes('/admin') || fromPath.includes('/admin')) {
+    transitionName.value = 'zoom';
+  }
+  
+  // Use flip for dramatic transitions (e.g., games)
+  if (toPath.includes('/display/games') || fromPath.includes('/display/games')) {
+    transitionName.value = 'flip';
+  }
+}, { immediate: true });
 </script>
 
 <style lang="scss">

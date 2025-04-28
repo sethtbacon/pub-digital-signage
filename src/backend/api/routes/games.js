@@ -17,6 +17,33 @@ router.get('/', (req, res, next) => {
   }
 });
 
+// Get overall leaderboard across all games
+router.get('/leaderboard/overall', (req, res, next) => {
+  try {
+    const db = req.db;
+    
+    // Get overall leaderboard data across all games
+    const leaderboard = db.prepare(`
+      SELECT 
+        v.visitor_id, 
+        v.name as player_name,
+        COUNT(DISTINCT gs.session_id) as games_played,
+        SUM(CASE WHEN pr.position = 1 THEN 1 ELSE 0 END) as total_wins,
+        COUNT(DISTINCT gs.game_id) as unique_games_played
+      FROM visitors v
+      JOIN player_results pr ON v.visitor_id = pr.visitor_id
+      JOIN game_sessions gs ON pr.session_id = gs.session_id
+      GROUP BY v.visitor_id
+      ORDER BY total_wins DESC, games_played DESC
+      LIMIT 20
+    `).all();
+    
+    res.json(leaderboard);
+  } catch (err) {
+    next(err);
+  }
+});
+
 // Get game by ID
 router.get('/:id', (req, res, next) => {
   try {

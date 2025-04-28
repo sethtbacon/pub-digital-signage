@@ -248,12 +248,26 @@ export const useThemeStore = defineStore('theme', {
     async loadThemesFromBackend() {
       try {
         const response = await fetch('/api/themes');
+        
+        // Check if the response is JSON
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+          console.warn('Theme API did not return JSON. Using default themes.');
+          return; // Exit early, use default themes
+        }
+        
         if (response.ok) {
           const themes = await response.json();
           
+          // Handle empty themes array
+          if (!themes || !Array.isArray(themes)) {
+            console.warn('Theme API returned invalid data. Using default themes.');
+            return;
+          }
+          
           // Merge with existing themes, keeping local customizations
           themes.forEach(theme => {
-            if (theme.id && theme.name) {
+            if (theme && theme.id && theme.name) {
               // Only update if not already customized locally
               if (!this.themes[theme.id] || theme.lastUpdated > (this.themes[theme.id].lastUpdated || 0)) {
                 this.themes[theme.id] = { ...theme };
@@ -266,7 +280,9 @@ export const useThemeStore = defineStore('theme', {
           this.applyTheme();
         }
       } catch (error) {
-        console.error('Error loading themes from backend:', error);
+        console.warn('Error loading themes from backend, using default themes:', error);
+        // Continue with default themes
+        this.applyTheme();
       }
     },
     

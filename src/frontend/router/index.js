@@ -15,12 +15,12 @@ const routes = [
       {
         path: 'drinks',
         name: 'AdminDrinks',
-        component: () => import('../views/admin/DrinkManagement.vue'),
+        component: () => import('../views/admin/DrinksManagement.vue'),
       },
       {
         path: 'games',
         name: 'AdminGames',
-        component: () => import('../views/admin/GameManagement.vue'),
+        component: () => import('../views/admin/GamesManagement.vue'),
       },
       {
         path: 'media',
@@ -30,7 +30,7 @@ const routes = [
       {
         path: 'visitors',
         name: 'AdminVisitors',
-        component: () => import('../views/admin/VisitorManagement.vue'),
+        component: () => import('../views/admin/VisitorsManagement.vue'),
       },
       {
         path: 'themes',

@@ -77,8 +77,22 @@ export default {
       loadThemePreset(presetId) {
         return new Promise(async (resolve, reject) => {
           try {
+            if (!presetId) {
+              console.warn('Invalid preset ID provided');
+              reject(new Error('Invalid preset ID'));
+              return;
+            }
+            
             // Fetch theme preset from API
             const response = await fetch(`/api/themes/${presetId}`);
+            
+            // Check if the response is JSON
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+              console.warn('Theme preset API did not return JSON');
+              reject(new Error('Invalid response format'));
+              return;
+            }
             
             if (!response.ok) {
               throw new Error(`Failed to load theme preset: ${response.statusText}`);
@@ -89,21 +103,21 @@ export default {
             // Apply the preset to the current theme
             if (preset) {
               const themeData = {
-                primaryColor: preset.primaryColor,
-                secondaryColor: preset.secondaryColor,
-                accentColor: preset.accentColor,
-                backgroundColor: preset.backgroundColor,
-                textColor: preset.textColor,
-                fontFamily: preset.fontFamily,
-                headingFontFamily: preset.headingFontFamily,
-                baseFontSize: preset.baseFontSize,
-                spacingUnit: preset.spacingUnit,
-                borderRadius: preset.borderRadius,
-                shadowColor: preset.shadowColor,
-                shadowSmall: preset.shadowSmall,
-                shadowMedium: preset.shadowMedium,
-                shadowLarge: preset.shadowLarge,
-                transitionSpeed: preset.transitionSpeed
+                primaryColor: preset.primaryColor || '#ff6b01',
+                secondaryColor: preset.secondaryColor || '#2c3e50',
+                accentColor: preset.accentColor || '#e74c3c',
+                backgroundColor: preset.backgroundColor || '#111',
+                textColor: preset.textColor || '#ecf0f1',
+                fontFamily: preset.fontFamily || "'Roboto', 'Helvetica Neue', Arial, sans-serif",
+                headingFontFamily: preset.headingFontFamily || "'Roboto Condensed', 'Helvetica Neue', Arial, sans-serif",
+                baseFontSize: preset.baseFontSize || '16px',
+                spacingUnit: preset.spacingUnit || '1rem',
+                borderRadius: preset.borderRadius || '4px',
+                shadowColor: preset.shadowColor || 'rgba(0, 0, 0, 0.2)',
+                shadowSmall: preset.shadowSmall || '0 2px 5px rgba(0, 0, 0, 0.1)',
+                shadowMedium: preset.shadowMedium || '0 4px 10px rgba(0, 0, 0, 0.15)', 
+                shadowLarge: preset.shadowLarge || '0 8px 20px rgba(0, 0, 0, 0.2)',
+                transitionSpeed: preset.transitionSpeed || '0.5s'
               };
               
               this.store.saveTheme(this.store.currentTheme, themeData);
@@ -125,15 +139,25 @@ export default {
             // Fetch theme presets from API
             const response = await fetch('/api/themes?isPreset=true');
             
+            // Check if the response is JSON
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+              console.warn('Theme preset API did not return JSON');
+              resolve([]); // Return empty array instead of rejecting
+              return;
+            }
+            
             if (!response.ok) {
-              throw new Error(`Failed to get theme presets: ${response.statusText}`);
+              console.warn(`Failed to get theme presets: ${response.statusText}`);
+              resolve([]); // Return empty array instead of rejecting
+              return;
             }
             
             const presets = await response.json();
-            resolve(presets);
+            resolve(Array.isArray(presets) ? presets : []);
           } catch (error) {
             console.error('Error getting theme presets:', error);
-            reject(error);
+            resolve([]); // Return empty array instead of rejecting
           }
         });
       },
