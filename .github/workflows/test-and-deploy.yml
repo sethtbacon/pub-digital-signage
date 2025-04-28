@@ -19,8 +19,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18.19.1' # Specify an exact version that's available in the runner
-          cache: 'npm'
-          cache-dependency-path: package-lock.json
+          # Disable caching for now to fix the dependency resolution error
+          # cache: 'npm'
+          # cache-dependency-path: package-lock.json
 
       - name: Install dependencies
         run: npm run install:all
@@ -63,8 +64,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18.19.1' # Specify an exact version that's available in the runner
-          cache: 'npm'
-          cache-dependency-path: package-lock.json
+          # Disable caching for now to fix the dependency resolution error
+          # cache: 'npm'
+          # cache-dependency-path: package-lock.json
 
       - name: Install dependencies
         run: npm run install:all
