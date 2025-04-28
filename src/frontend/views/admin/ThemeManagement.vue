@@ -502,10 +502,11 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@import '../../assets/styles/variables';
+@use "sass:color";
+@use '../../assets/styles/variables' as *;
 
 .theme-management {
-  @extend .admin-page;
+  @extend .admin-page !optional;
 }
 
 // Theme-specific styles not covered by global styles
@@ -793,7 +794,7 @@ onMounted(() => {
     color: white;
 
     &:hover:not(:disabled) {
-      background-color: darken($primary-color, 10%);
+      background-color: color.adjust($primary-color, $lightness: -10%);
     }
   }
 
@@ -802,7 +803,7 @@ onMounted(() => {
     color: #333;
 
     &:hover:not(:disabled) {
-      background-color: darken(#f1f1f1, 10%);
+      background-color: color.adjust(#f1f1f1, $lightness: -10%);
     }
   }
 }

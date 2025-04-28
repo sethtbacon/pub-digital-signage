@@ -1018,53 +1018,53 @@ const closeSessionModal = () => {
 
 <style lang="scss" scoped>
 .games-management {
-  @extend .admin-page;
+  @extend .admin-page !optional;
 }
 
 .games-grid {
-  @extend .grid-layout;
+  @extend .grid-layout !optional;
 }
 
 .game-card {
-  @extend .card-item;
+  @extend .card-item !optional;
 }
 
 .game-image-container {
-  @extend .card-image-container;
+  @extend .card-image-container !optional;
 }
 
 .game-image {
-  @extend .card-image;
+  @extend .card-image !optional;
 }
 
 .game-actions {
-  @extend .card-actions;
+  @extend .card-actions !optional;
 }
 
 .game-details {
-  @extend .card-details;
+  @extend .card-details !optional;
 }
 
 .game-name {
-  @extend .card-title;
+  @extend .card-title !optional;
 }
 
 .game-description {
-  @extend .card-description;
+  @extend .card-description !optional;
 }
 
 .sessions-table,
 .leaderboard-table {
-  @extend .data-table;
+  @extend .data-table !optional;
 }
 
 .session-actions {
-  @extend .table-actions;
+  @extend .table-actions !optional;
 }
 
 .game-form,
 .session-form {
-  @extend .admin-form;
+  @extend .admin-form !optional;
 }
 
 // Game-specific styles not covered by global styles
@@ -1182,7 +1182,7 @@ const closeSessionModal = () => {
 }
 
 .leaderboard-filters {
-  @extend .filter-controls;
+  @extend .filter-controls !optional;
 }
 
 @media (max-width: 768px) {

@@ -449,84 +449,84 @@ const removeTag = index => {
 
 <style lang="scss" scoped>
 .media-management {
-  @extend .admin-page;
+  @extend .admin-page !optional;
 }
 
 .page-title {
-  @extend .page-title;
+  @extend .page-title !optional;
 }
 
 .action-bar {
-  @extend .action-bar;
+  @extend .action-bar !optional;
 }
 
 .primary-button {
-  @extend .primary-button;
+  @extend .primary-button !optional;
 }
 
 .search-input {
-  @extend .search-input;
+  @extend .search-input !optional;
 }
 
 .filter-select {
-  @extend .filter-select;
+  @extend .filter-select !optional;
 }
 
 .content-container {
-  @extend .content-container;
+  @extend .content-container !optional;
 }
 
 .loading-container {
-  @extend .loading-container;
+  @extend .loading-container !optional;
 }
 
 .loading-spinner {
-  @extend .loading-spinner;
+  @extend .loading-spinner !optional;
 }
 
 .empty-state {
-  @extend .empty-state;
+  @extend .empty-state !optional;
 }
 
 .media-grid {
-  @extend .grid-layout;
+  @extend .grid-layout !optional;
 }
 
 .media-card {
-  @extend .card-item;
+  @extend .card-item !optional;
 }
 
 .media-image-container {
-  @extend .card-image-container;
+  @extend .card-image-container !optional;
   height: 180px;
 }
 
 .media-image {
-  @extend .card-image;
+  @extend .card-image !optional;
 }
 
 .media-actions {
-  @extend .card-actions;
+  @extend .card-actions !optional;
 }
 
 .media-details {
-  @extend .card-details;
+  @extend .card-details !optional;
 }
 
 .media-title {
-  @extend .card-title;
+  @extend .card-title !optional;
 }
 
 .media-description {
-  @extend .card-description;
+  @extend .card-description !optional;
 }
 
 .edit-button {
-  @extend .edit-button;
+  @extend .edit-button !optional;
 }
 
 .delete-button {
-  @extend .delete-button;
+  @extend .delete-button !optional;
 }
 
 .error-state {
@@ -562,7 +562,7 @@ video.media-image {
 }
 
 .media-form {
-  @extend .admin-form;
+  @extend .admin-form !optional;
 }
 
 .media-preview {

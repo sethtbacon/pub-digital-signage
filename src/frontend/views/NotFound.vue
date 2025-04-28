@@ -16,6 +16,8 @@
 </script>
 
 <style lang="scss" scoped>
+@use "sass:color";
+
 .not-found {
   display: flex;
   justify-content: center;
@@ -62,7 +64,7 @@
     transition: background-color 0.3s;
 
     &:hover {
-      background-color: darken(#ff6b01, 10%);
+      background-color: color.adjust(#ff6b01, $lightness: -10%);
     }
   }
 }

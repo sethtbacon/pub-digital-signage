@@ -301,6 +301,9 @@ function showError(msg) {
 </script>
 
 <style lang="scss" scoped>
+@use "sass:color";
+@use '../../assets/styles/variables' as *;
+
 .theme-presets {
   margin-top: 2rem;
 
@@ -376,7 +379,7 @@ function showError(msg) {
       flex: 1;
 
       &:hover {
-        background-color: darken($primary-color, 10%);
+        background-color: color.adjust($primary-color, $lightness: -10%);
       }
     }
 
@@ -478,7 +481,7 @@ function showError(msg) {
       color: #fff;
 
       &:hover:not(:disabled) {
-        background-color: darken($primary-color, 10%);
+        background-color: color.adjust($primary-color, $lightness: -10%);
       }
     }
   }

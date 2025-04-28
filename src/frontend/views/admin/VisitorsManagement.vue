@@ -798,92 +798,92 @@ const closeMilestoneModal = () => {
 
 <style lang="scss" scoped>
 .visitors-management {
-  @extend .admin-page;
+  @extend .admin-page !optional;
 }
 
 .page-title {
-  @extend .page-title;
+  @extend .page-title !optional;
 }
 
 .action-bar {
-  @extend .action-bar;
+  @extend .action-bar !optional;
 }
 
 .section-tabs {
-  @extend .section-tabs;
+  @extend .section-tabs !optional;
 }
 
 .tab-btn {
-  @extend .tab-btn;
+  @extend .tab-btn !optional;
 }
 
 .primary-button {
-  @extend .primary-button;
+  @extend .primary-button !optional;
 }
 
 .secondary-button {
-  @extend .secondary-button;
+  @extend .secondary-button !optional;
 }
 
 .danger-button {
-  @extend .danger-button;
+  @extend .danger-button !optional;
 }
 
 .search-input {
-  @extend .search-input;
+  @extend .search-input !optional;
 }
 
 .filter-select {
-  @extend .filter-select;
+  @extend .filter-select !optional;
 }
 
 .content-container {
-  @extend .content-container;
+  @extend .content-container !optional;
 }
 
 .loading-container {
-  @extend .loading-container;
+  @extend .loading-container !optional;
 }
 
 .loading-spinner {
-  @extend .loading-spinner;
+  @extend .loading-spinner !optional;
 }
 
 .empty-state {
-  @extend .empty-state;
+  @extend .empty-state !optional;
 }
 
 .visitors-grid {
-  @extend .grid-layout;
+  @extend .grid-layout !optional;
 }
 
 .visitor-card {
-  @extend .card-item;
+  @extend .card-item !optional;
 }
 
 .visitor-image-container {
-  @extend .card-image-container;
+  @extend .card-image-container !optional;
 }
 
 .visitor-image {
-  @extend .card-image;
+  @extend .card-image !optional;
 }
 
 .visitor-actions {
-  @extend .card-actions;
+  @extend .card-actions !optional;
 }
 
 .visitor-details {
-  @extend .card-details;
+  @extend .card-details !optional;
 }
 
 .visitor-name {
-  @extend .card-title;
+  @extend .card-title !optional;
 }
 
 .edit-button,
 .delete-button {
-  @extend .edit-button;
+  @extend .edit-button !optional;
 
   &.small {
     width: 24px;
@@ -893,61 +893,61 @@ const closeMilestoneModal = () => {
 }
 
 .delete-button {
-  @extend .delete-button;
+  @extend .delete-button !optional;
 }
 
 .milestones-table {
-  @extend .data-table;
+  @extend .data-table !optional;
 }
 
 .milestone-actions {
-  @extend .table-actions;
+  @extend .table-actions !optional;
 }
 
 .modal {
-  @extend .modal;
+  @extend .modal !optional;
 }
 
 .modal-content {
-  @extend .modal-content;
+  @extend .modal-content !optional;
 }
 
 .confirmation-modal {
-  @extend .confirmation-modal;
+  @extend .confirmation-modal !optional;
 }
 
 .modal-header {
-  @extend .modal-header;
+  @extend .modal-header !optional;
 }
 
 .modal-close {
-  @extend .modal-close;
+  @extend .modal-close !optional;
 }
 
 .visitor-form,
 .milestone-form,
 .visit-form {
-  @extend .admin-form;
+  @extend .admin-form !optional;
 }
 
 .form-group {
-  @extend .form-group;
+  @extend .form-group !optional;
 }
 
 .form-control {
-  @extend .form-control;
+  @extend .form-control !optional;
 }
 
 .form-actions {
-  @extend .form-actions;
+  @extend .form-actions !optional;
 }
 
 .image-upload-container {
-  @extend .image-upload-container;
+  @extend .image-upload-container !optional;
 }
 
 .preview-image {
-  @extend .preview-image;
+  @extend .preview-image !optional;
 }
 
 // Visitor-specific styles not covered by global styles

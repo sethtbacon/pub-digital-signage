@@ -311,15 +311,15 @@ const closeModals = () => {
 
 <style lang="scss" scoped>
 .drinks-management {
-  @extend .admin-page;
+  @extend .admin-page !optional;
 }
 
 .drinks-grid {
-  @extend .grid-layout;
+  @extend .grid-layout !optional;
 }
 
 .drink-card {
-  @extend .card-item;
+  @extend .card-item !optional;
 
   &.is-featured {
     border: 2px solid var(--primary-color);
@@ -327,31 +327,31 @@ const closeModals = () => {
 }
 
 .drink-image-container {
-  @extend .card-image-container;
+  @extend .card-image-container !optional;
 }
 
 .drink-image {
-  @extend .card-image;
+  @extend .card-image !optional;
 }
 
 .drink-actions {
-  @extend .card-actions;
+  @extend .card-actions !optional;
 }
 
 .drink-details {
-  @extend .card-details;
+  @extend .card-details !optional;
 }
 
 .drink-name {
-  @extend .card-title;
+  @extend .card-title !optional;
 }
 
 .drink-description {
-  @extend .card-description;
+  @extend .card-description !optional;
 }
 
 .drink-form {
-  @extend .admin-form;
+  @extend .admin-form !optional;
 }
 
 // Drink-specific styles not covered by global styles

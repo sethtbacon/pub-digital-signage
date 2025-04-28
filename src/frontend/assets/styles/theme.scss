@@ -4,8 +4,8 @@
  */
 
 // Import variables and transitions
-@import 'variables';
-@import 'transitions';
+@use 'variables' as *;
+@use 'transitions' as *;
 
 :root {
   /* Default theme variables */
