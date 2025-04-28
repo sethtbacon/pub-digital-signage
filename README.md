@@ -166,8 +166,6 @@ Access the admin interface at `/admin` to manage:
   - Secondary: #565059 (default)
   - Accent: #fc4242 (default)
 - Upload pub logo
-- Set background media (image or video)
-- Configure home page grid icons (in `data/media/icons/`)
 
 ### Content Management
 - Drinks menu (/admin/drinks)

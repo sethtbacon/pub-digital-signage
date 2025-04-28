@@ -251,7 +251,7 @@ onUnmounted(() => {
 
     &.router-link-active {
       font-weight: bold;
-      color: var(--accent-color);
+      color: var(--text-color);
       background-color: rgba(255, 255, 255, 0.1);
     }
 

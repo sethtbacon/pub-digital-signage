@@ -516,11 +516,11 @@ onMounted(() => {
   h1 {
     margin-bottom: 0.5rem;
     font-size: 1.8rem;
-    color: #333;
+    color: #333; /* Restored original dark color for admin areas with light backgrounds */
   }
 
   p {
-    color: #666;
+    color: #666; /* Restored original color */
     font-size: 1rem;
   }
 }
@@ -550,7 +550,7 @@ onMounted(() => {
     h2 {
       margin: 0;
       font-size: 1.25rem;
-      color: #333;
+      color: #333; /* Restored original dark color for better contrast */
     }
   }
 
@@ -570,7 +570,7 @@ onMounted(() => {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 500;
-    color: #333;
+    color: #333; /* Change to dark color for admin light backgrounds */
   }
 
   select,
@@ -580,6 +580,7 @@ onMounted(() => {
     border: 1px solid #ddd;
     border-radius: var(--border-radius-small);
     font-size: 0.9rem;
+    color: #333; /* Dark text for inputs */
   }
 
   input[type='range'] {
@@ -590,7 +591,7 @@ onMounted(() => {
   .range-value {
     display: block;
     font-size: 0.9rem;
-    color: #666;
+    color: #666; /* Medium gray for better visibility */
     margin-top: 0.25rem;
     text-align: right;
   }
@@ -598,68 +599,11 @@ onMounted(() => {
 
 .setting-description {
   font-size: 0.9rem;
-  color: #666;
+  color: #666; /* Medium gray for better visibility */
   margin: 0 0 1rem;
 }
 
-.switch-label {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  .switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-
-    input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-
-      &:checked + .slider {
-        background-color: var(--primary-color);
-      }
-
-      &:checked + .slider:before {
-        transform: translateX(26px);
-      }
-    }
-
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ccc;
-      transition: 0.4s;
-      border-radius: 34px;
-
-      &:before {
-        position: absolute;
-        content: '';
-        height: 26px;
-        width: 26px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
-        transition: 0.4s;
-        border-radius: 50%;
-      }
-    }
-  }
-}
-
-.time-periods {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
+// More specific styles for time periods
 .time-period {
   text-align: center;
   padding: 0.75rem;
@@ -669,12 +613,13 @@ onMounted(() => {
   h3 {
     margin: 0 0 0.25rem 0;
     font-size: 1rem;
+    color: #333; /* Dark text for light backgrounds */
   }
 
   .time-range {
     display: block;
     font-size: 0.8rem;
-    color: #666;
+    color: #666; /* Medium gray for better visibility */
     margin-bottom: 0.5rem;
   }
 
@@ -749,7 +694,7 @@ onMounted(() => {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 500;
-    color: #333;
+    color: var(--text-color);
   }
 
   input[type='color'] {
@@ -764,7 +709,7 @@ onMounted(() => {
   .color-value {
     display: block;
     font-size: 0.9rem;
-    color: #666;
+    color: var(--text-color);
     margin-top: 0.25rem;
     text-align: center;
   }
@@ -800,7 +745,7 @@ onMounted(() => {
 
   .btn-secondary {
     background-color: #f1f1f1;
-    color: #333;
+    color: var(--text-color);
 
     &:hover:not(:disabled) {
       background-color: color.adjust(#f1f1f1, $lightness: -10%);
@@ -812,7 +757,7 @@ onMounted(() => {
   margin-top: 1rem;
   padding: 0.75rem;
   background-color: #d4edda;
-  color: #155724;
+  color: var(--text-color);
   border-radius: var(--border-radius-small);
   text-align: center;
   transition: opacity var(--transition-speed);
