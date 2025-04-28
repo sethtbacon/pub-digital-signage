@@ -18,7 +18,7 @@ const { URL } = require('url');
 
 // Configuration
 const HOST = process.env.API_HOST || 'localhost';
-const PORT = process.env.API_PORT || 3000;
+const PORT = process.env.API_PORT || 8080;
 const BASE_URL = `http://${HOST}:${PORT}`;
 
 // Colors for console output

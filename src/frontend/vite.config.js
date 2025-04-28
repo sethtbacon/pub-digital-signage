@@ -16,6 +16,9 @@ export default defineConfig({
       },
     }),
   ],
+  server: {
+    port: 3000, // Set the development server to consistently use port 3000
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

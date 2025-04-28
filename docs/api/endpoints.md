@@ -981,7 +981,7 @@ You can test the API using the following tools:
 
 1. **curl**:
 ```bash
-curl -X GET http://localhost:3000/api/drinks \
+curl -X GET http://localhost:8080/api/drinks \
   -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
