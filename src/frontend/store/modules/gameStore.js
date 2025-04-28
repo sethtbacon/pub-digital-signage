@@ -8,23 +8,25 @@ export const useGameStore = defineStore('games', {
     leaderboard: [],
     overallLeaderboard: [],
     loading: false,
-    error: null
+    error: null,
   }),
-  
+
   getters: {
-    getGameById: (state) => (id) => {
+    getGameById: state => id => {
       return state.games.find(game => game.id === id);
     },
-    
-    topPlayers: (state) => (limit = 5) => {
-      return [...state.overallLeaderboard].slice(0, limit);
-    },
-    
-    gamesSortedByPopularity: (state) => {
+
+    topPlayers:
+      state =>
+      (limit = 5) => {
+        return [...state.overallLeaderboard].slice(0, limit);
+      },
+
+    gamesSortedByPopularity: state => {
       return [...state.games].sort((a, b) => b.playCount - a.playCount);
-    }
+    },
   },
-  
+
   actions: {
     async fetchAllGames() {
       this.loading = true;
@@ -39,7 +41,7 @@ export const useGameStore = defineStore('games', {
         this.loading = false;
       }
     },
-    
+
     async fetchGameById(id) {
       this.loading = true;
       this.error = null;
@@ -53,7 +55,7 @@ export const useGameStore = defineStore('games', {
         this.loading = false;
       }
     },
-    
+
     async fetchGameLeaderboard(id) {
       this.loading = true;
       this.error = null;
@@ -67,7 +69,7 @@ export const useGameStore = defineStore('games', {
         this.loading = false;
       }
     },
-    
+
     async fetchOverallLeaderboard() {
       this.loading = true;
       this.error = null;
@@ -81,7 +83,7 @@ export const useGameStore = defineStore('games', {
         this.loading = false;
       }
     },
-    
+
     async recordGameResult(gameResult) {
       this.loading = true;
       this.error = null;
@@ -99,7 +101,7 @@ export const useGameStore = defineStore('games', {
         this.loading = false;
       }
     },
-    
+
     async createGame(gameData) {
       this.loading = true;
       this.error = null;
@@ -115,7 +117,7 @@ export const useGameStore = defineStore('games', {
         this.loading = false;
       }
     },
-    
+
     async updateGame(id, gameData) {
       this.loading = true;
       this.error = null;
@@ -137,7 +139,7 @@ export const useGameStore = defineStore('games', {
         this.loading = false;
       }
     },
-    
+
     async deleteGame(id) {
       this.loading = true;
       this.error = null;
@@ -154,6 +156,6 @@ export const useGameStore = defineStore('games', {
       } finally {
         this.loading = false;
       }
-    }
-  }
+    },
+  },
 });

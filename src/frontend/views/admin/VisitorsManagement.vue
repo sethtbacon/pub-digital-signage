@@ -1,16 +1,16 @@
 <template>
   <div class="visitors-management">
     <h1 class="page-title">Visitors Management</h1>
-    
+
     <div class="action-bar">
       <button class="primary-button" @click="showAddVisitorModal = true">
         <i class="icon-add"></i> Add New Visitor
       </button>
       <div class="search-container">
-        <input 
-          type="text" 
-          v-model="searchQuery" 
-          placeholder="Search visitors..." 
+        <input
+          v-model="searchQuery"
+          type="text"
+          placeholder="Search visitors..."
           class="search-input"
           @input="filterVisitors"
         />
@@ -27,22 +27,19 @@
     </div>
 
     <div class="section-tabs">
-      <button 
+      <button
         :class="['tab-btn', { active: activeTab === 'visitors' }]"
         @click="activeTab = 'visitors'"
       >
         Visitors List
       </button>
-      <button 
+      <button
         :class="['tab-btn', { active: activeTab === 'milestones' }]"
         @click="activeTab = 'milestones'"
       >
         Milestones
       </button>
-      <button 
-        :class="['tab-btn', { active: activeTab === 'stats' }]"
-        @click="activeTab = 'stats'"
-      >
+      <button :class="['tab-btn', { active: activeTab === 'stats' }]" @click="activeTab = 'stats'">
         Statistics
       </button>
     </div>
@@ -53,22 +50,18 @@
         <div class="loading-spinner"></div>
         <p>Loading visitors...</p>
       </div>
-      
+
       <div v-else-if="filteredVisitors.length === 0" class="empty-state">
         <p v-if="searchQuery || milestoneFilter">No visitors match your filters.</p>
         <p v-else>No visitors found. Add your first visitor!</p>
       </div>
-      
+
       <div v-else class="visitors-grid">
-        <div 
-          v-for="visitor in filteredVisitors" 
-          :key="visitor.id" 
-          class="visitor-card"
-        >
+        <div v-for="visitor in filteredVisitors" :key="visitor.id" class="visitor-card">
           <div class="visitor-image-container">
-            <img 
-              :src="visitor.imageUrl || '/img/default-avatar.jpg'" 
-              :alt="visitor.name" 
+            <img
+              :src="visitor.imageUrl || '/img/default-avatar.jpg'"
+              :alt="visitor.name"
               class="visitor-image"
             />
             <div class="visitor-actions">
@@ -85,7 +78,7 @@
               <h3 class="visitor-name">{{ visitor.name }}</h3>
               <div class="visit-count">{{ visitor.visitCount }} visits</div>
             </div>
-            <div class="visitor-milestones" v-if="getHighestMilestone(visitor)">
+            <div v-if="getHighestMilestone(visitor)" class="visitor-milestones">
               <span class="milestone-badge">
                 {{ getHighestMilestone(visitor) }}
               </span>
@@ -105,17 +98,17 @@
       <button class="primary-button" @click="showAddMilestoneModal = true">
         <i class="icon-add"></i> Add New Milestone
       </button>
-      
+
       <div class="milestones-list">
         <div v-if="loadingMilestones" class="loading-container">
           <div class="loading-spinner"></div>
           <p>Loading milestones...</p>
         </div>
-        
+
         <div v-else-if="milestones.length === 0" class="empty-state">
           <p>No milestones defined. Add your first milestone!</p>
         </div>
-        
+
         <table v-else class="milestones-table">
           <thead>
             <tr>
@@ -166,16 +159,18 @@
           <div class="stat-label">Visitors this Month</div>
         </div>
       </div>
-      
+
       <div class="stats-charts">
         <div class="chart-container">
           <h3>Visits over Time</h3>
           <div class="chart-placeholder">
             <p>Chart visualization would go here</p>
-            <p class="chart-note">This would be implemented with a charting library like Chart.js</p>
+            <p class="chart-note">
+              This would be implemented with a charting library like Chart.js
+            </p>
           </div>
         </div>
-        
+
         <div class="chart-container">
           <h3>Visitors by Milestone</h3>
           <div class="chart-placeholder">
@@ -191,64 +186,63 @@
       <div class="modal-content">
         <div class="modal-header">
           <h2>{{ showEditVisitorModal ? 'Edit Visitor' : 'Add New Visitor' }}</h2>
-          <button 
-            class="modal-close" 
-            @click="closeVisitorModal"
-          >×</button>
+          <button class="modal-close" @click="closeVisitorModal">×</button>
         </div>
-        
-        <form @submit.prevent="saveVisitor" class="visitor-form">
+
+        <form class="visitor-form" @submit.prevent="saveVisitor">
           <div class="form-group">
             <label for="visitorName">Name</label>
-            <input 
-              type="text" 
-              id="visitorName" 
-              v-model="currentVisitor.name" 
+            <input
+              id="visitorName"
+              v-model="currentVisitor.name"
+              type="text"
               required
               class="form-control"
             />
           </div>
-          
+
           <div class="form-group">
             <label for="firstVisitDate">First Visit Date</label>
-            <input 
-              type="date" 
-              id="firstVisitDate" 
-              v-model="currentVisitor.firstVisitDate" 
+            <input
+              id="firstVisitDate"
+              v-model="currentVisitor.firstVisitDate"
+              type="date"
               required
               class="form-control"
               :max="today"
             />
           </div>
-          
+
           <div class="form-group">
             <label for="visitorNotes">Notes</label>
-            <textarea 
-              id="visitorNotes" 
-              v-model="currentVisitor.notes" 
+            <textarea
+              id="visitorNotes"
+              v-model="currentVisitor.notes"
               rows="3"
               class="form-control"
             ></textarea>
           </div>
-          
+
           <div class="form-group">
             <label for="visitorImage">Photo</label>
             <div class="image-upload-container">
-              <div class="current-image" v-if="currentVisitor.imageUrl">
+              <div v-if="currentVisitor.imageUrl" class="current-image">
                 <img :src="currentVisitor.imageUrl" alt="Visitor photo" class="preview-image" />
               </div>
-              <input 
-                type="file" 
-                id="visitorImage" 
-                @change="handleImageUpload" 
+              <input
+                id="visitorImage"
+                type="file"
                 accept="image/*"
                 class="form-control"
+                @change="handleImageUpload"
               />
             </div>
           </div>
-          
+
           <div class="form-actions">
-            <button type="button" class="secondary-button" @click="closeVisitorModal">Cancel</button>
+            <button type="button" class="secondary-button" @click="closeVisitorModal">
+              Cancel
+            </button>
             <button type="submit" class="primary-button">Save</button>
           </div>
         </form>
@@ -260,50 +254,49 @@
       <div class="modal-content">
         <div class="modal-header">
           <h2>{{ showEditMilestoneModal ? 'Edit Milestone' : 'Add New Milestone' }}</h2>
-          <button 
-            class="modal-close" 
-            @click="closeMilestoneModal"
-          >×</button>
+          <button class="modal-close" @click="closeMilestoneModal">×</button>
         </div>
-        
-        <form @submit.prevent="saveMilestone" class="milestone-form">
+
+        <form class="milestone-form" @submit.prevent="saveMilestone">
           <div class="form-group">
             <label for="milestoneName">Name</label>
-            <input 
-              type="text" 
-              id="milestoneName" 
-              v-model="currentMilestone.name" 
+            <input
+              id="milestoneName"
+              v-model="currentMilestone.name"
+              type="text"
               required
               class="form-control"
               placeholder="e.g., 'Bronze Member', 'Silver Status'"
             />
           </div>
-          
+
           <div class="form-group">
             <label for="visitCount">Visit Count Required</label>
-            <input 
-              type="number" 
-              id="visitCount" 
-              v-model.number="currentMilestone.visitCount" 
+            <input
+              id="visitCount"
+              v-model.number="currentMilestone.visitCount"
+              type="number"
               required
               min="1"
               class="form-control"
             />
           </div>
-          
+
           <div class="form-group">
             <label for="milestoneDescription">Description</label>
-            <textarea 
-              id="milestoneDescription" 
-              v-model="currentMilestone.description" 
+            <textarea
+              id="milestoneDescription"
+              v-model="currentMilestone.description"
               rows="3"
               class="form-control"
               placeholder="Describe what this milestone means"
             ></textarea>
           </div>
-          
+
           <div class="form-actions">
-            <button type="button" class="secondary-button" @click="closeMilestoneModal">Cancel</button>
+            <button type="button" class="secondary-button" @click="closeMilestoneModal">
+              Cancel
+            </button>
             <button type="submit" class="primary-button">Save</button>
           </div>
         </form>
@@ -317,33 +310,35 @@
           <h2>Record Visit for {{ visitorToRecordVisit?.name }}</h2>
           <button class="modal-close" @click="showRecordVisitModal = false">×</button>
         </div>
-        
-        <form @submit.prevent="saveVisit" class="visit-form">
+
+        <form class="visit-form" @submit.prevent="saveVisit">
           <div class="form-group">
             <label for="visitDate">Date</label>
-            <input 
-              type="date" 
-              id="visitDate" 
-              v-model="currentVisit.date" 
+            <input
+              id="visitDate"
+              v-model="currentVisit.date"
+              type="date"
               required
               class="form-control"
               :max="today"
             />
           </div>
-          
+
           <div class="form-group">
             <label for="visitNotes">Notes</label>
-            <textarea 
-              id="visitNotes" 
-              v-model="currentVisit.notes" 
+            <textarea
+              id="visitNotes"
+              v-model="currentVisit.notes"
               rows="3"
               class="form-control"
               placeholder="Any notes about this visit (optional)"
             ></textarea>
           </div>
-          
+
           <div class="form-actions">
-            <button type="button" class="secondary-button" @click="showRecordVisitModal = false">Cancel</button>
+            <button type="button" class="secondary-button" @click="showRecordVisitModal = false">
+              Cancel
+            </button>
             <button type="submit" class="primary-button">Save</button>
           </div>
         </form>
@@ -357,7 +352,10 @@
           <h2>Confirm Delete</h2>
           <button class="modal-close" @click="showDeleteVisitorModal = false">×</button>
         </div>
-        <p>Are you sure you want to delete visitor "{{ visitorToDelete?.name }}"? This will also delete all their visit history.</p>
+        <p>
+          Are you sure you want to delete visitor "{{ visitorToDelete?.name }}"? This will also
+          delete all their visit history.
+        </p>
         <div class="form-actions">
           <button class="secondary-button" @click="showDeleteVisitorModal = false">Cancel</button>
           <button class="danger-button" @click="deleteVisitor">Delete</button>
@@ -403,7 +401,7 @@ const visitorStats = ref({
   totalVisitors: 0,
   totalVisits: 0,
   averageVisitsPerVisitor: 0,
-  visitorsThisMonth: 0
+  visitorsThisMonth: 0,
 });
 
 // Modal controls
@@ -421,20 +419,20 @@ const currentVisitor = ref({
   firstVisitDate: new Date().toISOString().split('T')[0], // Today's date in YYYY-MM-DD
   notes: '',
   imageUrl: '',
-  visits: []
+  visits: [],
 });
 const visitorToDelete = ref(null);
 
 const currentMilestone = ref({
   name: '',
   visitCount: 5,
-  description: ''
+  description: '',
 });
 const milestoneToDelete = ref(null);
 
 const currentVisit = ref({
   date: new Date().toISOString().split('T')[0], // Today's date in YYYY-MM-DD
-  notes: ''
+  notes: '',
 });
 const visitorToRecordVisit = ref(null);
 
@@ -453,7 +451,7 @@ onMounted(async () => {
 });
 
 // Watch activeTab changes
-watch(activeTab, async (newTab) => {
+watch(activeTab, async newTab => {
   if (newTab === 'milestones' && milestones.value.length === 0) {
     loadingMilestones.value = true;
     try {
@@ -508,23 +506,25 @@ const loadStats = async () => {
 // Filter visitors based on search query and milestone filter
 const filterVisitors = () => {
   let filtered = visitors.value;
-  
+
   // Apply search filter
   if (searchQuery.value.trim()) {
     const query = searchQuery.value.toLowerCase().trim();
     filtered = filtered.filter(visitor => {
-      return visitor.name.toLowerCase().includes(query) || 
-             (visitor.notes && visitor.notes.toLowerCase().includes(query));
+      return (
+        visitor.name.toLowerCase().includes(query) ||
+        (visitor.notes && visitor.notes.toLowerCase().includes(query))
+      );
     });
   }
-  
+
   // Apply milestone filter
   if (milestoneFilter.value) {
     if (milestoneFilter.value === 'recent') {
       // Get visitors from last 30 days
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-      
+
       filtered = filtered.filter(visitor => {
         const lastVisitDate = new Date(visitor.lastVisitDate);
         return lastVisitDate >= thirtyDaysAgo;
@@ -533,7 +533,7 @@ const filterVisitors = () => {
       // Filter by specific milestone
       const milestoneId = milestoneFilter.value;
       const milestone = milestones.value.find(m => m.id === milestoneId);
-      
+
       if (milestone) {
         filtered = filtered.filter(visitor => {
           return visitor.visitCount >= milestone.visitCount;
@@ -541,41 +541,41 @@ const filterVisitors = () => {
       }
     }
   }
-  
+
   filteredVisitors.value = filtered;
 };
 
 // Get highest milestone for a visitor
-const getHighestMilestone = (visitor) => {
+const getHighestMilestone = visitor => {
   if (!milestones.value.length || !visitor.visitCount) return null;
-  
+
   // Find the highest milestone the visitor has achieved
   const achievedMilestones = milestones.value
     .filter(milestone => visitor.visitCount >= milestone.visitCount)
     .sort((a, b) => b.visitCount - a.visitCount);
-  
+
   return achievedMilestones.length ? achievedMilestones[0].name : null;
 };
 
 // Format date
-const formatDate = (dateString) => {
+const formatDate = dateString => {
   if (!dateString) return 'N/A';
   const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', { 
-    year: 'numeric', 
-    month: 'short', 
-    day: 'numeric' 
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
   });
 };
 
 // Open edit visitor modal with visitor data
-const editVisitor = (visitor) => {
+const editVisitor = visitor => {
   currentVisitor.value = { ...visitor };
   showEditVisitorModal.value = true;
 };
 
 // Open delete visitor confirmation modal
-const confirmDeleteVisitor = (visitor) => {
+const confirmDeleteVisitor = visitor => {
   visitorToDelete.value = visitor;
   showDeleteVisitorModal.value = true;
 };
@@ -586,7 +586,7 @@ const saveVisitor = async () => {
     if (showEditVisitorModal.value) {
       // Update existing visitor
       await visitorsApi.updateVisitor(currentVisitor.value.id, currentVisitor.value);
-      
+
       // Update local list
       const index = visitors.value.findIndex(v => v.id === currentVisitor.value.id);
       if (index !== -1) {
@@ -596,15 +596,15 @@ const saveVisitor = async () => {
       // Add new visitor with first visit record
       currentVisitor.value.visitCount = 1;
       currentVisitor.value.lastVisitDate = currentVisitor.value.firstVisitDate;
-      
+
       const response = await visitorsApi.createVisitor(currentVisitor.value);
       visitors.value.push(response.data);
     }
-    
+
     // Re-apply filters
     filterVisitors();
     closeVisitorModal();
-    
+
     // Refresh stats
     if (activeTab.value === 'stats') {
       loadStats();
@@ -618,17 +618,17 @@ const saveVisitor = async () => {
 // Delete a visitor
 const deleteVisitor = async () => {
   if (!visitorToDelete.value) return;
-  
+
   try {
     await visitorsApi.deleteVisitor(visitorToDelete.value.id);
-    
+
     // Remove from local list
     visitors.value = visitors.value.filter(v => v.id !== visitorToDelete.value.id);
     filterVisitors();
-    
+
     showDeleteVisitorModal.value = false;
     visitorToDelete.value = null;
-    
+
     // Refresh stats
     if (activeTab.value === 'stats') {
       loadStats();
@@ -640,13 +640,13 @@ const deleteVisitor = async () => {
 };
 
 // Open edit milestone modal
-const editMilestone = (milestone) => {
+const editMilestone = milestone => {
   currentMilestone.value = { ...milestone };
   showEditMilestoneModal.value = true;
 };
 
 // Open delete milestone confirmation modal
-const confirmDeleteMilestone = (milestone) => {
+const confirmDeleteMilestone = milestone => {
   milestoneToDelete.value = milestone;
   showDeleteMilestoneModal.value = true;
 };
@@ -657,7 +657,7 @@ const saveMilestone = async () => {
     if (showEditMilestoneModal.value) {
       // Update existing milestone
       await visitorsApi.updateMilestone(currentMilestone.value.id, currentMilestone.value);
-      
+
       // Update local list
       const index = milestones.value.findIndex(m => m.id === currentMilestone.value.id);
       if (index !== -1) {
@@ -667,13 +667,13 @@ const saveMilestone = async () => {
       // Add new milestone
       const response = await visitorsApi.createMilestone(currentMilestone.value);
       milestones.value.push(response.data);
-      
+
       // Sort milestones by visit count
       milestones.value.sort((a, b) => a.visitCount - b.visitCount);
     }
-    
+
     closeMilestoneModal();
-    
+
     // Refresh visitors to update milestone badges
     filterVisitors();
   } catch (error) {
@@ -685,16 +685,16 @@ const saveMilestone = async () => {
 // Delete a milestone
 const deleteMilestone = async () => {
   if (!milestoneToDelete.value) return;
-  
+
   try {
     await visitorsApi.deleteMilestone(milestoneToDelete.value.id);
-    
+
     // Remove from local list
     milestones.value = milestones.value.filter(m => m.id !== milestoneToDelete.value.id);
-    
+
     showDeleteMilestoneModal.value = false;
     milestoneToDelete.value = null;
-    
+
     // Refresh visitors to update milestone badges
     filterVisitors();
   } catch (error) {
@@ -704,15 +704,15 @@ const deleteMilestone = async () => {
 };
 
 // Handle image upload
-const handleImageUpload = (event) => {
+const handleImageUpload = event => {
   const file = event.target.files[0];
   if (!file) return;
-  
+
   // Here you would typically handle the file upload to your server
   // For now, we'll simulate by creating a temporary URL
   const tempUrl = URL.createObjectURL(file);
   currentVisitor.value.imageUrl = tempUrl;
-  
+
   // In a real application, you would upload the file to your server:
   // const formData = new FormData();
   // formData.append('image', file);
@@ -722,7 +722,7 @@ const handleImageUpload = (event) => {
 };
 
 // Record a visit for a visitor
-const recordVisit = (visitor) => {
+const recordVisit = visitor => {
   visitorToRecordVisit.value = visitor;
   currentVisit.value.date = new Date().toISOString().split('T')[0]; // Reset to today
   currentVisit.value.notes = '';
@@ -732,34 +732,34 @@ const recordVisit = (visitor) => {
 // Save visit record
 const saveVisit = async () => {
   if (!visitorToRecordVisit.value) return;
-  
+
   try {
     const visitData = {
       visitorId: visitorToRecordVisit.value.id,
       date: currentVisit.value.date,
-      notes: currentVisit.value.notes
+      notes: currentVisit.value.notes,
     };
-    
+
     await visitorsApi.recordVisit(visitData);
-    
+
     // Update visitor in local list
     const visitor = visitors.value.find(v => v.id === visitorToRecordVisit.value.id);
     if (visitor) {
       visitor.visitCount++;
       visitor.lastVisitDate = currentVisit.value.date;
-      
+
       // Add visit to visitor's visit history if it exists
       if (visitor.visits) {
         visitor.visits.push({
           date: currentVisit.value.date,
-          notes: currentVisit.value.notes
+          notes: currentVisit.value.notes,
         });
       }
     }
-    
+
     showRecordVisitModal.value = false;
     visitorToRecordVisit.value = null;
-    
+
     // Refresh filters and stats
     filterVisitors();
     if (activeTab.value === 'stats') {
@@ -780,7 +780,7 @@ const closeVisitorModal = () => {
     firstVisitDate: new Date().toISOString().split('T')[0],
     notes: '',
     imageUrl: '',
-    visits: []
+    visits: [],
   };
 };
 
@@ -791,7 +791,7 @@ const closeMilestoneModal = () => {
   currentMilestone.value = {
     name: '',
     visitCount: 5,
-    description: ''
+    description: '',
   };
 };
 </script>
@@ -881,9 +881,10 @@ const closeMilestoneModal = () => {
   @extend .card-title;
 }
 
-.edit-button, .delete-button {
+.edit-button,
+.delete-button {
   @extend .edit-button;
-  
+
   &.small {
     width: 24px;
     height: 24px;
@@ -923,7 +924,9 @@ const closeMilestoneModal = () => {
   @extend .modal-close;
 }
 
-.visitor-form, .milestone-form, .visit-form {
+.visitor-form,
+.milestone-form,
+.visit-form {
   @extend .admin-form;
 }
 
@@ -977,7 +980,8 @@ const closeMilestoneModal = () => {
   font-weight: 500;
 }
 
-.visitor-first-visit, .visitor-last-visit {
+.visitor-first-visit,
+.visitor-last-visit {
   margin: 0;
   font-size: 13px;
   color: #666;
@@ -996,13 +1000,13 @@ const closeMilestoneModal = () => {
   background-color: #2ecc71;
   color: white;
   margin-top: auto;
-  
+
   &:hover {
     background-color: #27ae60;
   }
-  
+
   .icon-add-visit::before {
-    content: "+";
+    content: '+';
     font-size: 16px;
   }
 }
@@ -1050,7 +1054,7 @@ const closeMilestoneModal = () => {
   padding: 16px;
   background-color: #f9f9f9;
   border-radius: 8px;
-  
+
   h3 {
     margin-top: 0;
     margin-bottom: 16px;
@@ -1068,7 +1072,7 @@ const closeMilestoneModal = () => {
   background-color: #eee;
   border-radius: 4px;
   color: #666;
-  
+
   .chart-note {
     font-size: 12px;
     color: #999;
@@ -1082,30 +1086,31 @@ const closeMilestoneModal = () => {
     align-items: flex-start;
     gap: 12px;
   }
-  
-  .search-input, .filter-select {
+
+  .search-input,
+  .filter-select {
     width: 100%;
   }
-  
+
   .visitors-grid {
     grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
   }
-  
+
   .section-tabs {
     overflow-x: auto;
     white-space: nowrap;
     width: 100%;
   }
-  
+
   .tab-btn {
     padding: 12px 16px;
   }
-  
+
   .stats-overview {
     flex-direction: column;
     gap: 16px;
   }
-  
+
   .stat-card {
     width: 100%;
   }

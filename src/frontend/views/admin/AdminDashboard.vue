@@ -9,7 +9,7 @@
         <button class="logout-button" @click="handleLogout">Logout</button>
       </div>
     </header>
-    
+
     <div class="admin-layout">
       <aside class="sidebar">
         <nav class="nav-menu">
@@ -39,7 +39,7 @@
           </router-link>
         </nav>
       </aside>
-      
+
       <main class="content-area">
         <router-view />
       </main>
@@ -57,7 +57,7 @@ const handleLogout = () => {
   // Clear authentication
   localStorage.removeItem('authenticated');
   localStorage.removeItem('authToken');
-  
+
   // Redirect to login
   router.push('/auth/login');
 };
@@ -81,22 +81,22 @@ const handleLogout = () => {
   background-color: var(--secondary-color);
   color: var(--text-color);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  
+
   .logo {
     display: flex;
     align-items: center;
-    
+
     .logo-image {
       height: 40px;
       margin-right: 1rem;
     }
-    
+
     h1 {
       margin: 0;
       font-size: 1.5rem;
     }
   }
-  
+
   .logout-button {
     padding: 0.5rem 1rem;
     background-color: transparent;
@@ -104,7 +104,7 @@ const handleLogout = () => {
     color: var(--text-color);
     border-radius: 4px;
     cursor: pointer;
-    
+
     &:hover {
       background-color: rgba(255, 255, 255, 0.1);
     }
@@ -128,7 +128,7 @@ const handleLogout = () => {
   display: flex;
   flex-direction: column;
   padding: 1rem 0;
-  
+
   .nav-item {
     display: flex;
     align-items: center;
@@ -136,7 +136,7 @@ const handleLogout = () => {
     color: var(--text-color);
     text-decoration: none;
     font-size: 1rem;
-    
+
     .icon {
       margin-right: 0.75rem;
       width: 20px;
@@ -145,16 +145,16 @@ const handleLogout = () => {
       background-position: center;
       opacity: 0.8;
     }
-    
+
     &:hover {
       background-color: rgba(255, 255, 255, 0.05);
     }
-    
+
     &.router-link-active {
       background-color: rgba(255, 255, 255, 0.1);
       color: var(--primary-color);
       font-weight: 500;
-      
+
       .icon {
         opacity: 1;
       }
@@ -169,10 +169,22 @@ const handleLogout = () => {
 }
 
 /* Icons placeholders - these would be replaced with actual SVG icons */
-.icon-dashboard::before { content: "📊"; }
-.icon-drinks::before { content: "🍺"; }
-.icon-games::before { content: "🎲"; }
-.icon-visitors::before { content: "👥"; }
-.icon-media::before { content: "🖼️"; }
-.icon-themes::before { content: "🎨"; }
+.icon-dashboard::before {
+  content: '📊';
+}
+.icon-drinks::before {
+  content: '🍺';
+}
+.icon-games::before {
+  content: '🎲';
+}
+.icon-visitors::before {
+  content: '👥';
+}
+.icon-media::before {
+  content: '🖼️';
+}
+.icon-themes::before {
+  content: '🎨';
+}
 </style>

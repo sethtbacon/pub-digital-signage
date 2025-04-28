@@ -1,16 +1,16 @@
 <template>
   <div class="games-management">
     <h1 class="page-title">Games Management</h1>
-    
+
     <div class="action-bar">
       <button class="primary-button" @click="showAddGameModal = true">
         <i class="icon-add"></i> Add New Game
       </button>
       <div class="search-container">
-        <input 
-          type="text" 
-          v-model="searchQuery" 
-          placeholder="Search games..." 
+        <input
+          v-model="searchQuery"
+          type="text"
+          placeholder="Search games..."
           class="search-input"
           @input="filterGames"
         />
@@ -18,19 +18,16 @@
     </div>
 
     <div class="section-tabs">
-      <button 
-        :class="['tab-btn', { active: activeTab === 'games' }]"
-        @click="activeTab = 'games'"
-      >
+      <button :class="['tab-btn', { active: activeTab === 'games' }]" @click="activeTab = 'games'">
         Games Library
       </button>
-      <button 
+      <button
         :class="['tab-btn', { active: activeTab === 'sessions' }]"
         @click="activeTab = 'sessions'"
       >
         Game Sessions
       </button>
-      <button 
+      <button
         :class="['tab-btn', { active: activeTab === 'leaderboard' }]"
         @click="activeTab = 'leaderboard'"
       >
@@ -44,22 +41,18 @@
         <div class="loading-spinner"></div>
         <p>Loading games...</p>
       </div>
-      
+
       <div v-else-if="filteredGames.length === 0" class="empty-state">
         <p v-if="searchQuery">No games match your search.</p>
         <p v-else>No games found. Add your first game!</p>
       </div>
-      
+
       <div v-else class="games-grid">
-        <div 
-          v-for="game in filteredGames" 
-          :key="game.id" 
-          class="game-card"
-        >
+        <div v-for="game in filteredGames" :key="game.id" class="game-card">
           <div class="game-image-container">
-            <img 
-              :src="game.imageUrl || '/img/default-game.jpg'" 
-              :alt="game.name" 
+            <img
+              :src="game.imageUrl || '/img/default-game.jpg'"
+              :alt="game.name"
               class="game-image"
             />
             <div class="game-actions">
@@ -88,7 +81,7 @@
       <button class="primary-button" @click="showAddSessionModal = true">
         <i class="icon-add"></i> Record Game Session
       </button>
-      
+
       <div class="filter-controls">
         <div class="filter-group">
           <label>Game:</label>
@@ -97,22 +90,17 @@
             <option v-for="game in games" :key="game.id" :value="game.id">{{ game.name }}</option>
           </select>
         </div>
-        
+
         <div class="filter-group">
           <label>Date Range:</label>
-          <input 
-            type="date" 
-            v-model="sessionDateFrom" 
+          <input
+            v-model="sessionDateFrom"
+            type="date"
             class="date-input"
             @change="filterSessions"
           />
           <span>to</span>
-          <input 
-            type="date" 
-            v-model="sessionDateTo" 
-            class="date-input"
-            @change="filterSessions"
-          />
+          <input v-model="sessionDateTo" type="date" class="date-input" @change="filterSessions" />
         </div>
       </div>
 
@@ -120,12 +108,14 @@
         <div class="loading-spinner"></div>
         <p>Loading sessions...</p>
       </div>
-      
+
       <div v-else-if="filteredSessions.length === 0" class="empty-state">
-        <p v-if="sessionGameFilter || sessionDateFrom || sessionDateTo">No sessions match your filters.</p>
+        <p v-if="sessionGameFilter || sessionDateFrom || sessionDateTo">
+          No sessions match your filters.
+        </p>
         <p v-else>No game sessions recorded. Record your first session!</p>
       </div>
-      
+
       <div v-else class="sessions-table">
         <table>
           <thead>
@@ -172,7 +162,7 @@
             <option v-for="game in games" :key="game.id" :value="game.id">{{ game.name }}</option>
           </select>
         </div>
-        
+
         <div class="filter-group">
           <label>Period:</label>
           <select v-model="leaderboardPeriodFilter" class="filter-select" @change="loadLeaderboard">
@@ -187,11 +177,11 @@
         <div class="loading-spinner"></div>
         <p>Loading leaderboard...</p>
       </div>
-      
+
       <div v-else-if="leaderboard.length === 0" class="empty-state">
         <p>No leaderboard data available for the selected filters.</p>
       </div>
-      
+
       <div v-else class="leaderboard-table">
         <table>
           <thead>
@@ -221,77 +211,74 @@
       <div class="modal-content">
         <div class="modal-header">
           <h2>{{ showEditGameModal ? 'Edit Game' : 'Add New Game' }}</h2>
-          <button 
-            class="modal-close" 
-            @click="closeGameModal"
-          >×</button>
+          <button class="modal-close" @click="closeGameModal">×</button>
         </div>
-        
-        <form @submit.prevent="saveGame" class="game-form">
+
+        <form class="game-form" @submit.prevent="saveGame">
           <div class="form-group">
             <label for="gameName">Name</label>
-            <input 
-              type="text" 
-              id="gameName" 
-              v-model="currentGame.name" 
+            <input
+              id="gameName"
+              v-model="currentGame.name"
+              type="text"
               required
               class="form-control"
             />
           </div>
-          
+
           <div class="form-row">
             <div class="form-group half">
               <label for="minPlayers">Min Players</label>
-              <input 
-                type="number" 
-                id="minPlayers" 
-                v-model.number="currentGame.minPlayers" 
+              <input
+                id="minPlayers"
+                v-model.number="currentGame.minPlayers"
+                type="number"
                 min="1"
                 required
                 class="form-control"
               />
             </div>
-            
+
             <div class="form-group half">
               <label for="maxPlayers">Max Players</label>
-              <input 
-                type="number" 
-                id="maxPlayers" 
-                v-model.number="currentGame.maxPlayers" 
+              <input
+                id="maxPlayers"
+                v-model.number="currentGame.maxPlayers"
+                type="number"
                 min="1"
                 required
                 class="form-control"
               />
             </div>
           </div>
-          
+
           <div class="form-group">
             <label for="playTime">Average Play Time (minutes)</label>
-            <input 
-              type="number" 
-              id="playTime" 
-              v-model.number="currentGame.playTime" 
+            <input
+              id="playTime"
+              v-model.number="currentGame.playTime"
+              type="number"
               min="1"
               required
               class="form-control"
             />
           </div>
-          
+
           <div class="form-group">
             <label for="gameDescription">Description</label>
-            <textarea 
-              id="gameDescription" 
-              v-model="currentGame.description" 
+            <textarea
+              id="gameDescription"
+              v-model="currentGame.description"
               rows="3"
               class="form-control"
             ></textarea>
           </div>
-          
+
           <div class="form-group">
             <label for="scoringType">Scoring Type</label>
-            <select 
-              id="scoringType" 
-              v-model="currentGame.scoringType" 
+            <select
+              id="scoringType"
+              v-model="currentGame.scoringType"
               required
               class="form-control"
             >
@@ -300,23 +287,23 @@
               <option value="winnerOnly">Winner Only (No Scores)</option>
             </select>
           </div>
-          
+
           <div class="form-group">
             <label for="gameImage">Image</label>
             <div class="image-upload-container">
-              <div class="current-image" v-if="currentGame.imageUrl">
+              <div v-if="currentGame.imageUrl" class="current-image">
                 <img :src="currentGame.imageUrl" alt="Game image" class="preview-image" />
               </div>
-              <input 
-                type="file" 
-                id="gameImage" 
-                @change="handleImageUpload" 
+              <input
+                id="gameImage"
+                type="file"
                 accept="image/*"
                 class="form-control"
+                @change="handleImageUpload"
               />
             </div>
           </div>
-          
+
           <div class="form-actions">
             <button type="button" class="secondary-button" @click="closeGameModal">Cancel</button>
             <button type="submit" class="primary-button">Save</button>
@@ -332,13 +319,13 @@
           <h2>{{ showEditSessionModal ? 'Edit Game Session' : 'Record Game Session' }}</h2>
           <button class="modal-close" @click="closeSessionModal">×</button>
         </div>
-        
-        <form @submit.prevent="saveSession" class="session-form">
+
+        <form class="session-form" @submit.prevent="saveSession">
           <div class="form-group">
             <label for="sessionGame">Game</label>
-            <select 
-              id="sessionGame" 
-              v-model="currentSession.gameId" 
+            <select
+              id="sessionGame"
+              v-model="currentSession.gameId"
               required
               class="form-control"
               @change="updateScoreFields"
@@ -347,87 +334,98 @@
               <option v-for="game in games" :key="game.id" :value="game.id">{{ game.name }}</option>
             </select>
           </div>
-          
+
           <div class="form-group">
             <label for="sessionDate">Date</label>
-            <input 
-              type="date" 
-              id="sessionDate" 
-              v-model="currentSession.date" 
+            <input
+              id="sessionDate"
+              v-model="currentSession.date"
+              type="date"
               required
               class="form-control"
             />
           </div>
-          
+
           <div class="form-group">
             <label>Players and Scores</label>
             <div class="player-list">
-              <div 
-                v-for="(player, index) in currentSession.players" 
-                :key="index" 
+              <div
+                v-for="(player, index) in currentSession.players"
+                :key="index"
                 class="player-entry"
               >
                 <div class="player-name-input">
-                  <input 
-                    type="text" 
-                    v-model="player.name" 
+                  <input
+                    v-model="player.name"
+                    type="text"
                     placeholder="Player name"
                     required
                     class="form-control"
                   />
                 </div>
-                <div class="player-score-input" v-if="getSelectedGame?.scoringType !== 'winnerOnly'">
-                  <input 
-                    type="number" 
-                    v-model.number="player.score" 
+                <div
+                  v-if="getSelectedGame?.scoringType !== 'winnerOnly'"
+                  class="player-score-input"
+                >
+                  <input
+                    v-model.number="player.score"
+                    type="number"
                     placeholder="Score"
                     class="form-control"
                   />
                 </div>
-                <div class="player-winner-toggle" v-if="getSelectedGame?.scoringType === 'winnerOnly'">
+                <div
+                  v-if="getSelectedGame?.scoringType === 'winnerOnly'"
+                  class="player-winner-toggle"
+                >
                   <label class="checkbox-label">
-                    <input 
-                      type="radio" 
-                      :name="'winner-selector'" 
-                      :value="index" 
-                      v-model="winnerIndex" 
+                    <input
+                      v-model="winnerIndex"
+                      type="radio"
+                      :name="'winner-selector'"
+                      :value="index"
                     />
                     Winner
                   </label>
                 </div>
-                <button 
-                  type="button" 
-                  class="remove-player-btn" 
-                  @click="removePlayer(index)"
+                <button
                   v-if="currentSession.players.length > 1"
+                  type="button"
+                  class="remove-player-btn"
+                  @click="removePlayer(index)"
                 >
                   ×
                 </button>
               </div>
             </div>
-            <button 
-              type="button" 
-              class="add-player-btn" 
+            <button
+              type="button"
+              class="add-player-btn"
+              :disabled="
+                !currentSession.gameId ||
+                currentSession.players.length >= getSelectedGame?.maxPlayers
+              "
               @click="addPlayer"
-              :disabled="!currentSession.gameId || (currentSession.players.length >= getSelectedGame?.maxPlayers)"
             >
               <i class="icon-add"></i> Add Player
             </button>
           </div>
-          
+
           <div class="form-group">
             <label for="sessionNotes">Notes</label>
-            <textarea 
-              id="sessionNotes" 
-              v-model="currentSession.notes" 
+            <textarea
+              id="sessionNotes"
+              v-model="currentSession.notes"
               rows="2"
               placeholder="Optional notes about the game session"
               class="form-control"
             ></textarea>
           </div>
-          
+
           <div class="form-actions">
-            <button type="button" class="secondary-button" @click="closeSessionModal">Cancel</button>
+            <button type="button" class="secondary-button" @click="closeSessionModal">
+              Cancel
+            </button>
             <button type="submit" class="primary-button">Save</button>
           </div>
         </form>
@@ -441,7 +439,7 @@
           <h2>Game Session Details</h2>
           <button class="modal-close" @click="showViewSessionModal = false">×</button>
         </div>
-        
+
         <div class="session-details">
           <div class="session-detail-row">
             <div class="detail-label">Game:</div>
@@ -451,31 +449,32 @@
             <div class="detail-label">Date:</div>
             <div class="detail-value">{{ formatDate(sessionToView?.date) }}</div>
           </div>
-          
+
           <h3>Results</h3>
           <div class="session-results">
-            <div 
-              v-for="(player, index) in sessionToView?.players" 
-              :key="index" 
+            <div
+              v-for="(player, index) in sessionToView?.players"
+              :key="index"
               class="player-result"
               :class="{ winner: isWinner(player, sessionToView) }"
             >
               <div class="player-result-name">{{ player.name }}</div>
-              <div class="player-result-score" v-if="getGameById(sessionToView?.gameId)?.scoringType !== 'winnerOnly'">
+              <div
+                v-if="getGameById(sessionToView?.gameId)?.scoringType !== 'winnerOnly'"
+                class="player-result-score"
+              >
                 {{ player.score }}
               </div>
-              <div class="player-result-winner" v-if="isWinner(player, sessionToView)">
-                Winner
-              </div>
+              <div v-if="isWinner(player, sessionToView)" class="player-result-winner">Winner</div>
             </div>
           </div>
-          
-          <div class="session-detail-row" v-if="sessionToView?.notes">
+
+          <div v-if="sessionToView?.notes" class="session-detail-row">
             <div class="detail-label">Notes:</div>
             <div class="detail-value">{{ sessionToView.notes }}</div>
           </div>
         </div>
-        
+
         <div class="form-actions">
           <button class="secondary-button" @click="showViewSessionModal = false">Close</button>
           <button class="primary-button" @click="editSession(sessionToView)">Edit</button>
@@ -490,7 +489,10 @@
           <h2>Confirm Delete</h2>
           <button class="modal-close" @click="showDeleteGameModal = false">×</button>
         </div>
-        <p>Are you sure you want to delete "{{ gameToDelete?.name }}"? This will also delete all associated game sessions and leaderboard data.</p>
+        <p>
+          Are you sure you want to delete "{{ gameToDelete?.name }}"? This will also delete all
+          associated game sessions and leaderboard data.
+        </p>
         <div class="form-actions">
           <button class="secondary-button" @click="showDeleteGameModal = false">Cancel</button>
           <button class="danger-button" @click="deleteGame">Delete</button>
@@ -505,7 +507,9 @@
           <h2>Confirm Delete</h2>
           <button class="modal-close" @click="showDeleteSessionModal = false">×</button>
         </div>
-        <p>Are you sure you want to delete this game session? This will affect leaderboard rankings.</p>
+        <p>
+          Are you sure you want to delete this game session? This will affect leaderboard rankings.
+        </p>
         <div class="form-actions">
           <button class="secondary-button" @click="showDeleteSessionModal = false">Cancel</button>
           <button class="danger-button" @click="deleteSession">Delete</button>
@@ -562,7 +566,7 @@ const currentGame = ref({
   playTime: 30,
   description: '',
   scoringType: 'highWins',
-  imageUrl: ''
+  imageUrl: '',
 });
 const gameToDelete = ref(null);
 
@@ -571,9 +575,9 @@ const currentSession = ref({
   date: new Date().toISOString().split('T')[0], // Today's date in YYYY-MM-DD
   players: [
     { name: '', score: 0, winner: false },
-    { name: '', score: 0, winner: false }
+    { name: '', score: 0, winner: false },
   ],
-  notes: ''
+  notes: '',
 });
 const sessionToDelete = ref(null);
 const sessionToView = ref(null);
@@ -589,7 +593,7 @@ onMounted(async () => {
 });
 
 // Watch activeTab changes
-watch(activeTab, async (newTab) => {
+watch(activeTab, async newTab => {
   if (newTab === 'sessions' && sessions.value.length === 0) {
     loadingSessions.value = true;
     try {
@@ -636,14 +640,14 @@ const loadSessions = async () => {
 const loadLeaderboard = async () => {
   loadingLeaderboard.value = true;
   try {
-    let endpoint = leaderboardGameFilter.value 
-      ? `/games/${leaderboardGameFilter.value}/leaderboard` 
+    let endpoint = leaderboardGameFilter.value
+      ? `/games/${leaderboardGameFilter.value}/leaderboard`
       : '/games/leaderboard/overall';
-    
+
     if (leaderboardPeriodFilter.value !== 'all') {
       endpoint += `?period=${leaderboardPeriodFilter.value}`;
     }
-    
+
     const response = await gamesApi.getLeaderboard(endpoint);
     leaderboard.value = response.data;
   } catch (error) {
@@ -660,11 +664,12 @@ const filterGames = () => {
     filteredGames.value = [...games.value];
     return;
   }
-  
+
   const query = searchQuery.value.toLowerCase().trim();
   filteredGames.value = games.value.filter(game => {
-    return game.name.toLowerCase().includes(query) || 
-           game.description.toLowerCase().includes(query);
+    return (
+      game.name.toLowerCase().includes(query) || game.description.toLowerCase().includes(query)
+    );
   });
 };
 
@@ -672,14 +677,14 @@ const filterGames = () => {
 const filterSessions = () => {
   filteredSessions.value = sessions.value.filter(session => {
     const matchesGame = !sessionGameFilter.value || session.gameId === sessionGameFilter.value;
-    
+
     let matchesDateFrom = true;
     if (sessionDateFrom.value) {
       const fromDate = new Date(sessionDateFrom.value);
       const sessionDate = new Date(session.date);
       matchesDateFrom = sessionDate >= fromDate;
     }
-    
+
     let matchesDateTo = true;
     if (sessionDateTo.value) {
       const toDate = new Date(sessionDateTo.value);
@@ -687,41 +692,46 @@ const filterSessions = () => {
       const sessionDate = new Date(session.date);
       matchesDateTo = sessionDate < toDate;
     }
-    
+
     return matchesGame && matchesDateFrom && matchesDateTo;
   });
 };
 
 // Get game name by id
-const getGameName = (gameId) => {
+const getGameName = gameId => {
   const game = games.value.find(g => g.id === gameId);
   return game ? game.name : 'Unknown Game';
 };
 
 // Get game by id
-const getGameById = (gameId) => {
+const getGameById = gameId => {
   return games.value.find(g => g.id === gameId);
 };
 
 // Get winner name from session
-const getWinnerName = (session) => {
+const getWinnerName = session => {
   if (!session || !session.players || session.players.length === 0) {
     return 'N/A';
   }
-  
+
   const game = getGameById(session.gameId);
   if (!game) return 'N/A';
-  
+
   if (game.scoringType === 'winnerOnly') {
     const winner = session.players.find(p => p.winner);
     return winner ? winner.name : 'N/A';
   } else if (game.scoringType === 'highWins') {
-    const winner = session.players.reduce((highest, current) => 
-      (current.score > highest.score) ? current : highest, session.players[0]);
+    const winner = session.players.reduce(
+      (highest, current) => (current.score > highest.score ? current : highest),
+      session.players[0]
+    );
     return winner ? winner.name : 'N/A';
-  } else { // lowWins
-    const winner = session.players.reduce((lowest, current) => 
-      (current.score < lowest.score) ? current : lowest, session.players[0]);
+  } else {
+    // lowWins
+    const winner = session.players.reduce(
+      (lowest, current) => (current.score < lowest.score ? current : lowest),
+      session.players[0]
+    );
     return winner ? winner.name : 'N/A';
   }
 };
@@ -729,16 +739,17 @@ const getWinnerName = (session) => {
 // Check if player is the winner
 const isWinner = (player, session) => {
   if (!session || !player) return false;
-  
+
   const game = getGameById(session.gameId);
   if (!game) return false;
-  
+
   if (game.scoringType === 'winnerOnly') {
     return player.winner;
   } else if (game.scoringType === 'highWins') {
     const highestScore = Math.max(...session.players.map(p => p.score));
     return player.score === highestScore;
-  } else { // lowWins
+  } else {
+    // lowWins
     const lowestScore = Math.min(...session.players.map(p => p.score));
     return player.score === lowestScore;
   }
@@ -751,24 +762,24 @@ const getSelectedGame = computed(() => {
 });
 
 // Format date
-const formatDate = (dateString) => {
+const formatDate = dateString => {
   if (!dateString) return '';
   const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', { 
-    year: 'numeric', 
-    month: 'short', 
-    day: 'numeric' 
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
   });
 };
 
 // Open edit game modal with game data
-const editGame = (game) => {
+const editGame = game => {
   currentGame.value = { ...game };
   showEditGameModal.value = true;
 };
 
 // Open delete game confirmation modal
-const confirmDeleteGame = (game) => {
+const confirmDeleteGame = game => {
   gameToDelete.value = game;
   showDeleteGameModal.value = true;
 };
@@ -779,7 +790,7 @@ const saveGame = async () => {
     if (showEditGameModal.value) {
       // Update existing game
       await gamesApi.updateGame(currentGame.value.id, currentGame.value);
-      
+
       // Update local list
       const index = games.value.findIndex(g => g.id === currentGame.value.id);
       if (index !== -1) {
@@ -790,7 +801,7 @@ const saveGame = async () => {
       const response = await gamesApi.createGame(currentGame.value);
       games.value.push(response.data);
     }
-    
+
     // Re-apply filters
     filterGames();
     closeGameModal();
@@ -803,18 +814,18 @@ const saveGame = async () => {
 // Delete a game
 const deleteGame = async () => {
   if (!gameToDelete.value) return;
-  
+
   try {
     await gamesApi.deleteGame(gameToDelete.value.id);
-    
+
     // Remove from local list
     games.value = games.value.filter(g => g.id !== gameToDelete.value.id);
     filterGames();
-    
+
     // Also remove associated sessions
     sessions.value = sessions.value.filter(s => s.gameId !== gameToDelete.value.id);
     filterSessions();
-    
+
     showDeleteGameModal.value = false;
     gameToDelete.value = null;
   } catch (error) {
@@ -824,15 +835,15 @@ const deleteGame = async () => {
 };
 
 // Handle image upload
-const handleImageUpload = (event) => {
+const handleImageUpload = event => {
   const file = event.target.files[0];
   if (!file) return;
-  
+
   // Here you would typically handle the file upload to your server
   // For now, we'll simulate by creating a temporary URL
   const tempUrl = URL.createObjectURL(file);
   currentGame.value.imageUrl = tempUrl;
-  
+
   // In a real application, you would upload the file to your server:
   // const formData = new FormData();
   // formData.append('image', file);
@@ -852,25 +863,25 @@ const closeGameModal = () => {
     playTime: 30,
     description: '',
     scoringType: 'highWins',
-    imageUrl: ''
+    imageUrl: '',
   };
 };
 
 // Session management methods
 const addPlayer = () => {
   if (currentSession.value.players.length < getSelectedGame.value?.maxPlayers) {
-    currentSession.value.players.push({ 
-      name: '', 
+    currentSession.value.players.push({
+      name: '',
       score: 0,
-      winner: false 
+      winner: false,
     });
   }
 };
 
-const removePlayer = (index) => {
+const removePlayer = index => {
   if (currentSession.value.players.length > 1) {
     currentSession.value.players.splice(index, 1);
-    
+
     // Update winnerIndex if needed
     if (winnerIndex.value >= currentSession.value.players.length) {
       winnerIndex.value = 0;
@@ -887,7 +898,7 @@ const updateScoreFields = () => {
       Math.max(currentSession.value.players.length, game.minPlayers),
       game.maxPlayers
     );
-    
+
     // Resize player array
     if (currentSession.value.players.length < playerCount) {
       // Add more players
@@ -898,31 +909,31 @@ const updateScoreFields = () => {
       // Remove excess players
       currentSession.value.players = currentSession.value.players.slice(0, playerCount);
     }
-    
+
     winnerIndex.value = 0; // Reset winner
   }
 };
 
-const viewSession = (session) => {
+const viewSession = session => {
   sessionToView.value = { ...session };
   showViewSessionModal.value = true;
 };
 
-const editSession = (session) => {
+const editSession = session => {
   currentSession.value = JSON.parse(JSON.stringify(session)); // Deep copy
   showViewSessionModal.value = false;
-  
+
   // Set winnerIndex for winnerOnly games
   const game = getGameById(session.gameId);
   if (game && game.scoringType === 'winnerOnly') {
     const winnerIdx = session.players.findIndex(p => p.winner);
     winnerIndex.value = winnerIdx >= 0 ? winnerIdx : 0;
   }
-  
+
   showEditSessionModal.value = true;
 };
 
-const confirmDeleteSession = (session) => {
+const confirmDeleteSession = session => {
   sessionToDelete.value = session;
   showDeleteSessionModal.value = true;
 };
@@ -935,12 +946,12 @@ const saveSession = async () => {
       player.winner = index === winnerIndex.value;
     });
   }
-  
+
   try {
     if (showEditSessionModal.value) {
       // Update existing session
       await gamesApi.updateGameSession(currentSession.value.id, currentSession.value);
-      
+
       // Update local list
       const index = sessions.value.findIndex(s => s.id === currentSession.value.id);
       if (index !== -1) {
@@ -951,11 +962,11 @@ const saveSession = async () => {
       const response = await gamesApi.createGameSession(currentSession.value);
       sessions.value.push(response.data);
     }
-    
+
     // Re-apply filters
     filterSessions();
     closeSessionModal();
-    
+
     // Reload leaderboard if we're on that tab
     if (activeTab.value === 'leaderboard') {
       loadLeaderboard();
@@ -968,17 +979,17 @@ const saveSession = async () => {
 
 const deleteSession = async () => {
   if (!sessionToDelete.value) return;
-  
+
   try {
     await gamesApi.deleteGameSession(sessionToDelete.value.id);
-    
+
     // Remove from local list
     sessions.value = sessions.value.filter(s => s.id !== sessionToDelete.value.id);
     filterSessions();
-    
+
     showDeleteSessionModal.value = false;
     sessionToDelete.value = null;
-    
+
     // Reload leaderboard if we're on that tab
     if (activeTab.value === 'leaderboard') {
       loadLeaderboard();
@@ -997,9 +1008,9 @@ const closeSessionModal = () => {
     date: new Date().toISOString().split('T')[0], // Today's date in YYYY-MM-DD
     players: [
       { name: '', score: 0, winner: false },
-      { name: '', score: 0, winner: false }
+      { name: '', score: 0, winner: false },
     ],
-    notes: ''
+    notes: '',
   };
   winnerIndex.value = 0;
 };
@@ -1096,7 +1107,7 @@ const closeSessionModal = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   &:hover {
     color: #c0392b;
   }
@@ -1113,11 +1124,11 @@ const closeSessionModal = () => {
   color: #555;
   font-size: 14px;
   cursor: pointer;
-  
+
   &:hover:not(:disabled) {
     background-color: #eee;
   }
-  
+
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -1130,12 +1141,12 @@ const closeSessionModal = () => {
 
 .session-detail-row {
   margin-bottom: 16px;
-  
+
   .detail-label {
     font-weight: 600;
     margin-bottom: 4px;
   }
-  
+
   .detail-value {
     color: #333;
   }
@@ -1154,7 +1165,7 @@ const closeSessionModal = () => {
   padding: 8px 12px;
   background-color: #f5f5f5;
   border-radius: 4px;
-  
+
   &.winner {
     background-color: rgba(var(--primary-color-rgb), 0.1);
     border: 1px solid var(--primary-color);
@@ -1178,7 +1189,7 @@ const closeSessionModal = () => {
   .player-entry {
     flex-wrap: wrap;
   }
-  
+
   .player-name-input {
     flex: 1 1 100%;
   }

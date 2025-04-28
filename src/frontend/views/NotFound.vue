@@ -28,19 +28,19 @@
 .content {
   text-align: center;
   padding: 2rem;
-  
+
   h1 {
     font-size: 8rem;
     margin: 0;
     color: var(--primary-color, #ff6b01);
     line-height: 1;
   }
-  
+
   h2 {
     font-size: 2rem;
     margin: 0 0 1rem 0;
   }
-  
+
   p {
     font-size: 1.2rem;
     margin-bottom: 2rem;
@@ -50,7 +50,7 @@
 
 .actions {
   margin-top: 2rem;
-  
+
   .back-button {
     display: inline-block;
     padding: 0.75rem 1.5rem;
@@ -60,7 +60,7 @@
     border-radius: 4px;
     font-weight: 500;
     transition: background-color 0.3s;
-    
+
     &:hover {
       background-color: darken(#ff6b01, 10%);
     }

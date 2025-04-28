@@ -12,5 +12,5 @@ export {
   useGameStore,
   useVisitorStore,
   useMediaStore,
-  useEventStore
+  useEventStore,
 };

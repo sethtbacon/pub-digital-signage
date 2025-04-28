@@ -13,22 +13,24 @@
       </div>
       <div class="header-right">
         <slot name="header-right">
-          <div class="time-display">{{ currentTime }} <span class="date-display">{{ currentDate }}</span></div>
+          <div class="time-display">
+            {{ currentTime }} <span class="date-display">{{ currentDate }}</span>
+          </div>
         </slot>
       </div>
     </header>
-    
+
     <main class="content">
       <slot />
     </main>
-    
+
     <footer class="footer">
       <div class="footer-left">
         <slot name="footer-left"></slot>
       </div>
       <div class="footer-center">
         <slot name="footer-center">
-          <div class="ticker-container" v-if="!isAdminMode && showTicker">
+          <div v-if="!isAdminMode && showTicker" class="ticker-container">
             <div class="ticker-content">
               <slot name="ticker-content">
                 <span class="ticker-item">Welcome to The Orange Pig Pub</span>
@@ -64,12 +66,12 @@ import { useThemeStore } from '../../store/modules/themeStore';
 const props = defineProps({
   title: {
     type: String,
-    default: 'Pub Digital Signage'
+    default: 'Pub Digital Signage',
   },
   showTicker: {
     type: Boolean,
-    default: true
-  }
+    default: true,
+  },
 });
 
 const route = useRoute();
@@ -87,26 +89,26 @@ let timeInterval = null;
 
 const updateTime = () => {
   const now = new Date();
-  
+
   // Format time (24-hour)
   currentTime.value = new Intl.DateTimeFormat('en-GB', {
     hour: '2-digit',
     minute: '2-digit',
-    hour12: false
+    hour12: false,
   }).format(now);
-  
+
   // Format date (e.g., "25 Apr")
   currentDate.value = new Intl.DateTimeFormat('en-GB', {
     day: '2-digit',
     month: 'short',
-    year: 'numeric'
+    year: 'numeric',
   }).format(now);
 };
 
 onMounted(() => {
   // Initialize theme
   themeStore.initialize();
-  
+
   // Set up clock
   updateTime();
   timeInterval = setInterval(updateTime, 60000); // Update every minute
@@ -136,15 +138,16 @@ onUnmounted(() => {
   color: var(--text-color);
   height: 80px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  
-  &-left, &-right {
+
+  &-left,
+  &-right {
     width: 20%;
   }
-  
+
   &-center {
     width: 60%;
     text-align: center;
-    
+
     h1 {
       margin: 0;
       font-size: var(--font-size-large);
@@ -161,7 +164,7 @@ onUnmounted(() => {
   font-size: var(--font-size-medium);
   font-weight: bold;
   text-align: right;
-  
+
   .date-display {
     display: block;
     font-size: var(--font-size-small);
@@ -185,11 +188,12 @@ onUnmounted(() => {
   background-color: var(--secondary-color);
   height: 60px;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-  
-  &-left, &-right {
+
+  &-left,
+  &-right {
     width: 30%;
   }
-  
+
   &-center {
     width: 40%;
     text-align: center;
@@ -200,24 +204,24 @@ onUnmounted(() => {
   width: 100%;
   overflow: hidden;
   white-space: nowrap;
-  
+
   .ticker-content {
     display: inline-block;
     animation: ticker 30s linear infinite;
-    
+
     .ticker-item {
       display: inline-block;
       padding: 0 var(--spacing-large);
       color: var(--text-color);
-      
+
       &::after {
-        content: "•";
+        content: '•';
         margin-left: var(--spacing-large);
         color: var(--primary-color);
       }
-      
+
       &:last-child::after {
-        content: "";
+        content: '';
       }
     }
   }
@@ -236,7 +240,7 @@ onUnmounted(() => {
   display: flex;
   justify-content: flex-end;
   gap: var(--spacing-medium);
-  
+
   .nav-item {
     color: var(--text-color);
     text-decoration: none;
@@ -244,13 +248,13 @@ onUnmounted(() => {
     padding: 0.5rem 0.75rem;
     border-radius: 4px;
     transition: background-color 0.2s ease-in-out;
-    
+
     &.router-link-active {
       font-weight: bold;
       color: var(--accent-color);
       background-color: rgba(255, 255, 255, 0.1);
     }
-    
+
     &:hover {
       background-color: rgba(255, 255, 255, 0.1);
     }
@@ -263,7 +267,7 @@ onUnmounted(() => {
     background-color: var(--secondary-color);
     height: 60px;
   }
-  
+
   .footer {
     height: 50px;
   }
@@ -273,20 +277,21 @@ onUnmounted(() => {
 @media (max-width: 1024px) {
   .header {
     height: 70px;
-    
-    &-left, &-right {
+
+    &-left,
+    &-right {
       width: 25%;
     }
-    
+
     &-center {
       width: 50%;
     }
   }
-  
+
   .content {
     padding: var(--spacing-medium);
   }
-  
+
   .logo {
     height: 50px;
   }
@@ -295,43 +300,45 @@ onUnmounted(() => {
 @media (max-width: 768px) {
   .header {
     height: 60px;
-    
+
     &-left {
       width: 30%;
     }
-    
+
     &-center {
       width: 40%;
     }
-    
+
     &-right {
       width: 30%;
     }
-    
+
     h1 {
       font-size: var(--font-size-medium);
     }
   }
-  
+
   .logo {
     height: 40px;
   }
-  
+
   .time-display {
     font-size: 1rem;
   }
-  
+
   .footer {
     height: auto;
     flex-direction: column;
     padding: var(--spacing-small);
-    
-    &-left, &-center, &-right {
+
+    &-left,
+    &-center,
+    &-right {
       width: 100%;
       margin: var(--spacing-small) 0;
     }
   }
-  
+
   .display-nav {
     justify-content: center;
     flex-wrap: wrap;

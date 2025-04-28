@@ -1,9 +1,7 @@
 <template>
   <BaseLayout title="Visitors">
     <div class="visitor-display">
-      <div v-if="visitorStore.loading" class="loading-state">
-        Loading visitor data...
-      </div>
+      <div v-if="visitorStore.loading" class="loading-state">Loading visitor data...</div>
       <div v-else-if="visitorStore.error" class="error-state">
         {{ visitorStore.error }}
       </div>
@@ -55,20 +53,14 @@
         <section class="recent-visitors-section">
           <h2>Today's Visitors</h2>
           <div class="visitors-list">
-            <div v-if="todayVisitors.length === 0" class="empty-state">
-              No visitors today yet.
-            </div>
+            <div v-if="todayVisitors.length === 0" class="empty-state">No visitors today yet.</div>
             <div v-else class="visitor-table">
               <div class="visitor-table-header">
                 <div class="visitor-name">Name</div>
                 <div class="visitor-time">Time</div>
                 <div class="visitor-status">Status</div>
               </div>
-              <div 
-                v-for="visitor in todayVisitors" 
-                :key="visitor.id" 
-                class="visitor-row"
-              >
+              <div v-for="visitor in todayVisitors" :key="visitor.id" class="visitor-row">
                 <div class="visitor-name">
                   <span v-if="visitor.vip" class="vip-badge">VIP</span>
                   {{ visitor.name }}
@@ -81,7 +73,7 @@
             </div>
           </div>
         </section>
-        
+
         <!-- Birthdays Section -->
         <section class="birthdays-section">
           <h2>Upcoming Birthdays</h2>
@@ -89,10 +81,10 @@
             <div v-if="upcomingBirthdays.length === 0" class="empty-state">
               No upcoming birthdays.
             </div>
-            <div 
+            <div
+              v-for="birthday in upcomingBirthdays"
               v-else
-              v-for="birthday in upcomingBirthdays" 
-              :key="birthday.id" 
+              :key="birthday.id"
               class="birthday-card"
               :class="{ 'today-birthday': isBirthdayToday(birthday.date) }"
             >
@@ -101,8 +93,12 @@
                 <div class="birthday-date">{{ formatBirthdayDate(birthday.date) }}</div>
               </div>
               <div class="birthday-countdown">
-                <span v-if="isBirthdayToday(birthday.date)" class="countdown-label today">Today!</span>
-                <span v-else class="countdown-label">In {{ getDaysUntilBirthday(birthday.date) }} days</span>
+                <span v-if="isBirthdayToday(birthday.date)" class="countdown-label today"
+                  >Today!</span
+                >
+                <span v-else class="countdown-label"
+                  >In {{ getDaysUntilBirthday(birthday.date) }} days</span
+                >
               </div>
             </div>
           </div>
@@ -128,51 +124,50 @@ const pubStats = ref({
   totalVisits: 128597,
   vipMembers: 324,
   yearsOpen: 15,
-  drinksServed: 495712
+  drinksServed: 495712,
 });
 
 // Helper functions
-const formatTime = (timeString) => {
+const formatTime = timeString => {
   if (!timeString) return '';
   const date = new Date(timeString);
   return date.toLocaleTimeString('en-US', {
     hour: 'numeric',
     minute: '2-digit',
-    hour12: true
+    hour12: true,
   });
 };
 
-const formatBirthdayDate = (dateString) => {
+const formatBirthdayDate = dateString => {
   if (!dateString) return '';
   const date = new Date(dateString);
   return date.toLocaleDateString('en-US', {
     month: 'short',
-    day: 'numeric'
+    day: 'numeric',
   });
 };
 
-const isBirthdayToday = (dateString) => {
+const isBirthdayToday = dateString => {
   if (!dateString) return false;
-  
+
   const today = new Date();
   const birthday = new Date(dateString);
-  
-  return birthday.getMonth() === today.getMonth() && 
-         birthday.getDate() === today.getDate();
+
+  return birthday.getMonth() === today.getMonth() && birthday.getDate() === today.getDate();
 };
 
-const getDaysUntilBirthday = (dateString) => {
+const getDaysUntilBirthday = dateString => {
   if (!dateString) return 0;
-  
+
   const today = new Date();
   const birthday = new Date(dateString);
   birthday.setFullYear(today.getFullYear());
-  
+
   // If the birthday has passed this year, set it for next year
   if (birthday < today) {
     birthday.setFullYear(today.getFullYear() + 1);
   }
-  
+
   const diffTime = birthday.getTime() - today.getTime();
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   return diffDays;
@@ -218,7 +213,7 @@ section {
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 8px;
   overflow: hidden;
-  
+
   h2 {
     color: var(--primary-color);
     margin: 0;
@@ -243,11 +238,11 @@ section {
   border-radius: 8px;
   padding: var(--spacing-medium);
   transition: transform 0.3s ease;
-  
+
   &:hover {
     transform: translateY(-5px);
   }
-  
+
   .milestone-icon {
     display: flex;
     justify-content: center;
@@ -256,12 +251,12 @@ section {
     height: 50px;
     border-radius: 50%;
     background-color: var(--primary-color);
-    
+
     .icon {
       font-size: 24px;
     }
   }
-  
+
   .milestone-content {
     .milestone-count {
       font-size: 1.8rem;
@@ -269,25 +264,25 @@ section {
       line-height: 1;
       margin-bottom: 5px;
     }
-    
+
     .milestone-label {
       font-size: 0.9rem;
       color: #999;
     }
   }
-  
+
   &.total-visits .milestone-icon {
     background-color: var(--primary-color);
   }
-  
+
   &.vip-members .milestone-icon {
-    background-color: #f39c12; 
+    background-color: #f39c12;
   }
-  
+
   &.years-open .milestone-icon {
     background-color: #2ecc71;
   }
-  
+
   &.drinks-served .milestone-icon {
     background-color: #3498db;
   }
@@ -321,16 +316,16 @@ section {
   padding: var(--spacing-small);
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 4px;
-  
+
   &:hover {
     background-color: rgba(0, 0, 0, 0.3);
   }
-  
+
   .visitor-name {
     display: flex;
     align-items: center;
     gap: 8px;
-    
+
     .vip-badge {
       background-color: #f39c12;
       color: white;
@@ -340,7 +335,7 @@ section {
       font-weight: bold;
     }
   }
-  
+
   .visitor-status {
     text-align: center;
     font-weight: bold;
@@ -348,17 +343,17 @@ section {
     padding: 2px 8px;
     font-size: 0.8rem;
     width: fit-content;
-    
+
     &.present {
       background-color: rgba(46, 204, 113, 0.3);
       color: #2ecc71;
     }
-    
+
     &.left {
       background-color: rgba(231, 76, 60, 0.3);
       color: #e74c3c;
     }
-    
+
     &.arriving {
       background-color: rgba(241, 196, 15, 0.3);
       color: #f1c40f;
@@ -381,31 +376,31 @@ section {
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   padding: var(--spacing-medium);
-  
+
   &.today-birthday {
     border-left: 4px solid var(--primary-color);
     background-color: rgba(255, 107, 1, 0.1);
   }
-  
+
   .birthday-header {
     .birthday-name {
       font-weight: bold;
       margin-bottom: 4px;
     }
-    
+
     .birthday-date {
       font-size: 0.9rem;
       color: #999;
     }
   }
-  
+
   .birthday-countdown {
     .countdown-label {
       background-color: rgba(0, 0, 0, 0.3);
       padding: 5px 10px;
       border-radius: 30px;
       font-size: 0.9rem;
-      
+
       &.today {
         background-color: var(--primary-color);
         color: white;
@@ -420,12 +415,12 @@ section {
   .milestone-cards {
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   }
-  
+
   .visitor-table-header,
   .visitor-row {
     grid-template-columns: 2fr 1fr;
   }
-  
+
   .visitor-status {
     display: none;
   }

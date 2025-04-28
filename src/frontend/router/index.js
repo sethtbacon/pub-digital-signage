@@ -36,8 +36,8 @@ const routes = [
         path: 'themes',
         name: 'AdminThemes',
         component: () => import('../views/admin/ThemeManagement.vue'),
-      }
-    ]
+      },
+    ],
   },
   {
     path: '/display/drinks',
@@ -74,7 +74,7 @@ const routes = [
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: () => import('../views/NotFound.vue'),
-  }
+  },
 ];
 
 // Create router instance

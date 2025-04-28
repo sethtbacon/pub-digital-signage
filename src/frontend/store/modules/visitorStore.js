@@ -8,23 +8,23 @@ export const useVisitorStore = defineStore('visitors', {
     topVisitors: [],
     recentMilestones: [],
     loading: false,
-    error: null
+    error: null,
   }),
-  
+
   getters: {
-    getVisitorById: (state) => (id) => {
+    getVisitorById: state => id => {
       return state.visitors.find(visitor => visitor.id === id);
     },
-    
-    visitorsSortedByVisits: (state) => {
+
+    visitorsSortedByVisits: state => {
       return [...state.visitors].sort((a, b) => b.visitCount - a.visitCount);
     },
-    
-    hasRecentMilestones: (state) => {
+
+    hasRecentMilestones: state => {
       return state.recentMilestones.length > 0;
-    }
+    },
   },
-  
+
   actions: {
     async fetchAllVisitors() {
       this.loading = true;
@@ -39,7 +39,7 @@ export const useVisitorStore = defineStore('visitors', {
         this.loading = false;
       }
     },
-    
+
     async fetchVisitorById(id) {
       this.loading = true;
       this.error = null;
@@ -53,7 +53,7 @@ export const useVisitorStore = defineStore('visitors', {
         this.loading = false;
       }
     },
-    
+
     async fetchTopVisitors(limit = 10) {
       this.loading = true;
       this.error = null;
@@ -67,7 +67,7 @@ export const useVisitorStore = defineStore('visitors', {
         this.loading = false;
       }
     },
-    
+
     async fetchRecentMilestones() {
       this.loading = true;
       this.error = null;
@@ -81,7 +81,7 @@ export const useVisitorStore = defineStore('visitors', {
         this.loading = false;
       }
     },
-    
+
     async createVisitor(visitorData) {
       this.loading = true;
       this.error = null;
@@ -97,7 +97,7 @@ export const useVisitorStore = defineStore('visitors', {
         this.loading = false;
       }
     },
-    
+
     async updateVisitor(id, visitorData) {
       this.loading = true;
       this.error = null;
@@ -119,7 +119,7 @@ export const useVisitorStore = defineStore('visitors', {
         this.loading = false;
       }
     },
-    
+
     async deleteVisitor(id) {
       this.loading = true;
       this.error = null;
@@ -137,18 +137,18 @@ export const useVisitorStore = defineStore('visitors', {
         this.loading = false;
       }
     },
-    
+
     async recordVisit(visitorId) {
       this.loading = true;
       this.error = null;
       try {
         const result = await visitorsApi.recordVisit(visitorId);
-        
+
         // Update the visitor data to reflect the visit
         await this.fetchVisitorById(visitorId);
         await this.fetchTopVisitors();
         await this.fetchRecentMilestones();
-        
+
         return result;
       } catch (error) {
         this.error = error.message || `Failed to record visit for visitor ID: ${visitorId}`;
@@ -158,7 +158,7 @@ export const useVisitorStore = defineStore('visitors', {
         this.loading = false;
       }
     },
-    
+
     async getVisitorMilestones(visitorId) {
       this.loading = true;
       this.error = null;
@@ -171,6 +171,6 @@ export const useVisitorStore = defineStore('visitors', {
       } finally {
         this.loading = false;
       }
-    }
-  }
+    },
+  },
 });

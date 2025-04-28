@@ -8,23 +8,23 @@ export const useEventStore = defineStore('events', {
     todaysEvents: [],
     currentEvent: null,
     loading: false,
-    error: null
+    error: null,
   }),
-  
+
   getters: {
-    getEventById: (state) => (id) => {
+    getEventById: state => id => {
       return state.allEvents.find(event => event.id === id);
     },
-    
-    hasUpcomingEvents: (state) => {
+
+    hasUpcomingEvents: state => {
       return state.upcomingEvents.length > 0;
     },
-    
-    hasTodayEvents: (state) => {
+
+    hasTodayEvents: state => {
       return state.todaysEvents.length > 0;
     },
-    
-    eventsByDate: (state) => {
+
+    eventsByDate: state => {
       const eventMap = {};
       state.allEvents.forEach(event => {
         const dateKey = new Date(event.startDate).toISOString().split('T')[0];
@@ -34,9 +34,9 @@ export const useEventStore = defineStore('events', {
         eventMap[dateKey].push(event);
       });
       return eventMap;
-    }
+    },
   },
-  
+
   actions: {
     async fetchAllEvents() {
       this.loading = true;
@@ -51,7 +51,7 @@ export const useEventStore = defineStore('events', {
         this.loading = false;
       }
     },
-    
+
     async fetchEventsByDateRange(startDate, endDate) {
       this.loading = true;
       this.error = null;
@@ -66,7 +66,7 @@ export const useEventStore = defineStore('events', {
         this.loading = false;
       }
     },
-    
+
     async fetchEventById(id) {
       this.loading = true;
       this.error = null;
@@ -80,7 +80,7 @@ export const useEventStore = defineStore('events', {
         this.loading = false;
       }
     },
-    
+
     async fetchUpcomingEvents(limit = 5) {
       this.loading = true;
       this.error = null;
@@ -94,7 +94,7 @@ export const useEventStore = defineStore('events', {
         this.loading = false;
       }
     },
-    
+
     async fetchTodaysEvents() {
       this.loading = true;
       this.error = null;
@@ -108,18 +108,18 @@ export const useEventStore = defineStore('events', {
         this.loading = false;
       }
     },
-    
+
     async createEvent(eventData) {
       this.loading = true;
       this.error = null;
       try {
         const newEvent = await eventsApi.createEvent(eventData);
         this.allEvents.push(newEvent);
-        
+
         // Refresh upcoming and today's events to reflect the change
         this.fetchUpcomingEvents();
         this.fetchTodaysEvents();
-        
+
         return newEvent;
       } catch (error) {
         this.error = error.message || 'Failed to create event';
@@ -129,36 +129,36 @@ export const useEventStore = defineStore('events', {
         this.loading = false;
       }
     },
-    
+
     async updateEvent(id, eventData) {
       this.loading = true;
       this.error = null;
       try {
         const updatedEvent = await eventsApi.updateEvent(id, eventData);
-        
+
         // Update in the all events list
         const index = this.allEvents.findIndex(event => event.id === id);
         if (index !== -1) {
           this.allEvents[index] = updatedEvent;
         }
-        
+
         // Update in upcoming events if present
         const upcomingIndex = this.upcomingEvents.findIndex(event => event.id === id);
         if (upcomingIndex !== -1) {
           this.upcomingEvents[upcomingIndex] = updatedEvent;
         }
-        
+
         // Update in today's events if present
         const todayIndex = this.todaysEvents.findIndex(event => event.id === id);
         if (todayIndex !== -1) {
           this.todaysEvents[todayIndex] = updatedEvent;
         }
-        
+
         // Update current event if viewing
         if (this.currentEvent && this.currentEvent.id === id) {
           this.currentEvent = updatedEvent;
         }
-        
+
         return updatedEvent;
       } catch (error) {
         this.error = error.message || `Failed to update event with ID: ${id}`;
@@ -168,18 +168,18 @@ export const useEventStore = defineStore('events', {
         this.loading = false;
       }
     },
-    
+
     async deleteEvent(id) {
       this.loading = true;
       this.error = null;
       try {
         await eventsApi.deleteEvent(id);
-        
+
         // Remove from all lists
         this.allEvents = this.allEvents.filter(event => event.id !== id);
         this.upcomingEvents = this.upcomingEvents.filter(event => event.id !== id);
         this.todaysEvents = this.todaysEvents.filter(event => event.id !== id);
-        
+
         if (this.currentEvent && this.currentEvent.id === id) {
           this.currentEvent = null;
         }
@@ -190,6 +190,6 @@ export const useEventStore = defineStore('events', {
       } finally {
         this.loading = false;
       }
-    }
-  }
+    },
+  },
 });

@@ -26,7 +26,7 @@ const currentMedia = ref({
   url: '',
   featured: false,
   slideshow: false,
-  tags: []
+  tags: [],
 });
 const mediaToDelete = ref(null);
 
@@ -44,7 +44,7 @@ onMounted(async () => {
 const fetchAllMedia = async () => {
   loading.value = true;
   error.value = null;
-  
+
   try {
     const response = await mediaApi.getAllMedia();
     media.value = response.data || [];
@@ -60,67 +60,67 @@ const fetchAllMedia = async () => {
 // Filter media based on search query and type filter
 const filterMedia = () => {
   if (!media.value.length) return;
-  
+
   let results = [...media.value];
-  
+
   // Apply search filter
   if (searchQuery.value.trim()) {
     const query = searchQuery.value.toLowerCase();
-    results = results.filter(item => 
-      item.title?.toLowerCase().includes(query) || 
-      item.description?.toLowerCase().includes(query) ||
-      (item.tags && item.tags.some(tag => tag.toLowerCase().includes(query)))
+    results = results.filter(
+      item =>
+        item.title?.toLowerCase().includes(query) ||
+        item.description?.toLowerCase().includes(query) ||
+        (item.tags && item.tags.some(tag => tag.toLowerCase().includes(query)))
     );
   }
-  
+
   // Apply type filter
   if (typeFilter.value) {
     results = results.filter(item => item.type === typeFilter.value);
   }
-  
+
   filteredMedia.value = results;
 };
 
 // Format date for display
-const formatDate = (dateString) => {
+const formatDate = dateString => {
   if (!dateString) return 'Unknown';
-  
+
   const date = new Date(dateString);
-  return new Intl.DateTimeFormat('en-US', { 
-    year: 'numeric', 
-    month: 'short', 
-    day: 'numeric' 
+  return new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
   }).format(date);
 };
 
 // Handle file selection for upload
-const handleFileSelect = (event) => {
+const handleFileSelect = event => {
   const file = event.target.files[0];
   if (!file) return;
-  
+
   uploadedFile.value = file;
-  
+
   // Determine media type from file
   const fileType = file.type.split('/')[0];
-  currentMedia.value.type = fileType === 'image' ? 'image' : 
-                            fileType === 'video' ? 'video' : '';
-  
+  currentMedia.value.type = fileType === 'image' ? 'image' : fileType === 'video' ? 'video' : '';
+
   // Create preview URL
   currentMedia.value.url = URL.createObjectURL(file);
-  
+
   // Reset upload state
   uploadProgress.value = 0;
   uploadError.value = '';
 };
 
 // Edit media
-const editMedia = (item) => {
+const editMedia = item => {
   currentMedia.value = { ...item };
   showEditMediaModal.value = true;
 };
 
 // Confirm delete media
-const confirmDeleteMedia = (item) => {
+const confirmDeleteMedia = item => {
   mediaToDelete.value = item;
   showDeleteMediaModal.value = true;
 };
@@ -128,16 +128,16 @@ const confirmDeleteMedia = (item) => {
 // Delete media
 const deleteMedia = async () => {
   if (!mediaToDelete.value) return;
-  
+
   try {
     await mediaApi.deleteMedia(mediaToDelete.value.id);
-    
+
     // Remove from local array
     media.value = media.value.filter(item => item.id !== mediaToDelete.value.id);
-    
+
     // Update filtered list
     filterMedia();
-    
+
     // Reset state
     showDeleteMediaModal.value = false;
     mediaToDelete.value = null;
@@ -153,7 +153,7 @@ const saveMedia = async () => {
     if (showEditMediaModal.value) {
       // Update existing media
       const response = await mediaApi.updateMedia(currentMedia.value.id, currentMedia.value);
-      
+
       // Update in local array
       const index = media.value.findIndex(item => item.id === currentMedia.value.id);
       if (index !== -1) {
@@ -167,20 +167,20 @@ const saveMedia = async () => {
       formData.append('description', currentMedia.value.description);
       formData.append('featured', currentMedia.value.featured);
       formData.append('slideshow', currentMedia.value.slideshow);
-      
+
       if (currentMedia.value.tags && currentMedia.value.tags.length) {
         formData.append('tags', JSON.stringify(currentMedia.value.tags));
       }
-      
+
       const response = await mediaApi.uploadMedia(formData);
-      
+
       // Add to local array
       media.value.unshift(response.data);
     }
-    
+
     // Update filtered list
     filterMedia();
-    
+
     // Reset state and close modal
     closeMediaModal();
   } catch (err) {
@@ -200,7 +200,7 @@ const closeMediaModal = () => {
     url: '',
     featured: false,
     slideshow: false,
-    tags: []
+    tags: [],
   };
   uploadedFile.value = null;
   uploadProgress.value = 0;
@@ -208,13 +208,13 @@ const closeMediaModal = () => {
 };
 
 // Add tag to media
-const addTag = (tag) => {
+const addTag = tag => {
   if (!tag || !tag.trim()) return;
-  
+
   if (!currentMedia.value.tags) {
     currentMedia.value.tags = [];
   }
-  
+
   // Avoid duplicates
   if (!currentMedia.value.tags.includes(tag.trim())) {
     currentMedia.value.tags.push(tag.trim());
@@ -222,7 +222,7 @@ const addTag = (tag) => {
 };
 
 // Remove tag from media
-const removeTag = (index) => {
+const removeTag = index => {
   if (currentMedia.value.tags && index >= 0 && index < currentMedia.value.tags.length) {
     currentMedia.value.tags.splice(index, 1);
   }
@@ -232,16 +232,16 @@ const removeTag = (index) => {
 <template>
   <div class="media-management">
     <h1 class="page-title">Media Management</h1>
-    
+
     <div class="action-bar">
       <button class="primary-button" @click="showAddMediaModal = true">
         <i class="icon-add"></i> Upload Media
       </button>
       <div class="search-container">
-        <input 
-          type="text" 
-          v-model="searchQuery" 
-          placeholder="Search media..." 
+        <input
+          v-model="searchQuery"
+          type="text"
+          placeholder="Search media..."
           class="search-input"
           @input="filterMedia"
         />
@@ -260,32 +260,28 @@ const removeTag = (index) => {
         <div class="loading-spinner"></div>
         <p>Loading media...</p>
       </div>
-      
+
       <div v-else-if="error" class="error-state">
         {{ error }}
       </div>
-      
+
       <div v-else-if="filteredMedia.length === 0" class="empty-state">
         <p v-if="searchQuery || typeFilter">No media matches your filters.</p>
         <p v-else>No media found. Upload your first media!</p>
       </div>
-      
+
       <div v-else class="media-grid">
-        <div 
-          v-for="media in filteredMedia" 
-          :key="media.id" 
-          class="media-card"
-        >
+        <div v-for="media in filteredMedia" :key="media.id" class="media-card">
           <div class="media-image-container">
-            <img 
+            <img
               v-if="media.type === 'image'"
-              :src="media.url" 
-              :alt="media.title" 
+              :src="media.url"
+              :alt="media.title"
               class="media-image"
             />
-            <video 
+            <video
               v-else-if="media.type === 'video'"
-              :src="media.url" 
+              :src="media.url"
               class="media-image"
               controls
             ></video>
@@ -314,7 +310,7 @@ const removeTag = (index) => {
         </div>
       </div>
     </div>
-    
+
     <!-- Add/Edit Media Modal -->
     <div v-if="showAddMediaModal || showEditMediaModal" class="modal">
       <div class="modal-content">
@@ -322,74 +318,77 @@ const removeTag = (index) => {
           <h2>{{ showEditMediaModal ? 'Edit Media' : 'Upload Media' }}</h2>
           <button class="modal-close" @click="closeMediaModal">×</button>
         </div>
-        
-        <form @submit.prevent="saveMedia" class="media-form">
+
+        <form class="media-form" @submit.prevent="saveMedia">
           <!-- File Upload (only for new media) -->
           <div v-if="!showEditMediaModal" class="form-group">
             <label for="mediaFile">Select File</label>
-            <input 
-              type="file" 
-              id="mediaFile" 
-              @change="handleFileSelect" 
+            <input
+              id="mediaFile"
+              type="file"
               accept="image/*, video/*"
               class="form-control"
               required
+              @change="handleFileSelect"
             />
-            
+
             <div v-if="currentMedia.url" class="media-preview">
-              <img 
-                v-if="currentMedia.type === 'image'" 
-                :src="currentMedia.url" 
-                alt="Preview" 
+              <img
+                v-if="currentMedia.type === 'image'"
+                :src="currentMedia.url"
+                alt="Preview"
                 class="preview-image"
               />
-              <video 
-                v-else-if="currentMedia.type === 'video'" 
-                :src="currentMedia.url" 
-                controls 
+              <video
+                v-else-if="currentMedia.type === 'video'"
+                :src="currentMedia.url"
+                controls
                 class="preview-image"
               ></video>
             </div>
-            
+
             <div v-if="uploadProgress > 0" class="upload-progress">
               <div class="progress-bar" :style="{ width: uploadProgress + '%' }"></div>
               <span>{{ uploadProgress }}%</span>
             </div>
           </div>
-          
+
           <!-- Media Details -->
           <div class="form-group">
             <label for="mediaTitle">Title</label>
-            <input 
-              type="text" 
-              id="mediaTitle" 
-              v-model="currentMedia.title" 
+            <input
+              id="mediaTitle"
+              v-model="currentMedia.title"
+              type="text"
               required
               class="form-control"
               placeholder="Enter a title for this media"
             />
           </div>
-          
+
           <div class="form-group">
             <label for="mediaDescription">Description</label>
-            <textarea 
-              id="mediaDescription" 
-              v-model="currentMedia.description" 
+            <textarea
+              id="mediaDescription"
+              v-model="currentMedia.description"
               rows="3"
               class="form-control"
               placeholder="Describe this media (optional)"
             ></textarea>
           </div>
-          
+
           <!-- Tags -->
           <div class="form-group">
             <label>Tags</label>
             <div class="tag-input-container">
-              <input 
-                type="text" 
-                placeholder="Add a tag and press Enter" 
+              <input
+                type="text"
+                placeholder="Add a tag and press Enter"
                 class="form-control tag-input"
-                @keydown.enter.prevent="addTag($event.target.value); $event.target.value = ''"
+                @keydown.enter.prevent="
+                  addTag($event.target.value);
+                  $event.target.value = '';
+                "
               />
             </div>
             <div v-if="currentMedia.tags && currentMedia.tags.length" class="tags-container">
@@ -399,27 +398,27 @@ const removeTag = (index) => {
               </span>
             </div>
           </div>
-          
+
           <!-- Display Options -->
           <div class="form-group checkbox-group">
             <label class="checkbox-label">
-              <input type="checkbox" v-model="currentMedia.featured" />
+              <input v-model="currentMedia.featured" type="checkbox" />
               Featured in galleries
             </label>
           </div>
-          
+
           <div class="form-group checkbox-group">
             <label class="checkbox-label">
-              <input type="checkbox" v-model="currentMedia.slideshow" />
+              <input v-model="currentMedia.slideshow" type="checkbox" />
               Include in slideshow
             </label>
           </div>
-          
+
           <!-- Error Message -->
           <div v-if="uploadError" class="error-message">
             {{ uploadError }}
           </div>
-          
+
           <!-- Form Actions -->
           <div class="form-actions">
             <button type="button" class="secondary-button" @click="closeMediaModal">Cancel</button>
@@ -430,7 +429,7 @@ const removeTag = (index) => {
         </form>
       </div>
     </div>
-    
+
     <!-- Delete Confirmation Modal -->
     <div v-if="showDeleteMediaModal" class="modal">
       <div class="modal-content confirmation-modal">
@@ -584,13 +583,13 @@ video.media-image {
   border-radius: 10px;
   overflow: hidden;
   position: relative;
-  
+
   .progress-bar {
     height: 100%;
     background-color: var(--primary-color);
     transition: width 0.3s ease;
   }
-  
+
   span {
     position: absolute;
     top: 50%;
@@ -616,7 +615,7 @@ video.media-image {
   border-radius: 12px;
   display: flex;
   align-items: center;
-  
+
   .remove-tag {
     background: none;
     border: none;
@@ -628,7 +627,7 @@ video.media-image {
     display: flex;
     align-items: center;
     justify-content: center;
-    
+
     &:hover {
       color: var(--accent-color);
     }

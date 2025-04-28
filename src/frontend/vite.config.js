@@ -10,26 +10,26 @@ export default defineConfig({
         compilerOptions: {
           // Enable Vue to handle common Vue 2 patterns if needed
           compatConfig: {
-            MODE: 3
-          }
-        }
-      }
-    })
+            MODE: 3,
+          },
+        },
+      },
+    }),
   ],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
-    }
+    },
   },
   // Enable Pinia legacy support
   define: {
     __PINIA_LEGACY_API__: true,
-    __VUE_PROD_DEVTOOLS__: false
+    __VUE_PROD_DEVTOOLS__: false,
   },
   // Specify the build entry point
   build: {
     rollupOptions: {
-      input: path.resolve(__dirname, 'index.html')
-    }
-  }
+      input: path.resolve(__dirname, 'index.html'),
+    },
+  },
 });

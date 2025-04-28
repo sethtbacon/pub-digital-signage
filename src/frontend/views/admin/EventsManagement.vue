@@ -26,22 +26,21 @@ onMounted(() => {
 });
 
 const eventCount = computed(() => events.value.length);
-
 </script>
 
 <template>
   <div class="events-management">
     <h1 class="page-title">Events Management</h1>
-    
+
     <div class="action-bar">
       <button class="primary-button" @click="showAddEventModal = true">
         <i class="icon-add"></i> Add New Event
       </button>
       <div class="search-container">
-        <input 
-          type="text" 
-          v-model="searchQuery" 
-          placeholder="Search events..." 
+        <input
+          v-model="searchQuery"
+          type="text"
+          placeholder="Search events..."
           class="search-input"
         />
       </div>
@@ -54,7 +53,7 @@ const eventCount = computed(() => events.value.length);
         </select>
       </div>
     </div>
-    
+
     <div class="content-container">
       <div v-if="loading" class="loading-container">
         <div class="loading-spinner"></div>
@@ -66,8 +65,8 @@ const eventCount = computed(() => events.value.length);
       </div>
       <div v-else class="events-grid">
         <div v-for="event in events" :key="event.id" class="event-card">
-          <div class="event-image-container" v-if="event.imageUrl">
-            <img :src="event.imageUrl" :alt="event.name" class="event-image">
+          <div v-if="event.imageUrl" class="event-image-container">
+            <img :src="event.imageUrl" :alt="event.name" class="event-image" />
             <div class="event-actions">
               <button class="edit-button" @click="editEvent(event)">
                 <i class="icon-edit"></i>

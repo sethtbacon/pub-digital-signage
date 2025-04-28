@@ -1,9 +1,7 @@
 <template>
   <BaseLayout title="Media Gallery">
     <div class="media-display">
-      <div v-if="mediaStore.loading" class="loading-state">
-        Loading media content...
-      </div>
+      <div v-if="mediaStore.loading" class="loading-state">Loading media content...</div>
       <div v-else-if="mediaStore.error" class="error-state">
         {{ mediaStore.error }}
       </div>
@@ -11,8 +9,8 @@
         <!-- Media Filter Controls -->
         <div class="media-controls">
           <div class="filter-buttons">
-            <button 
-              v-for="type in mediaTypes" 
+            <button
+              v-for="type in mediaTypes"
               :key="type"
               class="filter-button"
               :class="{ active: activeFilter === type }"
@@ -21,16 +19,16 @@
               {{ type }}
             </button>
           </div>
-          
+
           <div class="view-toggle">
-            <button 
+            <button
               class="view-button"
               :class="{ active: viewMode === 'grid' }"
               @click="viewMode = 'grid'"
             >
               Grid
             </button>
-            <button 
+            <button
               class="view-button"
               :class="{ active: viewMode === 'slideshow' }"
               @click="viewMode = 'slideshow'"
@@ -45,21 +43,17 @@
           <div v-if="filteredMedia.length === 0" class="empty-state">
             No media content available.
           </div>
-          <div 
+          <div
+            v-for="media in filteredMedia"
             v-else
-            v-for="media in filteredMedia" 
-            :key="media.id" 
+            :key="media.id"
             class="media-item"
             @click="openMedia(media)"
           >
             <div class="media-thumbnail">
-              <img 
-                v-if="media.type === 'Photo'" 
-                :src="media.url" 
-                :alt="media.title"
-              />
-              <div 
-                v-else-if="media.type === 'Video'" 
+              <img v-if="media.type === 'Photo'" :src="media.url" :alt="media.title" />
+              <div
+                v-else-if="media.type === 'Video'"
                 class="video-thumbnail"
                 :style="{ backgroundImage: `url(${media.thumbnailUrl || media.url})` }"
               >
@@ -84,18 +78,12 @@
                 <img :src="currentMedia.url" :alt="currentMedia.title" />
               </div>
               <div v-else-if="currentMedia.type === 'Video'" class="video-slide">
-                <video 
-                  controls 
-                  autoplay 
-                  :src="currentMedia.url"
-                ></video>
+                <video controls autoplay :src="currentMedia.url"></video>
               </div>
             </div>
-            
+
             <div class="slideshow-controls">
-              <button class="slideshow-button prev" @click="prevMedia">
-                &#10094;
-              </button>
+              <button class="slideshow-button prev" @click="prevMedia">&#10094;</button>
               <div class="slide-info">
                 <h3>{{ currentMedia.title }}</h3>
                 <p>{{ currentMedia.description }}</p>
@@ -104,9 +92,7 @@
                   <span>{{ currentSlideIndex + 1 }} / {{ filteredMedia.length }}</span>
                 </div>
               </div>
-              <button class="slideshow-button next" @click="nextMedia">
-                &#10095;
-              </button>
+              <button class="slideshow-button next" @click="nextMedia">&#10095;</button>
             </div>
           </div>
         </div>
@@ -117,18 +103,14 @@
     <div v-if="lightboxOpen" class="lightbox" @click="closeLightbox">
       <div class="lightbox-content" @click.stop>
         <button class="lightbox-close" @click="closeLightbox">×</button>
-        
+
         <div v-if="lightboxMedia.type === 'Photo'" class="lightbox-photo">
           <img :src="lightboxMedia.url" :alt="lightboxMedia.title" />
         </div>
         <div v-else-if="lightboxMedia.type === 'Video'" class="lightbox-video">
-          <video 
-            controls 
-            autoplay 
-            :src="lightboxMedia.url"
-          ></video>
+          <video controls autoplay :src="lightboxMedia.url"></video>
         </div>
-        
+
         <div class="lightbox-info">
           <h3>{{ lightboxMedia.title }}</h3>
           <p>{{ lightboxMedia.description }}</p>
@@ -173,7 +155,7 @@ const currentMedia = computed(() => {
 });
 
 // Methods
-const setFilter = (type) => {
+const setFilter = type => {
   activeFilter.value = type;
   currentSlideIndex.value = 0;
 };
@@ -185,12 +167,11 @@ const nextMedia = () => {
 
 const prevMedia = () => {
   if (filteredMedia.value.length === 0) return;
-  currentSlideIndex.value = currentSlideIndex.value === 0 
-    ? filteredMedia.value.length - 1
-    : currentSlideIndex.value - 1;
+  currentSlideIndex.value =
+    currentSlideIndex.value === 0 ? filteredMedia.value.length - 1 : currentSlideIndex.value - 1;
 };
 
-const openMedia = (media) => {
+const openMedia = media => {
   lightboxMedia.value = media;
   lightboxOpen.value = true;
 };
@@ -199,13 +180,13 @@ const closeLightbox = () => {
   lightboxOpen.value = false;
 };
 
-const formatDate = (dateString) => {
+const formatDate = dateString => {
   if (!dateString) return '';
   const date = new Date(dateString);
   return date.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short',
-    day: 'numeric'
+    day: 'numeric',
   });
 };
 
@@ -219,7 +200,7 @@ const startSlideshowTimer = () => {
 };
 
 // Watch for changes to viewMode to start/stop slideshow timer
-watch(viewMode, (newMode) => {
+watch(viewMode, newMode => {
   if (newMode === 'slideshow') {
     startSlideshowTimer();
   } else {
@@ -288,7 +269,8 @@ onMounted(() => {
   gap: 8px;
 }
 
-.filter-button, .view-button {
+.filter-button,
+.view-button {
   background: rgba(0, 0, 0, 0.2);
   color: var(--text-color);
   border: none;
@@ -297,11 +279,11 @@ onMounted(() => {
   cursor: pointer;
   font-size: 0.9rem;
   transition: all 0.2s ease;
-  
+
   &:hover {
     background: rgba(255, 255, 255, 0.1);
   }
-  
+
   &.active {
     background: var(--primary-color);
     color: var(--text-color);
@@ -326,25 +308,27 @@ onMounted(() => {
   border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
   }
-  
+
   .media-thumbnail {
     height: 180px;
     width: 100%;
     overflow: hidden;
     position: relative;
-    
+
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
-    
+
     .video-thumbnail {
       width: 100%;
       height: 100%;
@@ -354,7 +338,7 @@ onMounted(() => {
       justify-content: center;
       align-items: center;
     }
-    
+
     .play-icon {
       font-size: 40px;
       color: white;
@@ -367,10 +351,10 @@ onMounted(() => {
       align-items: center;
     }
   }
-  
+
   .media-info {
     padding: var(--spacing-small);
-    
+
     .media-title {
       margin: 0;
       font-size: 1rem;
@@ -378,7 +362,7 @@ onMounted(() => {
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    
+
     .media-date {
       font-size: 0.8rem;
       color: #999;
@@ -410,28 +394,28 @@ onMounted(() => {
   align-items: center;
   overflow: hidden;
   background-color: rgba(0, 0, 0, 0.5);
-  
+
   .photo-slide {
     width: 100%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    
+
     img {
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
     }
   }
-  
+
   .video-slide {
     width: 100%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    
+
     video {
       max-width: 100%;
       max-height: 100%;
@@ -444,7 +428,7 @@ onMounted(() => {
   align-items: center;
   padding: var(--spacing-medium);
   background-color: rgba(0, 0, 0, 0.2);
-  
+
   .slideshow-button {
     background: rgba(0, 0, 0, 0.3);
     color: var(--text-color);
@@ -458,27 +442,27 @@ onMounted(() => {
     font-size: 18px;
     cursor: pointer;
     transition: background 0.2s ease;
-    
+
     &:hover {
       background: var(--primary-color);
     }
   }
-  
+
   .slide-info {
     flex: 1;
     padding: 0 var(--spacing-medium);
-    
+
     h3 {
       margin: 0 0 5px 0;
     }
-    
+
     p {
       margin: 0 0 8px 0;
       color: #ccc;
       font-size: 0.9rem;
       line-height: 1.4;
     }
-    
+
     .slide-meta {
       display: flex;
       justify-content: space-between;
@@ -508,7 +492,7 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   position: relative;
-  
+
   .lightbox-close {
     position: absolute;
     top: -40px;
@@ -519,34 +503,36 @@ onMounted(() => {
     font-size: 30px;
     cursor: pointer;
   }
-  
-  .lightbox-photo, .lightbox-video {
+
+  .lightbox-photo,
+  .lightbox-video {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    
-    img, video {
+
+    img,
+    video {
       max-width: 100%;
       max-height: 80vh;
       object-fit: contain;
     }
   }
-  
+
   .lightbox-info {
     padding: var(--spacing-medium);
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 0 0 8px 8px;
-    
+
     h3 {
       margin: 0 0 5px 0;
     }
-    
+
     p {
       margin: 0 0 8px 0;
       color: #ccc;
     }
-    
+
     .lightbox-date {
       font-size: 0.8rem;
       color: #999;
@@ -559,15 +545,15 @@ onMounted(() => {
   .media-grid {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   }
-  
+
   .media-controls {
     flex-direction: column;
     gap: var(--spacing-small);
   }
-  
+
   .slideshow-controls {
     padding: var(--spacing-small);
-    
+
     .slide-info {
       p {
         display: none;

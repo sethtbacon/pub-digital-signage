@@ -17,29 +17,33 @@ const router = useRouter();
 const transitionName = ref('fade');
 
 // Watch for route changes to set appropriate transition
-watch(() => router.currentRoute.value, (to, from) => {
-  // Default transition
-  transitionName.value = 'fade';
-  
-  // Check if to/from exist and have path properties
-  const toPath = to?.path || '';
-  const fromPath = from?.path || '';
-  
-  // Special transitions for display routes
-  if (toPath.includes('/display/') && fromPath.includes('/display/')) {
-    transitionName.value = 'slide';
-  }
-  
-  // Use zoom transition when going to or from admin
-  if (toPath.includes('/admin') || fromPath.includes('/admin')) {
-    transitionName.value = 'zoom';
-  }
-  
-  // Use flip for dramatic transitions (e.g., games)
-  if (toPath.includes('/display/games') || fromPath.includes('/display/games')) {
-    transitionName.value = 'flip';
-  }
-}, { immediate: true });
+watch(
+  () => router.currentRoute.value,
+  (to, from) => {
+    // Default transition
+    transitionName.value = 'fade';
+
+    // Check if to/from exist and have path properties
+    const toPath = to?.path || '';
+    const fromPath = from?.path || '';
+
+    // Special transitions for display routes
+    if (toPath.includes('/display/') && fromPath.includes('/display/')) {
+      transitionName.value = 'slide';
+    }
+
+    // Use zoom transition when going to or from admin
+    if (toPath.includes('/admin') || fromPath.includes('/admin')) {
+      transitionName.value = 'zoom';
+    }
+
+    // Use flip for dramatic transitions (e.g., games)
+    if (toPath.includes('/display/games') || fromPath.includes('/display/games')) {
+      transitionName.value = 'flip';
+    }
+  },
+  { immediate: true }
+);
 </script>
 
 <style lang="scss">
@@ -50,13 +54,13 @@ watch(() => router.currentRoute.value, (to, from) => {
   --accent-color: #e74c3c; /* Red */
   --background-color: #111; /* Dark background for pub environment */
   --text-color: #ecf0f1; /* Light text for dark background */
-  
+
   /* Font sizes for readability on large displays */
   --font-size-small: 1rem;
   --font-size-medium: 1.5rem;
   --font-size-large: 2rem;
   --font-size-xlarge: 3rem;
-  
+
   /* Spacing variables */
   --spacing-small: 0.5rem;
   --spacing-medium: 1rem;
@@ -71,7 +75,8 @@ watch(() => router.currentRoute.value, (to, from) => {
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   width: 100%;
   height: 100%;
   background-color: var(--background-color);
@@ -88,7 +93,12 @@ html, body {
 }
 
 /* High contrast and visibility for pub environment */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin-bottom: var(--spacing-medium);
   font-weight: bold;
 }

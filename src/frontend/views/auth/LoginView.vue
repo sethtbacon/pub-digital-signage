@@ -5,41 +5,41 @@
         <img src="../../assets/images/logo.svg" alt="Pub Logo" />
         <h1>Pub Digital Signage</h1>
       </div>
-      
-      <form @submit.prevent="handleLogin" class="login-form">
+
+      <form class="login-form" @submit.prevent="handleLogin">
         <h2>Admin Login</h2>
-        
+
         <div class="form-group">
           <label for="username">Username</label>
-          <input 
-            type="text" 
-            id="username" 
-            v-model="username" 
+          <input
+            id="username"
+            v-model="username"
+            type="text"
             placeholder="Enter your username"
             required
           />
         </div>
-        
+
         <div class="form-group">
           <label for="password">Password</label>
-          <input 
-            type="password" 
-            id="password" 
-            v-model="password" 
+          <input
+            id="password"
+            v-model="password"
+            type="password"
             placeholder="Enter your password"
             required
           />
         </div>
-        
+
         <div v-if="error" class="error-message">
           {{ error }}
         </div>
-        
+
         <button type="submit" :disabled="loading" class="login-button">
           {{ loading ? 'Logging in...' : 'Login' }}
         </button>
       </form>
-      
+
       <div class="login-footer">
         <router-link to="/" class="back-link">Back to pub displays</router-link>
       </div>
@@ -64,11 +64,11 @@ const error = ref('');
 const handleLogin = async () => {
   loading.value = true;
   error.value = '';
-  
+
   try {
     // Use the auth store to handle login
     await authStore.login(username.value, password.value);
-    
+
     // Redirect to the admin dashboard or to the redirected path if available
     const redirectPath = route.query.redirect || '/admin';
     router.push(redirectPath);
@@ -88,7 +88,9 @@ const handleLogin = async () => {
   align-items: center;
   height: 100vh;
   background-color: #111;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../../assets/images/pub-background.jpg');
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url('../../assets/images/pub-background.jpg');
   background-size: cover;
   background-position: center;
 }
@@ -106,13 +108,13 @@ const handleLogin = async () => {
   flex-direction: column;
   align-items: center;
   margin-bottom: 2rem;
-  
+
   img {
     height: 80px;
     width: auto;
     margin-bottom: 0.5rem;
   }
-  
+
   h1 {
     font-size: 1.5rem;
     color: #ff6b01; // Primary color
@@ -127,17 +129,17 @@ const handleLogin = async () => {
     margin-bottom: 1.5rem;
     text-align: center;
   }
-  
+
   .form-group {
     margin-bottom: 1.5rem;
-    
+
     label {
       display: block;
       margin-bottom: 0.5rem;
       color: #ecf0f1;
       font-weight: 500;
     }
-    
+
     input {
       width: 100%;
       padding: 0.75rem;
@@ -146,18 +148,18 @@ const handleLogin = async () => {
       background-color: #1a1a1a;
       color: #fff;
       font-size: 1rem;
-      
+
       &::placeholder {
         color: #7f8c8d;
       }
-      
+
       &:focus {
         outline: none;
         border-color: #ff6b01;
       }
     }
   }
-  
+
   .error-message {
     background-color: rgba(231, 76, 60, 0.2);
     color: #e74c3c;
@@ -166,7 +168,7 @@ const handleLogin = async () => {
     margin-bottom: 1rem;
     text-align: center;
   }
-  
+
   .login-button {
     width: 100%;
     padding: 0.75rem;
@@ -178,11 +180,11 @@ const handleLogin = async () => {
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.3s;
-    
+
     &:hover {
       background-color: #d35400;
     }
-    
+
     &:disabled {
       background-color: #7f8c8d;
       cursor: not-allowed;
@@ -193,12 +195,12 @@ const handleLogin = async () => {
 .login-footer {
   margin-top: 1.5rem;
   text-align: center;
-  
+
   .back-link {
     color: #3498db;
     text-decoration: none;
     font-size: 0.9rem;
-    
+
     &:hover {
       text-decoration: underline;
     }

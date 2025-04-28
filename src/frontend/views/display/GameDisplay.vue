@@ -1,9 +1,7 @@
 <template>
   <BaseLayout title="Games">
     <div class="games-display">
-      <div v-if="gameStore.loading" class="loading-state">
-        Loading game data...
-      </div>
+      <div v-if="gameStore.loading" class="loading-state">Loading game data...</div>
       <div v-else-if="gameStore.error" class="error-state">
         {{ gameStore.error }}
       </div>
@@ -22,11 +20,11 @@
                 <div class="score">Score</div>
                 <div class="game">Game</div>
               </div>
-              <div 
-                v-for="(entry, index) in overallLeaderboard" 
-                :key="index" 
+              <div
+                v-for="(entry, index) in overallLeaderboard"
+                :key="index"
                 class="leaderboard-entry"
-                :class="{'top-rank': index < 3}"
+                :class="{ 'top-rank': index < 3 }"
               >
                 <div class="rank">{{ index + 1 }}</div>
                 <div class="player">{{ entry.playerName }}</div>
@@ -41,17 +39,10 @@
         <section class="available-games-section">
           <h2>Available Games</h2>
           <div class="games-grid">
-            <div v-if="games.length === 0" class="empty-state">
-              No games available.
-            </div>
-            <div 
-              v-else
-              v-for="game in games" 
-              :key="game.id" 
-              class="game-card"
-            >
-              <div class="game-image" v-if="game.imageUrl">
-                <img :src="game.imageUrl" :alt="game.name">
+            <div v-if="games.length === 0" class="empty-state">No games available.</div>
+            <div v-for="game in games" v-else :key="game.id" class="game-card">
+              <div v-if="game.imageUrl" class="game-image">
+                <img :src="game.imageUrl" :alt="game.name" />
               </div>
               <div class="game-content">
                 <h3>{{ game.name }}</h3>
@@ -72,26 +63,24 @@
             <div v-if="recentSessions.length === 0" class="empty-state">
               No recent game sessions.
             </div>
-            <div 
-              v-else
-              v-for="session in recentSessions" 
-              :key="session.id" 
-              class="session-card"
-            >
+            <div v-for="session in recentSessions" v-else :key="session.id" class="session-card">
               <div class="session-header">
                 <div class="game-name">{{ getGameName(session.gameId) }}</div>
                 <div class="session-date">{{ formatDate(session.date) }}</div>
               </div>
               <div class="session-players">
-                <div 
-                  v-for="player in session.players" 
+                <div
+                  v-for="player in session.players"
                   :key="player.name"
                   class="player-result"
-                  :class="{'winner': isWinner(player, session)}"
+                  :class="{ winner: isWinner(player, session) }"
                 >
                   <span class="player-name">{{ player.name }}</span>
                   <span v-if="isWinner(player, session)" class="winner-badge">Winner!</span>
-                  <span v-else-if="getGameById(session.gameId)?.scoringType !== 'winnerOnly'" class="player-score">
+                  <span
+                    v-else-if="getGameById(session.gameId)?.scoringType !== 'winnerOnly'"
+                    class="player-score"
+                  >
                     {{ player.score }}
                   </span>
                 </div>
@@ -121,39 +110,40 @@ const recentSessions = computed(() => {
 });
 
 // Helper functions
-const getGameById = (gameId) => {
+const getGameById = gameId => {
   return games.value.find(game => game.id === gameId);
 };
 
-const getGameName = (gameId) => {
+const getGameName = gameId => {
   const game = getGameById(gameId);
   return game ? game.name : 'Unknown Game';
 };
 
 const isWinner = (player, session) => {
   if (!player || !session) return false;
-  
+
   const game = getGameById(session.gameId);
   if (!game) return false;
-  
+
   if (game.scoringType === 'winnerOnly') {
     return player.winner;
   } else if (game.scoringType === 'highWins') {
     const highestScore = Math.max(...session.players.map(p => p.score));
     return player.score === highestScore;
-  } else { // lowWins
+  } else {
+    // lowWins
     const lowestScore = Math.min(...session.players.map(p => p.score));
     return player.score === lowestScore;
   }
 };
 
-const formatDate = (dateString) => {
+const formatDate = dateString => {
   if (!dateString) return '';
   const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', { 
-    year: 'numeric', 
-    month: 'short', 
-    day: 'numeric' 
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
   });
 };
 
@@ -197,7 +187,7 @@ section {
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 8px;
   overflow: hidden;
-  
+
   h2 {
     color: var(--primary-color);
     margin: 0;
@@ -235,19 +225,19 @@ section {
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   transition: background-color 0.3s ease;
-  
+
   &:hover {
     background-color: rgba(0, 0, 0, 0.3);
   }
-  
+
   &.top-rank:nth-child(1) {
     background-color: rgba(255, 215, 0, 0.15); // Gold
   }
-  
+
   &.top-rank:nth-child(2) {
     background-color: rgba(192, 192, 192, 0.15); // Silver
   }
-  
+
   &.top-rank:nth-child(3) {
     background-color: rgba(205, 127, 50, 0.15); // Bronze
   }
@@ -266,31 +256,31 @@ section {
   border-radius: 8px;
   overflow: hidden;
   transition: transform 0.3s ease;
-  
+
   &:hover {
     transform: translateY(-5px);
   }
-  
+
   .game-image {
     height: 150px;
     width: 100%;
     overflow: hidden;
-    
+
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
   }
-  
+
   .game-content {
     padding: var(--spacing-medium);
-    
+
     h3 {
       margin: 0 0 var(--spacing-small) 0;
       color: var(--text-color);
     }
-    
+
     .game-details {
       display: flex;
       justify-content: space-between;
@@ -298,7 +288,7 @@ section {
       font-size: 0.9rem;
       color: #999;
     }
-    
+
     .game-description {
       font-size: 0.9rem;
       color: var(--text-color);
@@ -320,28 +310,28 @@ section {
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   padding: var(--spacing-medium);
-  
+
   .session-header {
     display: flex;
     justify-content: space-between;
     margin-bottom: var(--spacing-small);
-    
+
     .game-name {
       font-weight: bold;
       color: var(--primary-color);
     }
-    
+
     .session-date {
       color: #999;
       font-size: 0.9rem;
     }
   }
-  
+
   .session-players {
     display: flex;
     flex-wrap: wrap;
     gap: var(--spacing-small);
-    
+
     .player-result {
       background-color: rgba(0, 0, 0, 0.2);
       border-radius: 4px;
@@ -351,12 +341,12 @@ section {
       justify-content: space-between;
       min-width: 120px;
       gap: var(--spacing-small);
-      
+
       &.winner {
         border-left: 3px solid var(--primary-color);
         background-color: rgba(255, 107, 1, 0.1);
       }
-      
+
       .winner-badge {
         color: var(--primary-color);
         font-weight: bold;
@@ -370,12 +360,12 @@ section {
   .leaderboard-header,
   .leaderboard-entry {
     grid-template-columns: 0.3fr 2fr 1fr;
-    
+
     .game {
       display: none;
     }
   }
-  
+
   .games-grid {
     grid-template-columns: 1fr;
   }

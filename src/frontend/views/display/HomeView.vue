@@ -17,10 +17,16 @@
               No featured drinks available
             </div>
             <div v-else class="featured-drinks">
-              <div v-for="drink in drinksStore.featuredDrinks.slice(0, 3)" :key="drink.id" class="featured-drink">
+              <div
+                v-for="drink in drinksStore.featuredDrinks.slice(0, 3)"
+                :key="drink.id"
+                class="featured-drink"
+              >
                 <h3>{{ drink.name }}</h3>
                 <div class="drink-details">
-                  <div class="drink-price">£{{ drink.price ? drink.price.toFixed(2) : '0.00' }}</div>
+                  <div class="drink-price">
+                    £{{ drink.price ? drink.price.toFixed(2) : '0.00' }}
+                  </div>
                   <div class="drink-type">{{ drink.category }}</div>
                 </div>
                 <p v-if="drink.description" class="drink-description">{{ drink.description }}</p>
@@ -53,9 +59,9 @@
                 <div class="score">Score</div>
                 <div class="game">Game</div>
               </div>
-              <div 
-                v-for="(entry, index) in gameStore.overallLeaderboard.slice(0, 5)" 
-                :key="entry.id" 
+              <div
+                v-for="(entry, index) in gameStore.overallLeaderboard.slice(0, 5)"
+                :key="entry.id"
                 class="leaderboard-entry"
               >
                 <div class="rank">{{ index + 1 }}</div>
@@ -107,7 +113,9 @@
             </div>
           </div>
           <div class="widget-footer">
-            <router-link to="https://www.bloomberg.com" target="_blank" class="view-more">View Live Markets</router-link>
+            <router-link to="https://www.bloomberg.com" target="_blank" class="view-more"
+              >View Live Markets</router-link
+            >
           </div>
         </section>
 
@@ -123,7 +131,11 @@
               No recent milestones
             </div>
             <div v-else class="milestones">
-              <div v-for="milestone in visitorStore.recentMilestones.slice(0, 3)" :key="milestone.id" class="milestone">
+              <div
+                v-for="milestone in visitorStore.recentMilestones.slice(0, 3)"
+                :key="milestone.id"
+                class="milestone"
+              >
                 <h3>{{ milestone.visitorName }}</h3>
                 <div class="milestone-details">
                   <span class="milestone-type">{{ milestone.type }}</span>
@@ -137,7 +149,7 @@
             <router-link to="/display/visitors" class="view-more">View All Visitors</router-link>
           </div>
         </section>
-        
+
         <!-- Events section -->
         <section class="dashboard-widget events-widget">
           <div class="widget-header">
@@ -166,7 +178,7 @@
             <router-link to="/display/events" class="view-more">View All Events</router-link>
           </div>
         </section>
-        
+
         <!-- Media section -->
         <section class="dashboard-widget media-widget">
           <div class="widget-header">
@@ -179,7 +191,11 @@
               No media available
             </div>
             <div v-else class="media-gallery">
-              <div v-for="item in mediaStore.featuredMedia.slice(0, 4)" :key="item.id" class="media-item">
+              <div
+                v-for="item in mediaStore.featuredMedia.slice(0, 4)"
+                :key="item.id"
+                class="media-item"
+              >
                 <img :src="item.url" :alt="item.title" />
               </div>
             </div>
@@ -188,7 +204,7 @@
             <router-link to="/display/media" class="view-more">View All Media</router-link>
           </div>
         </section>
-        
+
         <!-- TV Schedule section (inspired by Bloomberg) -->
         <section class="dashboard-widget tv-widget">
           <div class="widget-header">
@@ -254,17 +270,17 @@ function formatCurrentTime() {
   return new Intl.DateTimeFormat('en-GB', {
     hour: '2-digit',
     minute: '2-digit',
-    hour12: false
+    hour12: false,
   }).format(now);
 }
 
 // Format date helper
-const formatDate = (dateString) => {
+const formatDate = dateString => {
   if (!dateString) return '';
   const date = new Date(dateString);
   return new Intl.DateTimeFormat('en-GB', {
     day: 'numeric',
-    month: 'short'
+    month: 'short',
   }).format(date);
 };
 
@@ -275,12 +291,12 @@ const getTodayFormatted = () => {
     weekday: 'long',
     day: 'numeric',
     month: 'short',
-    year: 'numeric'
+    year: 'numeric',
   }).format(now);
 };
 
 // Format time helper
-const formatTime = (timeString) => {
+const formatTime = timeString => {
   // Assuming timeString is in HH:MM format
   return timeString || '';
 };
@@ -292,7 +308,7 @@ onMounted(async () => {
     gameStore.fetchOverallLeaderboard(),
     visitorStore.fetchRecentMilestones(),
     mediaStore.fetchFeaturedMedia(),
-    eventStore.fetchTodaysEvents()
+    eventStore.fetchTodaysEvents(),
   ]);
 });
 </script>
@@ -317,50 +333,50 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  
+
   .widget-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: var(--spacing-medium) var(--spacing-medium) var(--spacing-small);
     border-bottom: 1px solid var(--primary-color);
-    
+
     h2 {
       color: var(--primary-color);
       margin: 0;
       font-size: 1.25rem;
     }
-    
+
     .widget-controls {
       font-size: 0.8rem;
       color: #999;
-      
+
       .refresh-indicator,
       .date-indicator {
-        background: rgba(0,0,0,0.2);
+        background: rgba(0, 0, 0, 0.2);
         padding: 0.25rem 0.5rem;
         border-radius: 4px;
       }
     }
   }
-  
+
   .widget-content {
     flex: 1;
     overflow-y: auto;
     padding: var(--spacing-medium);
   }
-  
+
   .widget-footer {
     padding: var(--spacing-small) var(--spacing-medium);
     text-align: right;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    
+
     .view-more {
       color: var(--primary-color);
       text-decoration: none;
       font-weight: bold;
       font-size: 0.9rem;
-      
+
       &:hover {
         text-decoration: underline;
       }
@@ -368,7 +384,9 @@ onMounted(async () => {
   }
 }
 
-.loading, .error, .empty-state {
+.loading,
+.error,
+.empty-state {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -393,35 +411,35 @@ onMounted(async () => {
   border-radius: 4px;
   background: rgba(255, 255, 255, 0.05);
   transition: transform 0.2s ease;
-  
+
   &:hover {
     transform: translateY(-2px);
     background: rgba(255, 255, 255, 0.1);
   }
-  
+
   h3 {
     margin: 0;
     color: var(--text-color);
     font-size: 1.1rem;
   }
-  
+
   .drink-details {
     display: flex;
     justify-content: space-between;
     margin: var(--spacing-small) 0;
     font-size: 0.9rem;
   }
-  
+
   .drink-price {
     font-weight: bold;
     color: var(--primary-color);
   }
-  
+
   .drink-type {
     color: #aaa;
     text-transform: capitalize;
   }
-  
+
   .drink-description {
     font-size: 0.85rem;
     margin: var(--spacing-small) 0 0;
@@ -434,7 +452,7 @@ onMounted(async () => {
 .leaderboard {
   display: flex;
   flex-direction: column;
-  
+
   .leaderboard-header {
     display: grid;
     grid-template-columns: 0.2fr 1fr 0.5fr 1fr;
@@ -445,39 +463,39 @@ onMounted(async () => {
     text-transform: uppercase;
     color: #999;
   }
-  
+
   .leaderboard-entry {
     display: grid;
     grid-template-columns: 0.2fr 1fr 0.5fr 1fr;
     padding: var(--spacing-small) 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     font-size: 0.9rem;
-    
+
     &:nth-child(2) {
       background-color: rgba(255, 215, 0, 0.1); // Gold
     }
-    
+
     &:nth-child(3) {
       background-color: rgba(192, 192, 192, 0.1); // Silver
     }
-    
+
     &:nth-child(4) {
       background-color: rgba(205, 127, 50, 0.1); // Bronze
     }
-    
+
     .rank {
       font-weight: bold;
     }
-    
+
     .player {
       font-weight: 500;
     }
-    
+
     .score {
       font-weight: 500;
       color: var(--primary-color);
     }
-    
+
     .game {
       color: #999;
       font-size: 0.85rem;
@@ -501,51 +519,51 @@ onMounted(async () => {
   border-radius: 4px;
   align-items: center;
   border-left: 3px solid var(--primary-color);
-  
+
   .market-name {
     font-weight: bold;
     color: #ccc;
     font-size: 0.9rem;
   }
-  
+
   .market-value {
     font-family: monospace;
     font-size: 0.9rem;
     color: white;
     text-align: right;
   }
-  
+
   .market-change {
     font-family: monospace;
     font-size: 0.8rem;
     text-align: right;
-    
+
     &.positive {
       color: #4cd964;
     }
-    
+
     &.negative {
       color: #ff3b30;
     }
   }
-  
+
   .mini-chart {
     position: relative;
     height: 20px;
     width: 100%;
     display: flex;
     align-items: center;
-    
+
     .chart-line {
       height: 2px;
       width: 100%;
       position: relative;
-      
+
       &.positive {
         background: linear-gradient(90deg, transparent, #4cd964);
-        
+
         &::after {
-          content: "";
+          content: '';
           position: absolute;
           right: 0;
           top: -4px;
@@ -557,12 +575,12 @@ onMounted(async () => {
           transform: rotate(90deg);
         }
       }
-      
+
       &.negative {
         background: linear-gradient(90deg, transparent, #ff3b30);
-        
+
         &::after {
-          content: "";
+          content: '';
           position: absolute;
           right: 0;
           bottom: -4px;
@@ -590,31 +608,31 @@ onMounted(async () => {
   padding: var(--spacing-small);
   border-radius: 4px;
   border-left: 3px solid var(--primary-color);
-  
+
   h3 {
     margin: 0;
     color: var(--text-color);
     font-size: 1.1rem;
   }
-  
+
   .milestone-details {
     display: flex;
     justify-content: space-between;
     margin: var(--spacing-small) 0;
     font-size: 0.8rem;
   }
-  
+
   .milestone-type {
     font-weight: bold;
     color: var(--primary-color);
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
-  
+
   .milestone-date {
     color: #999;
   }
-  
+
   .milestone-message {
     font-size: 0.85rem;
     margin: var(--spacing-small) 0 0;
@@ -636,7 +654,7 @@ onMounted(async () => {
   background: rgba(0, 0, 0, 0.2);
   padding: var(--spacing-small);
   border-radius: 4px;
-  
+
   .event-time {
     font-size: 1.1rem;
     font-weight: bold;
@@ -644,14 +662,14 @@ onMounted(async () => {
     min-width: 60px;
     font-family: monospace;
   }
-  
+
   .event-details {
     h3 {
       margin: 0;
       color: var(--text-color);
       font-size: 1.1rem;
     }
-    
+
     .event-description {
       font-size: 0.85rem;
       margin: var(--spacing-small) 0 0;
@@ -675,13 +693,13 @@ onMounted(async () => {
   overflow: hidden;
   position: relative;
   border-radius: 4px;
-  
+
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
-    
+
     &:hover {
       transform: scale(1.05);
     }
@@ -700,20 +718,20 @@ onMounted(async () => {
   padding: var(--spacing-small);
   background: rgba(0, 0, 0, 0.2);
   border-radius: 4px;
-  
+
   .tv-time {
     font-weight: bold;
     color: var(--primary-color);
     min-width: 60px;
     font-family: monospace;
   }
-  
+
   .tv-details {
     .tv-title {
       font-weight: 500;
       color: var(--text-color);
     }
-    
+
     .tv-channel {
       font-size: 0.8rem;
       color: #999;
@@ -764,37 +782,37 @@ onMounted(async () => {
     grid-template-columns: repeat(6, 1fr);
     grid-template-rows: repeat(10, minmax(100px, auto));
   }
-  
+
   .drinks-widget {
     grid-column: 1 / span 3;
     grid-row: 1 / span 2;
   }
-  
+
   .games-widget {
     grid-column: 4 / span 3;
     grid-row: 1 / span 2;
   }
-  
+
   .market-widget {
     grid-column: 1 / span 3;
     grid-row: 3 / span 2;
   }
-  
+
   .visitors-widget {
     grid-column: 4 / span 3;
     grid-row: 3 / span 2;
   }
-  
+
   .events-widget {
     grid-column: 1 / span 3;
     grid-row: 5 / span 2;
   }
-  
+
   .media-widget {
     grid-column: 4 / span 3;
     grid-row: 5 / span 2;
   }
-  
+
   .tv-widget {
     grid-column: 1 / span 6;
     grid-row: 7 / span 1;
@@ -806,30 +824,31 @@ onMounted(async () => {
     grid-template-columns: 1fr;
     grid-template-rows: auto;
   }
-  
+
   .dashboard-widget {
     grid-column: 1;
     grid-row: auto;
   }
-  
+
   .market-item {
     grid-template-columns: 2fr 1fr 1.5fr;
-    
+
     .mini-chart {
       display: none;
     }
   }
-  
+
   .leaderboard {
-    .leaderboard-header, .leaderboard-entry {
+    .leaderboard-header,
+    .leaderboard-entry {
       grid-template-columns: 0.2fr 2fr 0.8fr;
-      
+
       .game {
         display: none;
       }
     }
   }
-  
+
   .media-gallery {
     min-height: 150px;
   }

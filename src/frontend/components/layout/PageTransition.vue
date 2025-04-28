@@ -1,9 +1,5 @@
 <template>
-  <transition
-    :name="transitionName"
-    :mode="transitionMode"
-    :duration="transitionDuration"
-  >
+  <transition :name="transitionName" :mode="transitionMode" :duration="transitionDuration">
     <slot></slot>
   </transition>
 </template>
@@ -14,16 +10,16 @@ export default {
   props: {
     name: {
       type: String,
-      default: 'fade'
+      default: 'fade',
     },
     mode: {
       type: String,
-      default: 'out-in'
+      default: 'out-in',
     },
     duration: {
       type: [Number, Object],
-      default: 300
-    }
+      default: 300,
+    },
   },
   computed: {
     transitionName() {
@@ -34,9 +30,9 @@ export default {
     },
     transitionDuration() {
       return this.duration;
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -54,7 +50,9 @@ export default {
 // Slide transition
 .page-slide-enter-active,
 .page-slide-leave-active {
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
 }
 
 .page-slide-enter-from {
@@ -70,7 +68,9 @@ export default {
 // Zoom transition
 .page-zoom-enter-active,
 .page-zoom-leave-active {
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
 }
 
 .page-zoom-enter-from {
@@ -86,7 +86,9 @@ export default {
 // Flip transition
 .page-flip-enter-active,
 .page-flip-leave-active {
-  transition: transform 0.6s ease, opacity 0.6s ease;
+  transition:
+    transform 0.6s ease,
+    opacity 0.6s ease;
   transform-style: preserve-3d;
 }
 

@@ -7,15 +7,15 @@ export const useDrinksStore = defineStore('drinks', {
     featuredDrinks: [],
     currentDrink: null,
     loading: false,
-    error: null
+    error: null,
   }),
-  
+
   getters: {
-    getDrinkById: (state) => (id) => {
+    getDrinkById: state => id => {
       return state.drinks.find(drink => drink.id === id);
     },
-    
-    drinksByCategory: (state) => {
+
+    drinksByCategory: state => {
       const categories = {};
       state.drinks.forEach(drink => {
         if (!categories[drink.category]) {
@@ -24,9 +24,9 @@ export const useDrinksStore = defineStore('drinks', {
         categories[drink.category].push(drink);
       });
       return categories;
-    }
+    },
   },
-  
+
   actions: {
     async fetchAllDrinks() {
       this.loading = true;
@@ -41,7 +41,7 @@ export const useDrinksStore = defineStore('drinks', {
         this.loading = false;
       }
     },
-    
+
     async fetchFeaturedDrinks() {
       this.loading = true;
       this.error = null;
@@ -55,7 +55,7 @@ export const useDrinksStore = defineStore('drinks', {
         this.loading = false;
       }
     },
-    
+
     async fetchDrinkById(id) {
       this.loading = true;
       this.error = null;
@@ -69,7 +69,7 @@ export const useDrinksStore = defineStore('drinks', {
         this.loading = false;
       }
     },
-    
+
     async createDrink(drinkData) {
       this.loading = true;
       this.error = null;
@@ -85,7 +85,7 @@ export const useDrinksStore = defineStore('drinks', {
         this.loading = false;
       }
     },
-    
+
     async updateDrink(id, drinkData) {
       this.loading = true;
       this.error = null;
@@ -107,7 +107,7 @@ export const useDrinksStore = defineStore('drinks', {
         this.loading = false;
       }
     },
-    
+
     async deleteDrink(id) {
       this.loading = true;
       this.error = null;
@@ -124,6 +124,6 @@ export const useDrinksStore = defineStore('drinks', {
       } finally {
         this.loading = false;
       }
-    }
-  }
+    },
+  },
 });

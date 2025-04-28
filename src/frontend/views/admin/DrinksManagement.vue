@@ -1,16 +1,16 @@
 <template>
   <div class="drinks-management">
     <h1 class="page-title">Drinks Management</h1>
-    
+
     <div class="action-bar">
       <button class="primary-button" @click="showAddDrinkModal = true">
         <i class="icon-add"></i> Add New Drink
       </button>
       <div class="search-container">
-        <input 
-          type="text" 
-          v-model="searchQuery" 
-          placeholder="Search drinks..." 
+        <input
+          v-model="searchQuery"
+          type="text"
+          placeholder="Search drinks..."
           class="search-input"
           @input="filterDrinks"
         />
@@ -33,23 +33,23 @@
         <div class="loading-spinner"></div>
         <p>Loading drinks...</p>
       </div>
-      
+
       <div v-else-if="filteredDrinks.length === 0" class="empty-state">
         <p v-if="searchQuery || categoryFilter">No drinks match your filters.</p>
         <p v-else>No drinks found. Add your first drink!</p>
       </div>
-      
+
       <div v-else class="drinks-grid">
-        <div 
-          v-for="drink in filteredDrinks" 
-          :key="drink.id" 
+        <div
+          v-for="drink in filteredDrinks"
+          :key="drink.id"
           class="drink-card"
           :class="{ 'is-featured': drink.featured }"
         >
           <div class="drink-image-container">
-            <img 
-              :src="drink.imageUrl || '/img/default-drink.jpg'" 
-              :alt="drink.name" 
+            <img
+              :src="drink.imageUrl || '/img/default-drink.jpg'"
+              :alt="drink.name"
               class="drink-image"
             />
             <div class="drink-actions">
@@ -64,7 +64,7 @@
           <div class="drink-details">
             <h3 class="drink-name">{{ drink.name }}</h3>
             <div class="drink-category">{{ drink.category }}</div>
-            <div class="drink-featured" v-if="drink.featured">Featured</div>
+            <div v-if="drink.featured" class="drink-featured">Featured</div>
             <p class="drink-description">{{ drink.description }}</p>
           </div>
         </div>
@@ -76,29 +76,26 @@
       <div class="modal-content">
         <div class="modal-header">
           <h2>{{ showEditDrinkModal ? 'Edit Drink' : 'Add New Drink' }}</h2>
-          <button 
-            class="modal-close" 
-            @click="closeModals"
-          >×</button>
+          <button class="modal-close" @click="closeModals">×</button>
         </div>
-        
-        <form @submit.prevent="saveDrink" class="drink-form">
+
+        <form class="drink-form" @submit.prevent="saveDrink">
           <div class="form-group">
             <label for="drinkName">Name</label>
-            <input 
-              type="text" 
-              id="drinkName" 
-              v-model="currentDrink.name" 
+            <input
+              id="drinkName"
+              v-model="currentDrink.name"
+              type="text"
               required
               class="form-control"
             />
           </div>
-          
+
           <div class="form-group">
             <label for="drinkCategory">Category</label>
-            <select 
-              id="drinkCategory" 
-              v-model="currentDrink.category" 
+            <select
+              id="drinkCategory"
+              v-model="currentDrink.category"
               required
               class="form-control"
             >
@@ -110,40 +107,40 @@
               <option value="nonalcoholic">Non-Alcoholic</option>
             </select>
           </div>
-          
+
           <div class="form-group">
             <label for="drinkDescription">Description</label>
-            <textarea 
-              id="drinkDescription" 
-              v-model="currentDrink.description" 
+            <textarea
+              id="drinkDescription"
+              v-model="currentDrink.description"
               rows="3"
               class="form-control"
             ></textarea>
           </div>
-          
+
           <div class="form-group">
             <label for="drinkImage">Image</label>
             <div class="image-upload-container">
-              <div class="current-image" v-if="currentDrink.imageUrl">
+              <div v-if="currentDrink.imageUrl" class="current-image">
                 <img :src="currentDrink.imageUrl" alt="Drink image" class="preview-image" />
               </div>
-              <input 
-                type="file" 
-                id="drinkImage" 
-                @change="handleImageUpload" 
+              <input
+                id="drinkImage"
+                type="file"
                 accept="image/*"
                 class="form-control"
+                @change="handleImageUpload"
               />
             </div>
           </div>
-          
+
           <div class="form-group checkbox-group">
             <label class="checkbox-label">
-              <input type="checkbox" v-model="currentDrink.featured" />
+              <input v-model="currentDrink.featured" type="checkbox" />
               Feature this drink
             </label>
           </div>
-          
+
           <div class="form-actions">
             <button type="button" class="secondary-button" @click="closeModals">Cancel</button>
             <button type="submit" class="primary-button">Save</button>
@@ -191,7 +188,7 @@ const currentDrink = ref({
   category: '',
   description: '',
   imageUrl: '',
-  featured: false
+  featured: false,
 });
 const drinkToDelete = ref(null);
 
@@ -212,23 +209,24 @@ onMounted(async () => {
 // Filter drinks based on search query and category
 const filterDrinks = () => {
   filteredDrinks.value = drinks.value.filter(drink => {
-    const matchesSearch = drink.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-                         drink.description.toLowerCase().includes(searchQuery.value.toLowerCase());
-    
+    const matchesSearch =
+      drink.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      drink.description.toLowerCase().includes(searchQuery.value.toLowerCase());
+
     const matchesCategory = !categoryFilter.value || drink.category === categoryFilter.value;
-    
+
     return matchesSearch && matchesCategory;
   });
 };
 
 // Open edit modal with drink data
-const editDrink = (drink) => {
+const editDrink = drink => {
   currentDrink.value = { ...drink };
   showEditDrinkModal.value = true;
 };
 
 // Open delete confirmation modal
-const confirmDeleteDrink = (drink) => {
+const confirmDeleteDrink = drink => {
   drinkToDelete.value = drink;
   showDeleteModal.value = true;
 };
@@ -239,7 +237,7 @@ const saveDrink = async () => {
     if (showEditDrinkModal.value) {
       // Update existing drink
       await drinksApi.updateDrink(currentDrink.value.id, currentDrink.value);
-      
+
       // Update local list
       const index = drinks.value.findIndex(d => d.id === currentDrink.value.id);
       if (index !== -1) {
@@ -250,7 +248,7 @@ const saveDrink = async () => {
       const response = await drinksApi.createDrink(currentDrink.value);
       drinks.value.push(response.data);
     }
-    
+
     // Re-apply filters
     filterDrinks();
     closeModals();
@@ -263,14 +261,14 @@ const saveDrink = async () => {
 // Delete a drink
 const deleteDrink = async () => {
   if (!drinkToDelete.value) return;
-  
+
   try {
     await drinksApi.deleteDrink(drinkToDelete.value.id);
-    
+
     // Remove from local list
     drinks.value = drinks.value.filter(d => d.id !== drinkToDelete.value.id);
     filterDrinks();
-    
+
     showDeleteModal.value = false;
     drinkToDelete.value = null;
   } catch (error) {
@@ -280,15 +278,15 @@ const deleteDrink = async () => {
 };
 
 // Handle image upload
-const handleImageUpload = (event) => {
+const handleImageUpload = event => {
   const file = event.target.files[0];
   if (!file) return;
-  
+
   // Here you would typically handle the file upload to your server
   // For now, we'll simulate by creating a temporary URL
   const tempUrl = URL.createObjectURL(file);
   currentDrink.value.imageUrl = tempUrl;
-  
+
   // In a real application, you would upload the file to your server:
   // const formData = new FormData();
   // formData.append('image', file);
@@ -306,7 +304,7 @@ const closeModals = () => {
     category: '',
     description: '',
     imageUrl: '',
-    featured: false
+    featured: false,
   };
 };
 </script>
@@ -322,7 +320,7 @@ const closeModals = () => {
 
 .drink-card {
   @extend .card-item;
-  
+
   &.is-featured {
     border: 2px solid var(--primary-color);
   }

@@ -1,9 +1,7 @@
 <template>
   <BaseLayout title="Events">
     <div class="event-display">
-      <div v-if="eventsStore.loading" class="loading-state">
-        Loading event data...
-      </div>
+      <div v-if="eventsStore.loading" class="loading-state">Loading event data...</div>
       <div v-else-if="eventsStore.error" class="error-state">
         {{ eventsStore.error }}
       </div>
@@ -15,15 +13,15 @@
             <div v-if="upcomingEvents.length === 0" class="empty-state">
               No upcoming events scheduled.
             </div>
-            <div 
+            <div
+              v-for="event in upcomingEvents"
               v-else
-              v-for="event in upcomingEvents" 
-              :key="event.id" 
+              :key="event.id"
               class="event-card"
               :class="{ 'featured-event': event.featured }"
             >
-              <div class="event-image" v-if="event.imageUrl">
-                <img :src="event.imageUrl" :alt="event.title">
+              <div v-if="event.imageUrl" class="event-image">
+                <img :src="event.imageUrl" :alt="event.title" />
                 <div v-if="event.featured" class="featured-badge">Featured</div>
               </div>
               <div class="event-details">
@@ -40,11 +38,7 @@
                 </div>
                 <p class="event-description">{{ event.description }}</p>
                 <div class="event-tags">
-                  <span 
-                    v-for="tag in event.tags" 
-                    :key="tag" 
-                    class="event-tag"
-                  >
+                  <span v-for="tag in event.tags" :key="tag" class="event-tag">
                     {{ tag }}
                   </span>
                 </div>
@@ -66,14 +60,14 @@
               <div v-for="day in weekdays" :key="day" class="weekday">{{ day }}</div>
             </div>
             <div class="calendar-days">
-              <div 
-                v-for="{ date, inMonth, hasEvents, events } in calendarDays" 
+              <div
+                v-for="{ date, inMonth, hasEvents, events } in calendarDays"
                 :key="date.toISOString()"
                 class="calendar-day"
-                :class="{ 
-                  'out-of-month': !inMonth, 
+                :class="{
+                  'out-of-month': !inMonth,
                   'has-events': hasEvents,
-                  'is-today': isToday(date)
+                  'is-today': isToday(date),
                 }"
                 @click="selectDate(date, events)"
               >
@@ -83,7 +77,7 @@
             </div>
           </div>
         </section>
-        
+
         <!-- Current Promotions Section -->
         <section class="promotions-section">
           <h2>Current Promotions</h2>
@@ -91,12 +85,7 @@
             <div v-if="currentPromotions.length === 0" class="empty-state">
               No active promotions.
             </div>
-            <div 
-              v-else
-              v-for="promo in currentPromotions" 
-              :key="promo.id" 
-              class="promotion-card"
-            >
+            <div v-for="promo in currentPromotions" v-else :key="promo.id" class="promotion-card">
               <div class="promotion-content">
                 <h3 class="promotion-title">{{ promo.title }}</h3>
                 <p class="promotion-description">{{ promo.description }}</p>
@@ -122,11 +111,7 @@
             No events scheduled for this date.
           </div>
           <div v-else class="date-events-list">
-            <div 
-              v-for="event in selectedDateEvents" 
-              :key="event.id" 
-              class="date-event-item"
-            >
+            <div v-for="event in selectedDateEvents" :key="event.id" class="date-event-item">
               <div class="event-time-block">{{ formatTime(event.time) }}</div>
               <div class="event-details-block">
                 <div class="event-title">{{ event.title }}</div>
@@ -157,31 +142,44 @@ const showDateModal = ref(false);
 // Constants
 const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const monthNames = [
-  'January', 'February', 'March', 'April', 'May', 'June', 
-  'July', 'August', 'September', 'October', 'November', 'December'
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
 ];
 
 // Computed properties
 const upcomingEvents = computed(() => {
-  return eventsStore.events
-    ?.filter(event => {
-      const eventDate = new Date(event.date);
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      return eventDate >= today;
-    })
-    .sort((a, b) => new Date(a.date) - new Date(b.date))
-    .slice(0, 5) || [];
+  return (
+    eventsStore.events
+      ?.filter(event => {
+        const eventDate = new Date(event.date);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return eventDate >= today;
+      })
+      .sort((a, b) => new Date(a.date) - new Date(b.date))
+      .slice(0, 5) || []
+  );
 });
 
 const currentPromotions = computed(() => {
-  return eventsStore.promotions
-    ?.filter(promo => {
+  return (
+    eventsStore.promotions?.filter(promo => {
       const endDate = new Date(promo.endDate);
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       return endDate >= today;
-    }) || [];
+    }) || []
+  );
 });
 
 const currentMonthName = computed(() => {
@@ -192,7 +190,7 @@ const calendarDays = computed(() => {
   const days = [];
   const firstDay = new Date(currentYear.value, currentMonth.value, 1);
   const lastDay = new Date(currentYear.value, currentMonth.value + 1, 0);
-  
+
   // Calculate days from previous month that should appear on the calendar
   const firstDayOfWeek = firstDay.getDay();
   for (let i = firstDayOfWeek; i > 0; i--) {
@@ -202,10 +200,10 @@ const calendarDays = computed(() => {
       date,
       inMonth: false,
       hasEvents: eventsOnDate.length > 0,
-      events: eventsOnDate
+      events: eventsOnDate,
     });
   }
-  
+
   // Add days from the current month
   for (let i = 1; i <= lastDay.getDate(); i++) {
     const date = new Date(currentYear.value, currentMonth.value, i);
@@ -214,10 +212,10 @@ const calendarDays = computed(() => {
       date,
       inMonth: true,
       hasEvents: eventsOnDate.length > 0,
-      events: eventsOnDate
+      events: eventsOnDate,
     });
   }
-  
+
   // Calculate days from next month that should appear on the calendar
   const lastDayOfWeek = lastDay.getDay();
   for (let i = 1; i < 7 - lastDayOfWeek; i++) {
@@ -227,10 +225,10 @@ const calendarDays = computed(() => {
       date,
       inMonth: false,
       hasEvents: eventsOnDate.length > 0,
-      events: eventsOnDate
+      events: eventsOnDate,
     });
   }
-  
+
   return days;
 });
 
@@ -263,18 +261,20 @@ const closeDateModal = () => {
   showDateModal.value = false;
 };
 
-const getEventsForDate = (date) => {
-  return eventsStore.events?.filter(event => {
-    const eventDate = new Date(event.date);
-    return (
-      eventDate.getFullYear() === date.getFullYear() &&
-      eventDate.getMonth() === date.getMonth() &&
-      eventDate.getDate() === date.getDate()
-    );
-  }) || [];
+const getEventsForDate = date => {
+  return (
+    eventsStore.events?.filter(event => {
+      const eventDate = new Date(event.date);
+      return (
+        eventDate.getFullYear() === date.getFullYear() &&
+        eventDate.getMonth() === date.getMonth() &&
+        eventDate.getDate() === date.getDate()
+      );
+    }) || []
+  );
 };
 
-const isToday = (date) => {
+const isToday = date => {
   const today = new Date();
   return (
     date.getDate() === today.getDate() &&
@@ -283,18 +283,18 @@ const isToday = (date) => {
   );
 };
 
-const formatDate = (dateString) => {
+const formatDate = dateString => {
   if (!dateString) return '';
   const date = new Date(dateString);
   return date.toLocaleDateString('en-US', {
     weekday: 'short',
     year: 'numeric',
     month: 'short',
-    day: 'numeric'
+    day: 'numeric',
   });
 };
 
-const formatTime = (timeString) => {
+const formatTime = timeString => {
   if (!timeString) return '';
   return timeString; // Assuming timeString is already formatted (e.g., "7:30 PM")
 };
@@ -335,7 +335,7 @@ section {
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 8px;
   overflow: hidden;
-  
+
   h2 {
     color: var(--primary-color);
     margin: 0;
@@ -359,26 +359,26 @@ section {
   border-radius: 8px;
   overflow: hidden;
   transition: transform 0.2s ease;
-  
+
   &:hover {
     transform: translateY(-3px);
   }
-  
+
   &.featured-event {
     border-left: 4px solid var(--primary-color);
     background-color: rgba(255, 107, 1, 0.1);
   }
-  
+
   .event-image {
     position: relative;
     height: 100%;
-    
+
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
-    
+
     .featured-badge {
       position: absolute;
       top: 10px;
@@ -391,20 +391,20 @@ section {
       font-weight: bold;
     }
   }
-  
+
   .event-details {
     padding: var(--spacing-medium);
-    
+
     .event-title {
       margin: 0 0 10px 0;
       color: var(--text-color);
     }
-    
+
     .event-meta {
       display: flex;
       margin-bottom: 10px;
       gap: var(--spacing-medium);
-      
+
       .event-date,
       .event-time {
         display: flex;
@@ -412,24 +412,24 @@ section {
         gap: 5px;
         font-size: 0.9rem;
         color: #ccc;
-        
+
         .icon {
           font-size: 1rem;
         }
       }
     }
-    
+
     .event-description {
       margin-bottom: 15px;
       font-size: 0.95rem;
       line-height: 1.4;
     }
-    
+
     .event-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      
+
       .event-tag {
         background-color: rgba(0, 0, 0, 0.3);
         padding: 3px 10px;
@@ -450,12 +450,12 @@ section {
   justify-content: space-between;
   align-items: center;
   margin-bottom: var(--spacing-medium);
-  
+
   .current-month {
     font-size: 1.2rem;
     font-weight: bold;
   }
-  
+
   .calendar-nav {
     background: rgba(0, 0, 0, 0.3);
     border: none;
@@ -467,7 +467,7 @@ section {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    
+
     &:hover {
       background-color: var(--primary-color);
     }
@@ -479,7 +479,7 @@ section {
   grid-template-columns: repeat(7, 1fr);
   gap: 1px;
   margin-bottom: 5px;
-  
+
   .weekday {
     background-color: rgba(0, 0, 0, 0.2);
     padding: 10px 0;
@@ -494,7 +494,7 @@ section {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 1px;
-  
+
   .calendar-day {
     position: relative;
     height: 80px;
@@ -502,15 +502,15 @@ section {
     padding: 10px;
     cursor: pointer;
     transition: background-color 0.2s ease;
-    
+
     &:hover {
       background-color: rgba(0, 0, 0, 0.3);
     }
-    
+
     &.out-of-month {
       opacity: 0.5;
     }
-    
+
     &.has-events:after {
       content: '';
       position: absolute;
@@ -521,15 +521,15 @@ section {
       border-radius: 50%;
       background-color: var(--primary-color);
     }
-    
+
     &.is-today {
       border: 2px solid var(--primary-color);
     }
-    
+
     .day-number {
       font-weight: bold;
     }
-    
+
     .event-indicator {
       position: absolute;
       bottom: 10px;
@@ -554,17 +554,17 @@ section {
   border-radius: 8px;
   padding: var(--spacing-medium);
   border-left: 4px solid var(--accent-color);
-  
+
   .promotion-title {
     margin: 0 0 10px 0;
     color: var(--accent-color);
   }
-  
+
   .promotion-description {
     margin: 0 0 15px 0;
     line-height: 1.4;
   }
-  
+
   .promotion-validity {
     font-size: 0.9rem;
     color: #999;
@@ -602,19 +602,19 @@ section {
   align-items: center;
   padding: var(--spacing-medium);
   background-color: rgba(0, 0, 0, 0.3);
-  
+
   h3 {
     margin: 0;
     color: var(--primary-color);
   }
-  
+
   .close-button {
     background: none;
     border: none;
     color: var(--text-color);
     font-size: 24px;
     cursor: pointer;
-    
+
     &:hover {
       color: var(--primary-color);
     }
@@ -636,7 +636,7 @@ section {
   display: grid;
   grid-template-columns: 100px 1fr;
   gap: var(--spacing-medium);
-  
+
   .event-time-block {
     background-color: var(--primary-color);
     color: white;
@@ -646,13 +646,13 @@ section {
     align-items: center;
     border-radius: 4px;
   }
-  
+
   .event-details-block {
     .event-title {
       font-weight: bold;
       margin-bottom: 5px;
     }
-    
+
     .event-description {
       font-size: 0.9rem;
       color: #ccc;
@@ -664,17 +664,17 @@ section {
 @media (max-width: 768px) {
   .event-card {
     grid-template-columns: 1fr;
-    
+
     .event-image {
       height: 150px;
     }
   }
-  
+
   .calendar-day {
     height: 50px;
     font-size: 0.8rem;
   }
-  
+
   .date-event-item {
     grid-template-columns: 80px 1fr;
   }

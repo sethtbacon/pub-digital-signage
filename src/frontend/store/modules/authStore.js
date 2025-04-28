@@ -10,24 +10,24 @@ export const useAuthStore = defineStore('auth', {
     token: localStorage.getItem('authToken') || null,
     isAuthenticated: localStorage.getItem('authenticated') === 'true' || false,
     loading: false,
-    error: null
+    error: null,
   }),
 
   getters: {
     /**
      * Check if user is authenticated
      */
-    isLoggedIn: (state) => state.isAuthenticated,
-    
+    isLoggedIn: state => state.isAuthenticated,
+
     /**
      * Get current user
      */
-    currentUser: (state) => state.user,
-    
+    currentUser: state => state.user,
+
     /**
      * Check if user has admin role
      */
-    isAdmin: (state) => state.user?.role === 'admin'
+    isAdmin: state => state.user?.role === 'admin',
   },
 
   actions: {
@@ -39,29 +39,29 @@ export const useAuthStore = defineStore('auth', {
     async login(username, password) {
       this.loading = true;
       this.error = null;
-      
+
       try {
         // In a real app, this would be an actual API call
         // For demo purposes, we'll just check if username is 'admin' and password is 'password'
         if (username === 'admin' && password === 'password') {
-          const mockUser = { 
-            id: 1, 
+          const mockUser = {
+            id: 1,
             username: 'admin',
             name: 'Admin User',
-            role: 'admin'
+            role: 'admin',
           };
-          
+
           const mockToken = 'demo-token-123';
-          
+
           // Set user and token in store
           this.user = mockUser;
           this.token = mockToken;
           this.isAuthenticated = true;
-          
+
           // Store in localStorage for persistence
           localStorage.setItem('authenticated', 'true');
           localStorage.setItem('authToken', mockToken);
-          
+
           return { success: true, user: mockUser };
         } else {
           throw new Error('Invalid username or password');
@@ -73,7 +73,7 @@ export const useAuthStore = defineStore('auth', {
         this.loading = false;
       }
     },
-    
+
     /**
      * Logout user
      */
@@ -81,32 +81,32 @@ export const useAuthStore = defineStore('auth', {
       this.user = null;
       this.token = null;
       this.isAuthenticated = false;
-      
+
       // Clear localStorage
       localStorage.removeItem('authenticated');
       localStorage.removeItem('authToken');
-      
+
       return { success: true };
     },
-    
+
     /**
      * Get current user profile from API
      */
     async fetchUserProfile() {
       if (!this.token) return null;
-      
+
       this.loading = true;
-      
+
       try {
         // In a real app, this would be an API call to get user profile
         // For demo, we'll just return mock data
-        this.user = { 
-          id: 1, 
+        this.user = {
+          id: 1,
           username: 'admin',
           name: 'Admin User',
-          role: 'admin'
+          role: 'admin',
         };
-        
+
         return this.user;
       } catch (error) {
         this.error = error.message || 'Failed to fetch user profile';
@@ -115,7 +115,7 @@ export const useAuthStore = defineStore('auth', {
         this.loading = false;
       }
     },
-    
+
     /**
      * Check if the current auth token is valid
      */
@@ -124,7 +124,7 @@ export const useAuthStore = defineStore('auth', {
         this.isAuthenticated = false;
         return false;
       }
-      
+
       try {
         // In a real app, this would verify the token with the API
         // For demo purposes, we'll just assume the token is valid if it exists
@@ -140,6 +140,6 @@ export const useAuthStore = defineStore('auth', {
         this.logout();
         return false;
       }
-    }
-  }
+    },
+  },
 });
