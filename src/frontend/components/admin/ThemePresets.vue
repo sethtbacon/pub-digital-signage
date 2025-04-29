@@ -46,7 +46,13 @@
 
     <!-- Save Preset Form -->
     <div v-if="showSaveForm" class="save-preset-form">
-      <h4>Save Theme as Preset</h4>
+      <div class="form-header">
+        <h4>Save Theme as Preset</h4>
+        <div class="form-actions">
+          <button class="btn-cancel" @click="cancelSavePreset">Cancel</button>
+          <button class="btn-save" :disabled="!isValidPreset" @click="saveNewPreset">Save</button>
+        </div>
+      </div>
 
       <div class="form-group">
         <label for="preset-name">Preset Name</label>
@@ -73,16 +79,17 @@
         <input id="preset-id" v-model="newPreset.id" type="text" placeholder="my-custom-theme" />
         <span class="help-text">Used as an identifier, no spaces or special characters</span>
       </div>
-
-      <div class="form-actions">
-        <button class="btn-cancel" @click="cancelSavePreset">Cancel</button>
-        <button class="btn-save" :disabled="!isValidPreset" @click="saveNewPreset">Save</button>
-      </div>
     </div>
 
     <!-- Edit Preset Form -->
     <div v-if="showEditForm" class="edit-preset-form">
-      <h4>Edit Theme Preset</h4>
+      <div class="form-header">
+        <h4>Edit Theme Preset</h4>
+        <div class="form-actions">
+          <button class="btn-cancel" @click="cancelEditPreset">Cancel</button>
+          <button class="btn-save" @click="saveEditedPreset">Save Changes</button>
+        </div>
+      </div>
 
       <div class="form-group">
         <label for="edit-preset-name">Preset Name</label>
@@ -219,11 +226,6 @@
           />
           <span class="range-value">{{ transitionSpeedValue / 10 }}s</span>
         </div>
-      </div>
-
-      <div class="form-actions">
-        <button class="btn-cancel" @click="cancelEditPreset">Cancel</button>
-        <button class="btn-save" @click="saveEditedPreset">Save Changes</button>
       </div>
     </div>
 
@@ -686,17 +688,60 @@ function showError(msg) {
   }
 }
 
-.save-preset-form {
+.save-preset-form, .edit-preset-form {
   background-color: #f9f9f9;
   border-radius: var(--border-radius-medium);
   padding: 1.5rem;
   margin-top: 1rem;
   color: #333; /* Dark text for light form background */
 
-  h4 {
-    margin-top: 0;
-    margin-bottom: 1rem;
-    color: #333; /* Dark text for heading */
+  .form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+
+    h4 {
+      margin: 0;
+      color: #333; /* Dark text for heading */
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 0.75rem;
+      margin: 0;
+
+      button {
+        padding: 0.5rem 1rem;
+        border-radius: var(--border-radius-small);
+        border: none;
+        font-weight: 500;
+        cursor: pointer;
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+      }
+
+      .btn-cancel {
+        background-color: #f1f1f1;
+        color: #333; /* Dark text for light button */
+
+        &:hover {
+          background-color: #e0e0e0;
+        }
+      }
+
+      .btn-save {
+        background-color: var(--primary-color);
+        color: #fff;
+
+        &:hover:not(:disabled) {
+          background-color: color.adjust($primary-color, $lightness: -10%);
+        }
+      }
+    }
   }
 
   .form-group {
@@ -726,44 +771,6 @@ function showError(msg) {
         color: #666; /* Medium gray for better readability */
         opacity: 0.8;
         margin-top: 0.25rem;
-      }
-    }
-  }
-
-  .form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.75rem;
-    margin-top: 1.5rem;
-
-    button {
-      padding: 0.5rem 1rem;
-      border-radius: var(--border-radius-small);
-      border: none;
-      font-weight: 500;
-      cursor: pointer;
-
-      &:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-      }
-    }
-
-    .btn-cancel {
-      background-color: #f1f1f1;
-      color: #333; /* Dark text for light button */
-
-      &:hover {
-        background-color: #e0e0e0;
-      }
-    }
-
-    .btn-save {
-      background-color: var(--primary-color);
-      color: #fff;
-
-      &:hover:not(:disabled) {
-        background-color: color.adjust($primary-color, $lightness: -10%);
       }
     }
   }

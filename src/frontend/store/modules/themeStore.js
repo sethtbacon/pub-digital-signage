@@ -8,6 +8,7 @@ export const useThemeStore = defineStore('theme', {
         // Colors
         primaryColor: '#ff6b01', // Orange
         secondaryColor: '#2c3e50', // Dark blue-grey
+        headerColor: '#ff6b01', // Header color for text headings (h1, h2, etc.)
         accentColor: '#e74c3c', // Red
         backgroundColor: '#111', // Dark background
         textColor: '#ecf0f1', // Light text
@@ -36,6 +37,7 @@ export const useThemeStore = defineStore('theme', {
         // Colors
         primaryColor: '#f39c12', // Yellow-orange
         secondaryColor: '#3498db', // Blue
+        headerColor: '#f39c12', // Header color for headings
         accentColor: '#e74c3c', // Red
         backgroundColor: '#1a1a1a',
         textColor: '#ecf0f1',
@@ -64,6 +66,7 @@ export const useThemeStore = defineStore('theme', {
         // Colors
         primaryColor: '#ff6b01', // Orange
         secondaryColor: '#2980b9', // Dark blue
+        headerColor: '#ff6b01', // Header color for headings
         accentColor: '#e67e22', // Orange
         backgroundColor: '#111',
         textColor: '#ecf0f1',
@@ -92,6 +95,7 @@ export const useThemeStore = defineStore('theme', {
         // Colors
         primaryColor: '#d35400', // Dark orange
         secondaryColor: '#2c3e50', // Dark blue-grey
+        headerColor: '#d35400', // Header color for headings
         accentColor: '#c0392b', // Dark red
         backgroundColor: '#0a0a0a',
         textColor: '#ecf0f1',
@@ -120,6 +124,7 @@ export const useThemeStore = defineStore('theme', {
         // Colors
         primaryColor: '#8e44ad', // Purple
         secondaryColor: '#2c3e50', // Dark blue-grey
+        headerColor: '#8e44ad', // Header color for headings
         accentColor: '#3498db', // Blue
         backgroundColor: '#050505',
         textColor: '#ecf0f1',
@@ -177,6 +182,7 @@ export const useThemeStore = defineStore('theme', {
         // Colors
         '--primary-color': theme.primaryColor,
         '--secondary-color': theme.secondaryColor,
+        '--header-color': theme.headerColor || theme.primaryColor,
         '--accent-color': theme.accentColor,
         '--background-color': theme.backgroundColor,
         '--text-color': theme.textColor,
@@ -423,6 +429,7 @@ export const useThemeStore = defineStore('theme', {
       // Apply colors
       document.documentElement.style.setProperty('--primary-color', theme.primaryColor);
       document.documentElement.style.setProperty('--secondary-color', theme.secondaryColor);
+      document.documentElement.style.setProperty('--header-color', theme.headerColor);
       document.documentElement.style.setProperty('--accent-color', theme.accentColor);
       document.documentElement.style.setProperty('--background-color', theme.backgroundColor);
       document.documentElement.style.setProperty('--text-color', theme.textColor);

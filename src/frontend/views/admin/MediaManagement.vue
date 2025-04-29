@@ -499,6 +499,18 @@ const removeTag = index => {
 .media-image-container {
   @extend .card-image-container !optional;
   height: 180px;
+  overflow: hidden;
+  
+  // Add specific controls for SVG images
+  img[src$=".svg"] {
+    width: auto !important;
+    max-width: 100%;
+    max-height: 100%;
+    padding: 10px;
+    margin: 0 auto;
+    display: block;
+    object-fit: contain;
+  }
 }
 
 .media-image {

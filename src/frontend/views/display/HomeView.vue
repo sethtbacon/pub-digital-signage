@@ -342,7 +342,7 @@ onMounted(async () => {
     border-bottom: 1px solid var(--primary-color);
 
     h2 {
-      color: var(--primary-color);
+      color: var(--text-color);
       margin: 0;
       font-size: 1.25rem;
     }

@@ -131,7 +131,6 @@
             <select
               id="theme-select"
               v-model="selectedTheme"
-              :disabled="themeStore.isAutoThemeEnabled"
               @change="changeTheme"
             >
               <option value="default">Default</option>
@@ -182,6 +181,12 @@
             </div>
 
             <div class="color-setting">
+              <label>Heading Color</label>
+              <input v-model="customColors.headerColor" type="color" @input="updateCustomColors" />
+              <span class="color-value">{{ customColors.headerColor }}</span>
+            </div>
+
+            <div class="color-setting">
               <label>Accent Color</label>
               <input v-model="customColors.accentColor" type="color" @input="updateCustomColors" />
               <span class="color-value">{{ customColors.accentColor }}</span>
@@ -217,7 +222,6 @@
             <select
               id="font-family"
               v-model="customTypography.fontFamily"
-              :disabled="themeStore.isAutoThemeEnabled"
               @change="updateCustomTypography"
             >
               <option value="'Roboto', 'Helvetica Neue', Arial, sans-serif">Roboto</option>
@@ -235,7 +239,6 @@
             <select
               id="heading-font-family"
               v-model="customTypography.headingFontFamily"
-              :disabled="themeStore.isAutoThemeEnabled"
               @change="updateCustomTypography"
             >
               <option value="'Roboto Condensed', 'Helvetica Neue', Arial, sans-serif">
@@ -255,7 +258,6 @@
             <select
               id="base-font-size"
               v-model="customTypography.baseFontSize"
-              :disabled="themeStore.isAutoThemeEnabled"
               @change="updateCustomTypography"
             >
               <option value="14px">Small (14px)</option>
@@ -280,7 +282,6 @@
               type="range"
               min="0"
               max="24"
-              :disabled="themeStore.isAutoThemeEnabled"
               @input="updateCustomStyling"
             />
             <span class="range-value">{{ customStyling.borderRadius }}px</span>
@@ -294,7 +295,6 @@
               type="range"
               min="0"
               max="40"
-              :disabled="themeStore.isAutoThemeEnabled"
               @input="updateCustomStyling"
             />
             <span class="range-value">{{ customStyling.shadowIntensity }}%</span>
@@ -308,7 +308,6 @@
               type="range"
               min="1"
               max="10"
-              :disabled="themeStore.isAutoThemeEnabled"
               @input="updateCustomStyling"
             />
             <span class="range-value">{{ customStyling.transitionSpeed / 10 }}s</span>
@@ -328,14 +327,12 @@
           <div class="action-buttons">
             <button
               class="btn btn-primary"
-              :disabled="themeStore.isAutoThemeEnabled"
               @click="saveCustomTheme"
             >
               Save Custom Theme
             </button>
             <button
               class="btn btn-secondary"
-              :disabled="themeStore.isAutoThemeEnabled"
               @click="resetTheme"
             >
               Reset to Default
@@ -394,6 +391,7 @@ const themeTimeRanges = ref({
 const customColors = ref({
   primaryColor: themeStore.currentThemeColors.primaryColor,
   secondaryColor: themeStore.currentThemeColors.secondaryColor,
+  headerColor: themeStore.currentThemeColors.headerColor || themeStore.currentThemeColors.primaryColor,
   accentColor: themeStore.currentThemeColors.accentColor,
   backgroundColor: themeStore.currentThemeColors.backgroundColor,
   textColor: themeStore.currentThemeColors.textColor,
@@ -423,6 +421,7 @@ const themePreviewStyle = computed(() => {
   return {
     '--preview-primary-color': customColors.value.primaryColor,
     '--preview-secondary-color': customColors.value.secondaryColor,
+    '--preview-header-color': customColors.value.headerColor,
     '--preview-accent-color': customColors.value.accentColor,
     '--preview-background-color': customColors.value.backgroundColor,
     '--preview-text-color': customColors.value.textColor,
@@ -475,6 +474,7 @@ const updateSettingsFromTheme = () => {
   customColors.value = {
     primaryColor: currentTheme.primaryColor,
     secondaryColor: currentTheme.secondaryColor,
+    headerColor: currentTheme.headerColor || currentTheme.primaryColor, // Use primary color as default if headerColor doesn't exist
     accentColor: currentTheme.accentColor,
     backgroundColor: currentTheme.backgroundColor,
     textColor: currentTheme.textColor,
@@ -786,7 +786,7 @@ onMounted(() => {
 
     h3 {
       margin: 0 0 0.5rem 0;
-      color: var(--preview-primary-color);
+      color: var(--preview-header-color);
     }
 
     p {

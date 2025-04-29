@@ -101,6 +101,7 @@ h5,
 h6 {
   margin-bottom: var(--spacing-medium);
   font-weight: bold;
+  color: var(--header-color); /* Use header color for all headings */
 }
 
 h1 {
