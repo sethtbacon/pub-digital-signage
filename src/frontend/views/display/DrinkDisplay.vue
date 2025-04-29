@@ -41,9 +41,18 @@
             <div class="drink-content">
               <h3>{{ drink.name }}</h3>
               <div class="drink-badges">
-                <span v-if="drink.featured" class="badge featured">Featured</span>
-                <span v-if="drink.new" class="badge new">New</span>
-                <span v-if="drink.special" class="badge special">Special</span>
+                <span v-if="drink.featured" class="badge featured">
+                  <span class="dot"></span>
+                  <span class="label">Featured</span>
+                </span>
+                <span v-if="drink.new" class="badge new">
+                  <span class="dot"></span>
+                  <span class="label">New</span>
+                </span>
+                <span v-if="drink.special" class="badge special">
+                  <span class="dot"></span>
+                  <span class="label">Special</span>
+                </span>
               </div>
               <div class="drink-details">
                 <div class="drink-type">{{ drink.category }}</div>
@@ -242,20 +251,41 @@ onMounted(async () => {
         font-size: 0.8rem;
         padding: 2px 8px;
         border-radius: 4px;
+        display: flex;
+        align-items: center;
+
+        .dot {
+          height: 8px;
+          width: 8px;
+          border-radius: 50%;
+          margin-right: 4px;
+        }
 
         &.featured {
           background-color: var(--primary-color);
           color: white;
+
+          .dot {
+            background-color: white;
+          }
         }
 
         &.new {
           background-color: var(--accent-color);
           color: white;
+
+          .dot {
+            background-color: white;
+          }
         }
 
         &.special {
           background-color: var(--secondary-color);
           color: white;
+
+          .dot {
+            background-color: white;
+          }
         }
       }
     }

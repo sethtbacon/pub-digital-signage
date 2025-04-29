@@ -63,8 +63,21 @@
           </div>
           <div class="drink-details">
             <h3 class="drink-name">{{ drink.name }}</h3>
-            <div class="drink-category">{{ drink.category }}</div>
-            <div v-if="drink.featured" class="drink-featured">Featured</div>
+            <div class="drink-status">
+              <div class="drink-category">{{ drink.category }}</div>
+              <div v-if="drink.featured" class="drink-badge featured">
+                <span class="dot"></span>
+                <span class="label">Featured</span>
+              </div>
+              <div v-if="drink.new" class="drink-badge new">
+                <span class="dot"></span>
+                <span class="label">New</span>
+              </div>
+              <div v-if="drink.special" class="drink-badge special">
+                <span class="dot"></span>
+                <span class="label">Special</span>
+              </div>
+            </div>
             <p class="drink-description">{{ drink.description }}</p>
           </div>
         </div>
@@ -140,6 +153,20 @@
               Feature this drink
             </label>
           </div>
+          
+          <div class="form-group checkbox-group">
+            <label class="checkbox-label">
+              <input v-model="currentDrink.new" type="checkbox" />
+              Mark as New
+            </label>
+          </div>
+          
+          <div class="form-group checkbox-group">
+            <label class="checkbox-label">
+              <input v-model="currentDrink.special" type="checkbox" />
+              Mark as Special
+            </label>
+          </div>
 
           <div class="form-actions">
             <button type="button" class="secondary-button" @click="closeModals">Cancel</button>
@@ -189,14 +216,26 @@ const currentDrink = ref({
   description: '',
   imageUrl: '',
   featured: false,
+  new: false,
+  special: false,
 });
 const drinkToDelete = ref(null);
 
 // Fetch all drinks on component mount
 onMounted(async () => {
   try {
-    const response = await drinksApi.getAllDrinks();
-    drinks.value = response.data;
+    const drinks_data = await drinksApi.getAllDrinks();
+    // Map database field names to component properties
+    drinks.value = drinks_data.map(drink => ({
+      id: drink.drink_id,
+      name: drink.name,
+      category: drink.category,
+      description: drink.description,
+      imageUrl: drink.image_path,
+      featured: drink.is_featured === 1,
+      new: drink.is_new === 1,
+      special: drink.is_special === 1
+    }));
     filteredDrinks.value = [...drinks.value];
   } catch (error) {
     console.error('Failed to fetch drinks', error);
@@ -234,9 +273,20 @@ const confirmDeleteDrink = drink => {
 // Save new or edited drink
 const saveDrink = async () => {
   try {
+    // Map component properties to database field names
+    const drinkData = {
+      name: currentDrink.value.name,
+      category: currentDrink.value.category,
+      description: currentDrink.value.description,
+      is_featured: currentDrink.value.featured ? 1 : 0,
+      is_new: currentDrink.value.new ? 1 : 0,
+      is_special: currentDrink.value.special ? 1 : 0,
+      image_path: currentDrink.value.imageUrl
+    };
+
     if (showEditDrinkModal.value) {
       // Update existing drink
-      await drinksApi.updateDrink(currentDrink.value.id, currentDrink.value);
+      await drinksApi.updateDrink(currentDrink.value.id, drinkData);
 
       // Update local list
       const index = drinks.value.findIndex(d => d.id === currentDrink.value.id);
@@ -245,8 +295,19 @@ const saveDrink = async () => {
       }
     } else {
       // Add new drink
-      const response = await drinksApi.createDrink(currentDrink.value);
-      drinks.value.push(response.data);
+      const result = await drinksApi.createDrink(drinkData);
+      
+      // Create a new drink object with proper frontend property names
+      const newDrink = {
+        id: result.drinkId,
+        name: currentDrink.value.name,
+        category: currentDrink.value.category,
+        description: currentDrink.value.description,
+        imageUrl: currentDrink.value.imageUrl,
+        featured: currentDrink.value.featured
+      };
+      
+      drinks.value.push(newDrink);
     }
 
     // Re-apply filters
@@ -305,6 +366,8 @@ const closeModals = () => {
     description: '',
     imageUrl: '',
     featured: false,
+    new: false,
+    special: false,
   };
 };
 </script>
@@ -354,6 +417,45 @@ const closeModals = () => {
   @extend .admin-form !optional;
 }
 
+.drink-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.drink-badge {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  
+  .dot {
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    margin-right: 4px;
+    background-color: white;
+  }
+  
+  &.featured {
+    background-color: var(--primary-color);
+    color: white;
+  }
+  
+  &.new {
+    background-color: var(--accent-color);
+    color: white;
+  }
+  
+  &.special {
+    background-color: var(--secondary-color);
+    color: white;
+  }
+}
+
 // Drink-specific styles not covered by global styles
 .drink-category {
   display: inline-block;
@@ -362,18 +464,5 @@ const closeModals = () => {
   border-radius: 12px;
   font-size: 12px;
   text-transform: capitalize;
-  margin-bottom: 8px;
-}
-
-.drink-featured {
-  display: inline-block;
-  padding: 4px 8px;
-  background-color: #fff5ee;
-  color: var(--primary-color);
-  border: 1px solid var(--primary-color);
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 500;
-  margin-left: 8px;
 }
 </style>

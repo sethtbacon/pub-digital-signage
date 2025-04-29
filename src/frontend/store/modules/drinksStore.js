@@ -32,8 +32,20 @@ export const useDrinksStore = defineStore('drinks', {
       this.loading = true;
       this.error = null;
       try {
-        const drinks = await drinksApi.getAllDrinks();
-        this.drinks = drinks;
+        const drinksFromApi = await drinksApi.getAllDrinks();
+        // Map API response fields to component properties
+        this.drinks = drinksFromApi.map(drink => ({
+          id: drink.drink_id,
+          name: drink.name,
+          category: drink.category,
+          description: drink.description,
+          imageUrl: drink.image_path,
+          featured: drink.is_featured === 1,
+          abv: drink.abv,
+          price: drink.price,
+          new: drink.new === 1,
+          special: drink.special === 1
+        }));
       } catch (error) {
         this.error = error.message || 'Failed to fetch drinks';
         console.error('Error fetching drinks:', error);
@@ -46,8 +58,20 @@ export const useDrinksStore = defineStore('drinks', {
       this.loading = true;
       this.error = null;
       try {
-        const featuredDrinks = await drinksApi.getFeaturedDrinks();
-        this.featuredDrinks = featuredDrinks;
+        const featuredFromApi = await drinksApi.getFeaturedDrinks();
+        // Map API response fields to component properties
+        this.featuredDrinks = featuredFromApi.map(drink => ({
+          id: drink.drink_id,
+          name: drink.name,
+          category: drink.category,
+          description: drink.description,
+          imageUrl: drink.image_path,
+          featured: true,
+          abv: drink.abv,
+          price: drink.price,
+          new: drink.new === 1,
+          special: drink.special === 1
+        }));
       } catch (error) {
         this.error = error.message || 'Failed to fetch featured drinks';
         console.error('Error fetching featured drinks:', error);
@@ -61,7 +85,19 @@ export const useDrinksStore = defineStore('drinks', {
       this.error = null;
       try {
         const drink = await drinksApi.getDrink(id);
-        this.currentDrink = drink;
+        // Map API response fields to component properties
+        this.currentDrink = {
+          id: drink.drink_id,
+          name: drink.name,
+          category: drink.category,
+          description: drink.description,
+          imageUrl: drink.image_path,
+          featured: drink.is_featured === 1,
+          abv: drink.abv,
+          price: drink.price,
+          new: drink.new === 1,
+          special: drink.special === 1
+        };
       } catch (error) {
         this.error = error.message || `Failed to fetch drink with ID: ${id}`;
         console.error(`Error fetching drink ${id}:`, error);
@@ -74,7 +110,20 @@ export const useDrinksStore = defineStore('drinks', {
       this.loading = true;
       this.error = null;
       try {
-        const newDrink = await drinksApi.createDrink(drinkData);
+        const result = await drinksApi.createDrink(drinkData);
+        
+        // Create new drink object with correct property mappings
+        const newDrink = {
+          id: result.drinkId,
+          name: drinkData.name,
+          category: drinkData.category,
+          description: drinkData.description,
+          imageUrl: drinkData.image_path,
+          featured: drinkData.is_featured === 1,
+          abv: drinkData.abv,
+          price: drinkData.price
+        };
+        
         this.drinks.push(newDrink);
         return newDrink;
       } catch (error) {
@@ -90,14 +139,31 @@ export const useDrinksStore = defineStore('drinks', {
       this.loading = true;
       this.error = null;
       try {
-        const updatedDrink = await drinksApi.updateDrink(id, drinkData);
+        const result = await drinksApi.updateDrink(id, drinkData);
+        
+        // Create updated drink object with correct property mappings
+        const updatedDrink = {
+          id: id,
+          name: drinkData.name,
+          category: drinkData.category,
+          description: drinkData.description,
+          imageUrl: drinkData.image_path,
+          featured: drinkData.is_featured === 1,
+          abv: drinkData.abv,
+          price: drinkData.price
+        };
+        
+        // Update in the array
         const index = this.drinks.findIndex(drink => drink.id === id);
         if (index !== -1) {
           this.drinks[index] = updatedDrink;
         }
+        
+        // Update current drink if it's the one being edited
         if (this.currentDrink && this.currentDrink.id === id) {
           this.currentDrink = updatedDrink;
         }
+        
         return updatedDrink;
       } catch (error) {
         this.error = error.message || `Failed to update drink with ID: ${id}`;
